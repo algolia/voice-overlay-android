@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">InstantSearch Voice</string>
+    <string name="voice_search_hint">Say something like:</string>
+    <string name="voice_search_title">Listening…</string>
+    <string name="voice_search_error">Error:</string>
+    <string name="voice_search_rationale">Voice search requires this permission.</string>
+    <string name="voice_search_button_again">Request again?</string>
+    <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
+    <string name="voice_search_button_enable">Give permission</string>
+    <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
 </resources>
