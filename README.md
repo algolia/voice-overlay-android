@@ -48,4 +48,4 @@ dependencies {
 
 # License
 
-InstantSearch Android Insights is [MIT licensed](LICENSE.md).
+InstantSearch Android Voice is [MIT licensed](LICENSE.md).
