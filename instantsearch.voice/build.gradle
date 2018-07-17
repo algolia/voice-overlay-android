@@ -51,11 +51,11 @@ task sourcesJar(type: Jar) {
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.sourceFiles
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
 //    failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
-//    options.optionFiles << file('javadoc.options')
-//    options.links("http://docs.oracle.com/javase/8/docs/api")
-//    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
+    options.links("http://docs.oracle.com/javase/8/docs/api")
+    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
+    options.memberLevel = JavadocMemberLevel.PROTECTED
 // TODO: Check generated Javadoc
 }
 
