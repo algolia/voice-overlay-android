@@ -1,9 +1,28 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    GROUP = 'com.algolia.instantsearch-android'
+    BASENAME = 'voice'
+    CODENAME = "$GROUP:$BASENAME"
+    NAME = 'InstantSearch Android Voice'
+    DESC = "Easily add Voice search to your Android apps"
+    LABELS = ["voice search", "voice input", "permissions", "voice UI"]
+
+    GITHUB = "algolia/instantsearch-android-voice"
+    WEBSITE = "https://github.com/$GITHUB"
+    REPO = WEBSITE + ".git"
+    LICENSE = 'MIT'
+    LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
+
+    VERSION = '1.0.1'
+    VERSION_DESC = "$NAME - v$VERSION"
+}
 
 android {
     compileSdkVersion 27
-
-
 
     defaultConfig {
         minSdkVersion 14
@@ -24,6 +43,43 @@ android {
 
 }
 
+task sourcesJar(type: Jar) {
+    dependsOn "assembleRelease"
+    classifier "sources"
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
+//    failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
+    options.links("http://docs.oracle.com/javase/8/docs/api")
+    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
+    options.memberLevel = JavadocMemberLevel.PROTECTED
+// TODO: Check generated Javadoc
+}
+
+afterEvaluate {
+    // we need this as javadoc task's body is called before android.libraryVariants is filled. http://stackoverflow.com/a/34572606/3109189
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.getJavaCompiler().classpath.files
+    })
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier "javadoc"
+}
+
+// add sources jar tasks as artifacts
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives file: new File("${project.buildDir}/outputs/aar/${project.name}-release.aar"),
+            name: "${project.name}-release.aar",
+            type: "aar"
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -34,3 +90,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply from: "https://raw.githubusercontent.com/algolia/instantsearch-mobile-tools/7b9e6e1cc28f12497b88b6868ab99d5884f7c86b/gradle/bintrayv.gradle"
