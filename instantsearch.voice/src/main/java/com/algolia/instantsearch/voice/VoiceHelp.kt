@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import com.algolia.instantsearch.voice.PermissionDialogFragment.ID_REQ_VOICE_PERM
+import com.algolia.instantsearch.voice.ui.PermissionDialogFragment.ID_REQ_VOICE_PERM
 
 class VoiceHelp {
     companion object {

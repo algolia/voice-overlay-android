@@ -6,6 +6,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?algolia_voiceOverlayBackground"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:theme="@style/Algolia"
     tools:layout_height="240dp"
     tools:layout_width="240dp">
@@ -14,8 +16,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/voice_search_title"
         android:textAppearance="?algolia_voiceOverlayTitleTextAppearance"
@@ -26,13 +28,13 @@
         android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="start"
-        android:textSize="16sp"
         android:text="@string/voice_search_hint"
         android:textColor="?algolia_voiceOverlayHintTextColor"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -49,36 +51,29 @@
         app:layout_constraintTop_toBottomOf="@id/hint"
         tools:text="• iPhone Case \n• Running shoes" />
 
-    <ProgressBar
-        android:id="@+id/feedback"
-        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="24dp"
-        android:indeterminate="false"
-        android:max="10"
-        android:progressTint="?algolia_voiceOverlayFeedbackColor"
-        android:secondaryProgressTint="?algolia_voiceOverlayFeedbackColor"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/micButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/suggestions"
-        tools:minHeight="20dp"
-        tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/micButton"
+    <com.algolia.instantsearch.voice.ui.view.RippleView
+        android:id="@+id/ripple"
         android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="?algolia_voiceOverlayMicButtonBackground"
+        android:layout_height="0dp"
+        app:delay="500"
+        app:drawable="@drawable/gradient_oval_blue"
+        app:duration="4000"
+        app:layout_constraintEnd_toEndOf="@+id/micButton"
+        app:layout_constraintStart_toStartOf="@+id/micButton"
+        app:layout_constraintBottom_toBottomOf="@+id/micButton"
+        app:layout_constraintTop_toTopOf="@+id/micButton"
+        app:radius="5"
+        app:size="56dp" />
+
+    <com.algolia.instantsearch.voice.ui.VoiceFAB
+        android:id="@+id/micButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_microphone"
+        app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/closeButton"
-        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/suggestions" />
 
@@ -87,6 +82,7 @@
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         android:background="?algolia_voiceOverlayCloseButtonBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"

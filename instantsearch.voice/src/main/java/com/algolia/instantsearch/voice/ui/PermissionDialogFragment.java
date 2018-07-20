@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.voice;
+package com.algolia.instantsearch.voice.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -1,26 +1,27 @@
-package com.algolia.instantsearch.voice;
+package com.algolia.instantsearch.voice.ui;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.algolia.instantsearch.voice.R;
+import com.algolia.instantsearch.voice.ui.view.RippleView;
 
 import java.util.ArrayList;
 
@@ -30,14 +31,15 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
 
     private String[] suggestions;
     private SpeechRecognizer speechRecognizer;
-    private VoiceResultsListener voiceResultsListener;
+    private @Nullable
+    VoiceResultsListener voiceResultsListener;
 
-    private ProgressBar progressBar;
     private TextView hintView;
     private TextView suggestionsView;
     private TextView titleView;
 
     private boolean listening = false;
+    private RippleView ripple;
 
     //region Lifecycle
 
@@ -71,25 +73,21 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
         hintView = content.findViewById(R.id.hint);
         suggestionsView = content.findViewById(R.id.suggestions);
         titleView = content.findViewById(R.id.title);
-        progressBar = content.findViewById(R.id.feedback);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            TypedValue typedValue = new TypedValue();
-            if (getContext().getTheme().resolveAttribute(R.attr.algolia_voiceOverlayFeedbackColor, typedValue, true)) {
-                progressBar.getProgressDrawable().setColorFilter(typedValue.data, PorterDuff.Mode.SRC_IN);
-            }
-        }
+        ripple = content.findViewById(R.id.ripple);
     }
 
     private void setButtonsOnClickListeners(View content) {
+        final VoiceFAB voiceFAB = content.findViewById(R.id.micButton);
         content.<Button>findViewById(R.id.closeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-        content.<Button>findViewById(R.id.micButton).setOnClickListener(new View.OnClickListener() {
+        content.<FloatingActionButton>findViewById(R.id.micButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                voiceFAB.toggleState();
                 if (listening) {
                     stopVoiceRecognition();
                 } else {
@@ -109,14 +107,13 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1); //TODO: Consider using several results
-
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
         speechRecognizer.setRecognitionListener(this);
         speechRecognizer.startListening(recognizerIntent);
 
-        updateSuggestions();
+        ripple.start();
         titleView.setText(R.string.voice_search_title);
-        //TODO: Change button state
+        updateSuggestions();
     }
 
     private void stopVoiceRecognition() {
@@ -125,13 +122,13 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
             speechRecognizer.stopListening();
             speechRecognizer.destroy();
         }
+
+        ripple.cancel();
         hintView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
         updateSuggestions();
     }
 
     // region RecognitionListener
-
     @Override
     public void onReadyForSpeech(Bundle params) {
         Log.d(TAG, "onReadyForSpeech:" + params);
@@ -144,8 +141,7 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
 
     @Override
     public void onRmsChanged(float rmsdB) {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress((int) rmsdB);
+        Log.d(TAG, "onBeginningOfSpeech");
     }
 
     @Override
@@ -174,29 +170,28 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
     @Override
     public void onResults(Bundle results) {
         ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        StringBuilder b = new StringBuilder();
-        for (String match : matches) {
-            b.append(match).append("\n");
-        }
-        suggestionsView.setText(b.toString());
+        final String matchesString = buildMatchesString(matches);
+
+        suggestionsView.setText(matchesString.toString());
         suggestionsView.setTypeface(null, Typeface.NORMAL);
-        Log.d(TAG, "onResults:" + matches.size() + ": " + b.toString());
+        Log.d(TAG, "onResults:" + matches.size() + ": " + matchesString.toString());
+
         stopVoiceRecognition();
-        voiceResultsListener.onVoiceResults(matches);
+        if (voiceResultsListener != null) {
+            voiceResultsListener.onVoiceResults(matches);
+        }
         dismiss();
     }
 
     @Override
     public void onPartialResults(Bundle partialResults) {
         ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        StringBuilder b = new StringBuilder();
-        for (String match : matches) {
-            b.append(match).append("\n");
-        }
+        final String matchesString = buildMatchesString(matches);
+
         hintView.setVisibility(View.GONE);
-        suggestionsView.setText(b.toString());
+        suggestionsView.setText(matchesString);
         suggestionsView.setTypeface(null, Typeface.ITALIC);
-        Log.d(TAG, "onPartialResults:" + matches.size() + ": " + b.toString());
+        Log.d(TAG, "onPartialResults:" + matches.size() + ": " + matchesString);
     }
 
     @Override
@@ -238,11 +233,12 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
         }
         return errorText;
     }
+
     // endregion
 
     //endregion
-
     //region Helpers
+
     public void setSuggestions(String... suggestions) {
         this.suggestions = suggestions;
         if (getView() != null) {
@@ -264,11 +260,23 @@ public class VoiceDialogFragment extends DialogFragment implements RecognitionLi
         }
     }
 
-    public void setVoiceResultsListener(VoiceResultsListener voiceResultsListener) {
+    @NonNull
+    private String buildMatchesString(ArrayList<String> matches) {
+        StringBuilder b = new StringBuilder();
+        if (matches != null) {
+            for (String match : matches) {
+                b.append(match).append("\n");
+            }
+        }
+        return b.toString();
+    }
+
+    public void setVoiceResultsListener(@NonNull VoiceResultsListener voiceResultsListener) {
         this.voiceResultsListener = voiceResultsListener;
     }
 
     public interface VoiceResultsListener {
+
         void onVoiceResults(@NonNull ArrayList<String> matches);
     }
     //endregion
