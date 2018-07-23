@@ -9,7 +9,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import com.algolia.instantsearch.voice.ui.PermissionDialogFragment.ID_REQ_VOICE_PERM
 
-class VoiceHelp {
+/** Helper functions for voice permission handling. */
+class Voice {
     companion object {
         /**
          * Gets whether the [permission results][grantResult] confirm it has been [granted][PackageManager.PERMISSION_GRANTED].
