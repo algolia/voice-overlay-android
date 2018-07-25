@@ -46,7 +46,6 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
                     State.Error, State.Paused -> startVoiceRecognition()
                 }
             }
-            ripple.setOnClickListener { micButton.performClick() } //TODO : Needed?
         }
         return AlertDialog.Builder(activity)
                 .setView(content).create()
