@@ -29,25 +29,17 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         LayoutInflater.from(activity).inflate(R.layout.layout_voice_overlay, null)
     }
 
-
     //region Lifecycle
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(activity)
-                .setView(content)
-                .create()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        content.closeButton.setOnClickListener { dismiss() }
-        content.micButton.setOnClickListener {
-            content.micButton.toggleState()
-            if (listening) {
-                stopVoiceRecognition()
-            } else {
-                startVoiceRecognition()
+        with (content) {
+            closeButton.setOnClickListener { dismiss() }
+            micButton.setOnClickListener {
+                if (listening) stopVoiceRecognition() else startVoiceRecognition()
             }
+            ripple.setOnClickListener { micButton.performClick() }
         }
-        updateSuggestions()
+        return AlertDialog.Builder(activity)
+                .setView(content).create()
     }
 
     override fun onPause() {
@@ -59,10 +51,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         super.onResume()
         startVoiceRecognition()
     }
-
     //endregion
-    //endregion
-
     //region Voice Recognition
     private fun startVoiceRecognition() {
         listening = true
@@ -73,9 +62,13 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
                 .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)) //TODO: Consider using several results
 
-        content.ripple.start()
-        content.title.setText(R.string.voice_search_title)
-        updateSuggestions()
+        with(content) {
+            ripple.start()
+            micButton.toggleState()
+            title.setText(R.string.voice_search_title)
+            hint.visibility = View.VISIBLE
+            updateSuggestions()
+        }
     }
 
     private fun stopVoiceRecognition() {
@@ -83,9 +76,10 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         speechRecognizer.stopListening()
         speechRecognizer.destroy()
 
-        content.ripple.cancel()
-        content.hint.visibility = View.VISIBLE
-        updateSuggestions()
+        with(content) {
+            ripple.cancel()
+            micButton.toggleState()
+        }
     }
 
     // region RecognitionListener
@@ -107,26 +101,24 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
 
     override fun onEndOfSpeech() {
         Log.d(TAG, "onEndOfSpeech")
-        listening = false
-        //TODO: Change button state
     }
 
     override fun onError(error: Int) {
         val errorText = getErrorMessage(error)
         Log.d(TAG, "onError: $errorText")
         stopVoiceRecognition()
-        content.title.setText(R.string.voice_search_error)
-        content.hint.visibility = View.GONE
-        content.suggestionText.text = errorText
-        content.suggestionText.setTypeface(null, Typeface.BOLD)
+
+        with(content) {
+            title.setText(R.string.voice_search_error)
+            hint.visibility = View.GONE
+            suggestionText.text = errorText
+            suggestionText.setTypeface(null, Typeface.BOLD)
+        }
     }
 
     override fun onResults(results: Bundle) {
         val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
         val matchesString = buildMatchesString(matches)
-
-        content.suggestionText.text = matchesString
-        content.suggestionText.setTypeface(null, Typeface.NORMAL)
         Log.d(TAG, "onResults:" + matches!!.size + ": " + matchesString)
 
         stopVoiceRecognition()
@@ -140,14 +132,53 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         val matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
         val matchesString = buildMatchesString(matches)
 
-        content.hint.visibility = View.GONE
-        content.suggestionText.text = matchesString
-        content.suggestionText.setTypeface(null, Typeface.ITALIC)
+        with(content) {
+            hint.visibility = View.GONE
+            suggestionText.text = matchesString
+            suggestionText.setTypeface(null, Typeface.ITALIC)
+        }
         Log.d(TAG, "onPartialResults:" + matches!!.size + ": " + matchesString)
     }
 
     override fun onEvent(eventType: Int, params: Bundle) {
         Log.d(TAG, "onEvent")
+    }
+
+    // endregion
+
+    //endregion
+    //region Helpers
+
+    fun setSuggestions(vararg suggestions: String) {
+        this.suggestions = arrayOfNulls(suggestions.size)
+        for (i in suggestions.indices) {
+            this.suggestions!![i] = suggestions[i]
+        }
+        if (view != null) {
+            updateSuggestions()
+        }
+    }
+
+    private fun updateSuggestions() {
+        val b = StringBuilder()
+        if (suggestions != null && suggestions!!.isNotEmpty()) {
+            for (s in suggestions!!) {
+                b.append(SEPARATOR).append(s).append("\n")
+            }
+        }
+        with(content) {
+            suggestionText.text = b.toString()
+        }
+    }
+
+    private fun buildMatchesString(matches: ArrayList<String>?): String {
+        val b = StringBuilder()
+        if (matches != null) {
+            for (match in matches) {
+                b.append(match).append("\n")
+            }
+        }
+        return b.toString()
     }
 
     private fun getErrorMessage(error: Int): String = when (error) {
@@ -163,56 +194,13 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         else -> "Unknown error."
     }
 
-    // endregion
-    //endregion
-    //region Helpers
-
-    fun setSuggestions(vararg suggestions: String) {
-        this.suggestions = arrayOfNulls(suggestions.size)
-        for (i in suggestions.indices) {
-            this.suggestions!![i] = suggestions[i]
-        }
-        if (view != null) {
-            updateSuggestions()
-        }
-    }
-
-    private fun updateSuggestions() {
-        val context = context
-        if (context != null) { // Ensure Fragment still attached
-            content.hint.visibility = View.VISIBLE
-            val b = StringBuilder()
-            if (suggestions != null && suggestions!!.isNotEmpty()) {
-                for (s in suggestions!!) {
-                    b.append(SEPARATOR).append(s).append("\n")
-                }
-            }
-            content.suggestionText.text = b.toString()
-        }
-    }
-
-    private fun buildMatchesString(matches: ArrayList<String>?): String {
-        val b = StringBuilder()
-        if (matches != null) {
-            for (match in matches) {
-                b.append(match).append("\n")
-            }
-        }
-        return b.toString()
-    }
-
-    fun setVoiceResultsListener(voiceResultsListener: VoiceResultsListener) {
-        this.voiceResultsListener = voiceResultsListener
-    }
-
-    interface VoiceResultsListener {
-
-        fun onVoiceResults(matches: ArrayList<String>)
-    }
-
     companion object {
         const val SEPARATOR = "• "
         const val TAG = "VoiceDialogFragment"
     }
     //endregion
+
+    interface VoiceResultsListener {
+        fun onVoiceResults(matches: ArrayList<String>)
+    }
 }
