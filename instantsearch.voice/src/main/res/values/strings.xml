@@ -1,6 +1,7 @@
 <resources>
     <string name="voice_search_hint">Say something like:</string>
-    <string name="voice_search_title">Listening…</string>
+    <string name="voice_search_listening">Listening…</string>
+    <string name="voice_search_paused">Paused, tap to search</string>
     <string name="voice_search_error">Error:</string>
     <string name="voice_search_rationale">Voice search requires this permission.</string>
     <string name="voice_search_button_again">Request again?</string>

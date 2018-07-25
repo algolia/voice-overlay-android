@@ -19,8 +19,15 @@ import java.util.*
 
 @SuppressLint("InflateParams")
 class VoiceDialogFragment : DialogFragment(), RecognitionListener {
+    enum class State {
+        Listening,
+        Paused,
+        PartialResults,
+        Error
+    }
+
+    private var state = State.Listening
     private var suggestions: Array<String?>? = null
-    private var listening = false
 
     private lateinit var speechRecognizer: SpeechRecognizer
     var voiceResultsListener: VoiceResultsListener? = null
@@ -31,12 +38,15 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
 
     //region Lifecycle
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        with (content) {
+        with(content) {
             closeButton.setOnClickListener { dismiss() }
             micButton.setOnClickListener {
-                if (listening) stopVoiceRecognition() else startVoiceRecognition()
+                when (state) {
+                    State.Listening, State.PartialResults -> stopVoiceRecognition()
+                    State.Error, State.Paused -> startVoiceRecognition()
+                }
             }
-            ripple.setOnClickListener { micButton.performClick() }
+            ripple.setOnClickListener { micButton.performClick() } //TODO : Needed?
         }
         return AlertDialog.Builder(activity)
                 .setView(content).create()
@@ -51,10 +61,11 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         super.onResume()
         startVoiceRecognition()
     }
+
     //endregion
     //region Voice Recognition
     private fun startVoiceRecognition() {
-        listening = true
+        state = State.Listening
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(activity)!!
         speechRecognizer.setRecognitionListener(this)
         speechRecognizer.startListening(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -62,24 +73,14 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
                 .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)) //TODO: Consider using several results
 
-        with(content) {
-            ripple.start()
-            micButton.toggleState()
-            title.setText(R.string.voice_search_title)
-            hint.visibility = View.VISIBLE
-            updateSuggestions()
-        }
+        updateUI()
     }
 
     private fun stopVoiceRecognition() {
-        listening = false
+        state = State.Paused
         speechRecognizer.stopListening()
         speechRecognizer.destroy()
-
-        with(content) {
-            ripple.cancel()
-            micButton.toggleState()
-        }
+        updateUI()
     }
 
     // region RecognitionListener
@@ -107,13 +108,8 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         val errorText = getErrorMessage(error)
         Log.d(TAG, "onError: $errorText")
         stopVoiceRecognition()
-
-        with(content) {
-            title.setText(R.string.voice_search_error)
-            hint.visibility = View.GONE
-            suggestionText.text = errorText
-            suggestionText.setTypeface(null, Typeface.BOLD)
-        }
+        state = State.Error
+        updateUI(errorText)
     }
 
     override fun onResults(results: Bundle) {
@@ -122,21 +118,17 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         Log.d(TAG, "onResults:" + matches!!.size + ": " + matchesString)
 
         stopVoiceRecognition()
-        if (voiceResultsListener != null) {
+        if (voiceResultsListener != null) { //TODO: Directly throw if missing listener
             voiceResultsListener!!.onVoiceResults(matches)
         }
         dismiss()
     }
 
     override fun onPartialResults(partialResults: Bundle) {
+        state = State.PartialResults
         val matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
         val matchesString = buildMatchesString(matches)
-
-        with(content) {
-            hint.visibility = View.GONE
-            suggestionText.text = matchesString
-            suggestionText.setTypeface(null, Typeface.ITALIC)
-        }
+        updateUI(matchesString)
         Log.d(TAG, "onPartialResults:" + matches!!.size + ": " + matchesString)
     }
 
@@ -145,8 +137,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     }
 
     // endregion
-
-    //endregion
+    // endregion
     //region Helpers
 
     fun setSuggestions(vararg suggestions: String) {
@@ -154,12 +145,35 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         for (i in suggestions.indices) {
             this.suggestions!![i] = suggestions[i]
         }
-        if (view != null) {
-            updateSuggestions()
+    }
+
+    private fun updateUI(message: String? = null) {
+        with(content) {
+            when (state) {
+                State.Listening -> displayListening(true)
+                State.Paused -> displayListening(false)
+                State.PartialResults -> displayResult(message, isError = false)
+                State.Error -> displayResult(message, isError = true)
+            }
         }
     }
 
-    private fun updateSuggestions() {
+    private fun View.displayListening(isListening: Boolean) {
+        micButton.toggleState()
+        title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
+        if (isListening) ripple.start() else ripple.cancel()
+        hint.visibility = View.VISIBLE
+        updateSuggestions()
+    }
+
+    private fun View.displayResult(message: String?, isError: Boolean) {
+        title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
+        hint.visibility = View.GONE
+        suggestionText.text = message
+        suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
+    }
+
+    private fun updateSuggestions() { //TODO: inline and simplify
         val b = StringBuilder()
         if (suggestions != null && suggestions!!.isNotEmpty()) {
             for (s in suggestions!!) {
