@@ -84,26 +84,6 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     }
 
     // region RecognitionListener
-    override fun onReadyForSpeech(params: Bundle) {
-        Log.d(TAG, "onReadyForSpeech:$params")
-    }
-
-    override fun onBeginningOfSpeech() {
-        Log.d(TAG, "onBeginningOfSpeech")
-    }
-
-    override fun onRmsChanged(rmsdB: Float) {
-        Log.d(TAG, "onBeginningOfSpeech")
-    }
-
-    override fun onBufferReceived(buffer: ByteArray) {
-        Log.d(TAG, "onBufferReceived: $buffer")
-    }
-
-    override fun onEndOfSpeech() {
-        Log.d(TAG, "onEndOfSpeech")
-    }
-
     override fun onError(error: Int) {
         val errorText = getErrorMessage(error)
         Log.d(TAG, "onError: $errorText")
@@ -132,8 +112,23 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         Log.d(TAG, "onPartialResults:" + matches!!.size + ": " + matchesString)
     }
 
+    // region Unused RecognitionListener methods
+    override fun onReadyForSpeech(params: Bundle) {
+    }
+
+    override fun onBeginningOfSpeech() {
+    }
+
+    override fun onRmsChanged(rmsdB: Float) {
+    }
+
+    override fun onBufferReceived(buffer: ByteArray) {
+    }
+
+    override fun onEndOfSpeech() {
+    }
+
     override fun onEvent(eventType: Int, params: Bundle) {
-        Log.d(TAG, "onEvent")
     }
 
     // endregion
