@@ -27,7 +27,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     }
 
     private var state = State.Listening
-    private var suggestions: Array<String?>? = null
+    private var suggestions: List<String> = emptyList()
 
     private lateinit var speechRecognizer: SpeechRecognizer
     var voiceResultsListener: VoiceResultsListener? = null
@@ -134,10 +134,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     //region Helpers
 
     fun setSuggestions(vararg suggestions: String) {
-        this.suggestions = arrayOfNulls(suggestions.size)
-        for (i in suggestions.indices) {
-            this.suggestions!![i] = suggestions[i]
-        }
+        this.suggestions = listOf(*suggestions)
     }
 
     private fun updateUI(message: String? = null) {
@@ -155,8 +152,14 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         micButton.toggleState()
         title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
         if (isListening) ripple.start() else ripple.cancel()
-        hint.visibility = View.VISIBLE
-        updateSuggestions()
+        if (suggestions.isEmpty()) {
+            hint.visibility = View.GONE
+        } else {
+            hint.visibility = View.VISIBLE
+            with(content) {
+                suggestionText.text = suggestions.fold("") { acc, it -> acc + SEPARATOR + it + "\n" }
+            }
+        }
     }
 
     private fun View.displayResult(message: String?, isError: Boolean) {
@@ -164,18 +167,6 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         hint.visibility = View.GONE
         suggestionText.text = message
         suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
-    }
-
-    private fun updateSuggestions() { //TODO: inline and simplify
-        val b = StringBuilder()
-        if (suggestions != null && suggestions!!.isNotEmpty()) {
-            for (s in suggestions!!) {
-                b.append(SEPARATOR).append(s).append("\n")
-            }
-        }
-        with(content) {
-            suggestionText.text = b.toString()
-        }
     }
 
     private fun buildMatchesString(matches: ArrayList<String>?): String {
