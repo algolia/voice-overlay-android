@@ -17,7 +17,7 @@ class VoiceFAB(context: Context?, attrs: AttributeSet?) : FloatingActionButton(c
     private val green = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.green))
     private val blue = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.blue_light))
 
-    var state = State.Deactivated
+    private var state = State.Deactivated
         set(value) {
             field = value
             backgroundTintList = when (value) {

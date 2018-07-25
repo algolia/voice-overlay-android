@@ -23,7 +23,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     private var listening = false
 
     private lateinit var speechRecognizer: SpeechRecognizer
-    private var voiceResultsListener: VoiceResultsListener? = null
+    var voiceResultsListener: VoiceResultsListener? = null
 
     private val content: View by lazy {
         LayoutInflater.from(activity).inflate(R.layout.layout_voice_overlay, null)
