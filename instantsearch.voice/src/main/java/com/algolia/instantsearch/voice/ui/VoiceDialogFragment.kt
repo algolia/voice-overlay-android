@@ -97,10 +97,9 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         Log.d(TAG, "onResults:" + matches!!.size + ": " + matchesString)
 
         stopVoiceRecognition()
-        if (voiceResultsListener != null) { //TODO: Directly throw if missing listener
-            voiceResultsListener!!.onVoiceResults(matches)
-        }
         dismiss()
+        if (voiceResultsListener != null) voiceResultsListener!!.onVoiceResults(matches)
+        else throw IllegalStateException("You need to call setVoiceResultsListener before showing the VoiceDialogFragment.")
     }
 
     override fun onPartialResults(partialResults: Bundle) {
