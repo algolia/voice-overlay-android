@@ -14,16 +14,18 @@ class PermissionDialogFragment : DialogFragment() {
     var negativeButton = DEFAULT_NEGATIVE_BUTTON
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val activity = activity ?: throw IllegalStateException(ERROR_NO_ACTIVITY)
-        return AlertDialog.Builder(activity)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(positiveButton) { _, _ ->
-                    ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), ID_REQ_VOICE_PERM)
-                    dismiss()
-                }
-                .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
-                .create()
+        requireActivity().let { activity ->
+            return AlertDialog.Builder(activity)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(positiveButton) { _, _ ->
+                        ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), ID_REQ_VOICE_PERM)
+                        dismiss()
+                    }
+                    .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
+                    .create()
+        }
+
     }
 
     companion object {
@@ -32,6 +34,5 @@ class PermissionDialogFragment : DialogFragment() {
         const val DEFAULT_MESSAGE = "Can we access your device's microphone to enable voice search?"
         const val DEFAULT_POSITIVE_BUTTON = "Allow microphone access"
         const val DEFAULT_NEGATIVE_BUTTON = "No"
-        const val ERROR_NO_ACTIVITY = "PermissionDialogFragment must be used within an activity."
     }
 }
