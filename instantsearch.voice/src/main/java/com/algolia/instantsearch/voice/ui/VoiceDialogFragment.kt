@@ -199,6 +199,6 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     //endregion
 
     interface VoiceResultsListener {
-        fun onVoiceResults(matches: ArrayList<String>)
+        fun onVoiceResults(matches: List<String>)
     }
 }
