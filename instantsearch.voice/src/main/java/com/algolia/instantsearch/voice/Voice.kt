@@ -34,7 +34,7 @@ class Voice {
          */
         @JvmStatic
         fun hasRecordPermission(context: Context): Boolean {
-            return ContextCompat.checkSelfPermission(context, RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+            return ContextCompat.checkSelfPermission(context, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
         }
 
         /**
