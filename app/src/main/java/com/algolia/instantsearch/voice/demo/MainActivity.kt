@@ -16,9 +16,10 @@ class MainActivity : AppCompatActivity(), VoiceDialogFragment.VoiceResultsListen
             if (!Voice.hasRecordPermission(this)) {
                 PermissionDialogFragment().show(supportFragmentManager, "perm")
             } else {
-                val dialogFragment = VoiceDialogFragment()
-                dialogFragment.voiceResultsListener = this
-                dialogFragment.show(supportFragmentManager, "voice")
+                val voiceFragment = VoiceDialogFragment()
+                voiceFragment.voiceResultsListener = this
+                voiceFragment.languageCode = "en-US"
+                voiceFragment.show(supportFragmentManager, "voice")
             }
         }
     }

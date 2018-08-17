@@ -28,6 +28,8 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
 
     private var state = State.Listening
     private var suggestions: List<String> = emptyList()
+    /** Optional IETF language tag (as defined by BCP 47), for example "en-US", forwarded to the SpeechRecognizer. */
+    var languageCode: String? = null
 
     private lateinit var speechRecognizer: SpeechRecognizer
     var voiceResultsListener: VoiceResultsListener? = null
@@ -67,10 +69,14 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         state = State.Listening
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(activity)!!
         speechRecognizer.setRecognitionListener(this)
-        speechRecognizer.startListening(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                 .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-                .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)) //TODO: Consider using several results
+                .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1) //TODO: Consider using several results
+        languageCode.let {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, languageCode)
+        }
+        speechRecognizer.startListening(intent)
 
         updateUI()
     }
