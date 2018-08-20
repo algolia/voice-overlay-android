@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity(), VoiceDialogFragment.VoiceResultsListen
                 PermissionDialogFragment().show(supportFragmentManager, "perm")
             } else {
                 val voiceFragment = VoiceDialogFragment() //FIXME: Handle orientation changes, storing state properly
-                voiceFragment.voiceResultsListener = this
                 voiceFragment.language = "en-US"
                 voiceFragment.maxResults = 2
                 voiceFragment.show(supportFragmentManager, "voice")

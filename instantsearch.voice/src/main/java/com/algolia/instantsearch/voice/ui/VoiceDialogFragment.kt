@@ -17,6 +17,8 @@ import com.algolia.instantsearch.voice.R
 import kotlinx.android.synthetic.main.layout_voice_overlay.view.*
 import java.util.*
 
+const val ERROR_NO_LISTENER = "The VoiceDialogFragment needs a VoiceResultsListener."
+
 @SuppressLint("InflateParams")
 class VoiceDialogFragment : DialogFragment(), RecognitionListener {
     enum class State {
@@ -55,7 +57,13 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
                 .setView(content).create()
     }
 
-    override fun onPause() {
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is VoiceResultsListener) voiceResultsListener = context
+        else if (voiceResultsListener == null) throw IllegalStateException(ERROR_NO_LISTENER)
+    }
+
+    override fun onPause() {//TODO: Refactor using LifecycleObserver
         super.onPause()
         stopVoiceRecognition()
     }
@@ -107,7 +115,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         stopVoiceRecognition()
         dismiss()
         if (voiceResultsListener != null) voiceResultsListener!!.onVoiceResults(matches)
-        else throw IllegalStateException("You need to call setVoiceResultsListener before showing the VoiceDialogFragment.")
+        else throw IllegalStateException(ERROR_NO_LISTENER)
     }
 
     override fun onPartialResults(partialResults: Bundle) {
