@@ -52,8 +52,10 @@ class RippleView : View {
                     animations.clear()
                     jobAnimation = animation()
                 }
-                State.Stopped -> {
+                State.Stopped -> try {
                     jobAnimation.cancel()
+                } catch (e: UninitializedPropertyAccessException) {
+                    // cancel() was called before start()
                 }
                 State.None -> Unit
             }
