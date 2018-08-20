@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), VoiceDialogFragment.VoiceResultsListen
             } else {
                 val voiceFragment = VoiceDialogFragment() //FIXME: Handle orientation changes, storing state properly
                 voiceFragment.voiceResultsListener = this
-                voiceFragment.languageCode = "en-US"
+                voiceFragment.language = "en-US"
                 voiceFragment.show(supportFragmentManager, "voice")
             }
         }
