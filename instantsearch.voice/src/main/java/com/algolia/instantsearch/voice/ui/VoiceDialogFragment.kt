@@ -98,6 +98,7 @@ class VoiceDialogFragment : DialogFragment(), RecognitionListener {
         updateUI()
     }
 
+    //endregion
     // region RecognitionListener
     override fun onError(error: Int) {
         val errorText = getErrorMessage(error)
