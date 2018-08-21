@@ -74,7 +74,7 @@ class VoiceInput @JvmOverloads constructor(private val presenter: VoiceInputPres
     override fun onResults(results: Bundle) {
         val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
         val matchesString = buildMatchesString(matches)
-        Log.d(TAG, "onResults:" + matches!!.size + ": " + matchesString)
+        Log.d(TAG, "onResults:${matches!!.size}: $matchesString")
 
         stopVoiceRecognition()
         presenter.dismiss()
@@ -87,7 +87,7 @@ class VoiceInput @JvmOverloads constructor(private val presenter: VoiceInputPres
         val matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
         val matchesString = buildMatchesString(matches)
         updateUI(matchesString)
-        Log.d(TAG, "onPartialResults:" + matches!!.size + ": " + matchesString)
+        Log.d(TAG, "onPartialResults:${matches!!.size}: $matchesString")
     }
 
     // region Unused RecognitionListener methods
@@ -113,16 +113,8 @@ class VoiceInput @JvmOverloads constructor(private val presenter: VoiceInputPres
     // endregion
     // endregion
     // region Helpers
-    private fun buildMatchesString(matches: ArrayList<String>?): String {
-//        matches?.reduce {acc, it -> "$acc$it\n"} TODO REfactor
-        val b = StringBuilder()
-        if (matches != null) {
-            for (match in matches) {
-                b.append(match).append("\n")
-            }
-        }
-        return b.toString()
-    }
+    private fun buildMatchesString(matches: ArrayList<String>?): String? =
+            matches?.fold("") { acc, it -> "$acc$it\n" }
 
     private fun getErrorMessage(error: Int): String = when (error) {
         SpeechRecognizer.ERROR_AUDIO -> "Audio recording error."

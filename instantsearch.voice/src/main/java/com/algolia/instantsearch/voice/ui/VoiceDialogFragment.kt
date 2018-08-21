@@ -69,7 +69,7 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
             } else {
                 hint.visibility = View.VISIBLE
                 with(content) {
-                    suggestionText.text = suggestions.fold("") { acc, it -> acc + SEPARATOR + it + "\n" }
+                    suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
                 }
             }
         }
