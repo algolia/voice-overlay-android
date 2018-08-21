@@ -3,219 +3,85 @@ package com.algolia.instantsearch.voice.ui
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Intent
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.support.v4.app.DialogFragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import com.algolia.instantsearch.voice.ERROR_NO_LISTENER
 import com.algolia.instantsearch.voice.R
+import com.algolia.instantsearch.voice.VoiceInput
 import kotlinx.android.synthetic.main.layout_voice_overlay.view.*
-import java.util.*
-
-const val ERROR_NO_LISTENER = "The VoiceDialogFragment needs a VoiceResultsListener."
 
 @SuppressLint("InflateParams")
-class VoiceDialogFragment : DialogFragment(), RecognitionListener {
-    enum class State {
-        Listening,
-        Paused,
-        PartialResults,
-        Error
-    }
-
-    /** Optional IETF language tag (as defined by BCP 47), for example "en-US", forwarded to the [SpeechRecognizer]. */
-    var language: String? = null
-    /** Maximum number of voice recognition matches to return. Defaults to 1. */
-    var maxResults: Int = 1
-    private var state = State.Listening
-    private var suggestions: List<String> = emptyList()
-
-    private lateinit var speechRecognizer: SpeechRecognizer
-    var voiceResultsListener: VoiceResultsListener? = null
-
+class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
+    val input: VoiceInput by lazy { VoiceInput(this) }
     private val content: View by lazy {
         LayoutInflater.from(activity).inflate(R.layout.layout_voice_overlay, null)
+    }
+
+    private var suggestions: List<String> = emptyList()
+    fun setSuggestions(vararg suggestions: String) {
+        this.suggestions = listOf(*suggestions)
     }
 
     //region Lifecycle
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         with(content) {
             closeButton.setOnClickListener { dismiss() }
-            micButton.setOnClickListener {
-                when (state) {
-                    State.Listening, State.PartialResults -> stopVoiceRecognition()
-                    State.Error, State.Paused -> startVoiceRecognition()
-                }
-            }
+            micButton.setOnClickListener { input.toggleVoiceRecognition() }
         }
-        return AlertDialog.Builder(activity)
-                .setView(content).create()
+        return AlertDialog.Builder(activity).setView(content).create()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is VoiceResultsListener) voiceResultsListener = context
-        else if (voiceResultsListener == null) throw IllegalStateException(ERROR_NO_LISTENER)
+        if (context is VoiceInput.VoiceResultsListener) input.listener = context
+        else if (input.listener == null) throw IllegalStateException(ERROR_NO_LISTENER)
     }
 
     override fun onPause() {//TODO: Refactor using LifecycleObserver
         super.onPause()
-        stopVoiceRecognition()
+        input.stopVoiceRecognition()
     }
 
     override fun onResume() {
         super.onResume()
-        startVoiceRecognition()
+        input.startVoiceRecognition()
     }
 
     //endregion
-    //region Voice Recognition
-    private fun startVoiceRecognition() {
-        state = State.Listening
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(activity)!!
-        speechRecognizer.setRecognitionListener(this)
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-                .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxResults)
-        language.let {
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
-        }
-        speechRecognizer.startListening(intent)
-
-        updateUI()
-    }
-
-    private fun stopVoiceRecognition() {
-        state = State.Paused
-        speechRecognizer.stopListening()
-        speechRecognizer.destroy()
-        updateUI()
-    }
-
-    //endregion
-    // region RecognitionListener
-    override fun onError(error: Int) {
-        val errorText = getErrorMessage(error)
-        Log.d(TAG, "onError: $errorText")
-        stopVoiceRecognition()
-        state = State.Error
-        updateUI(errorText)
-    }
-
-    override fun onResults(results: Bundle) {
-        val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-        val matchesString = buildMatchesString(matches)
-        Log.d(TAG, "onResults:" + matches!!.size + ": " + matchesString)
-
-        stopVoiceRecognition()
-        dismiss()
-        if (voiceResultsListener != null) voiceResultsListener!!.onVoiceResults(matches)
-        else throw IllegalStateException(ERROR_NO_LISTENER)
-    }
-
-    override fun onPartialResults(partialResults: Bundle) {
-        state = State.PartialResults
-        val matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-        val matchesString = buildMatchesString(matches)
-        updateUI(matchesString)
-        Log.d(TAG, "onPartialResults:" + matches!!.size + ": " + matchesString)
-    }
-
-    // region Unused RecognitionListener methods
-    override fun onReadyForSpeech(params: Bundle) {
-    }
-
-    override fun onBeginningOfSpeech() {
-    }
-
-    override fun onRmsChanged(rmsdB: Float) {
-    }
-
-    override fun onBufferReceived(buffer: ByteArray) {
-    }
-
-    override fun onEndOfSpeech() {
-    }
-
-    override fun onEvent(eventType: Int, params: Bundle) {
-    }
-
-    // endregion
-    // endregion
     //region Helpers
-
-    fun setSuggestions(vararg suggestions: String) {
-        this.suggestions = listOf(*suggestions)
-    }
-
-    private fun updateUI(message: String? = null) {
-        with(content) {
-            when (state) {
-                State.Listening -> displayListening(true)
-                State.Paused -> displayListening(false)
-                State.PartialResults -> displayResult(message, isError = false)
-                State.Error -> displayResult(message, isError = true)
-            }
-        }
-    }
-
-    private fun View.displayListening(isListening: Boolean) {
-        micButton.toggleState()
-        title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
-        if (isListening) ripple.start() else ripple.cancel()
-        if (suggestions.isEmpty()) {
-            hint.visibility = View.GONE
-        } else {
-            hint.visibility = View.VISIBLE
-            with(content) {
-                suggestionText.text = suggestions.fold("") { acc, it -> acc + SEPARATOR + it + "\n" }
-            }
-        }
-    }
-
-    private fun View.displayResult(message: String?, isError: Boolean) {
-        title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
-        hint.visibility = View.GONE
-        suggestionText.text = message
-        suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
-    }
-
-    private fun buildMatchesString(matches: ArrayList<String>?): String {
-        val b = StringBuilder()
-        if (matches != null) {
-            for (match in matches) {
-                b.append(match).append("\n")
-            }
-        }
-        return b.toString()
-    }
-
-    private fun getErrorMessage(error: Int): String = when (error) {
-        SpeechRecognizer.ERROR_AUDIO -> "Audio recording error."
-        SpeechRecognizer.ERROR_CLIENT -> "Other client side errors."
-        SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
-        SpeechRecognizer.ERROR_NETWORK -> "Other network related errors."
-        SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network operation timed out."
-        SpeechRecognizer.ERROR_NO_MATCH -> "No recognition result matched."
-        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy."
-        SpeechRecognizer.ERROR_SERVER -> "Server sends error status."
-        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input."
-        else -> "Unknown error."
-    }
-
     companion object {
         const val SEPARATOR = "• "
-        const val TAG = "VoiceDialogFragment"
     }
     //endregion
 
-    interface VoiceResultsListener {
-        fun onVoiceResults(matches: List<String>)
+    // region VoiceInputPresenter
+    override fun displayListening(isListening: Boolean) {
+        with(content) {
+            micButton.toggleState()
+            title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
+            if (isListening) ripple.start() else ripple.cancel()
+            if (suggestions.isEmpty()) {
+                hint.visibility = View.GONE
+            } else {
+                hint.visibility = View.VISIBLE
+                with(content) {
+                    suggestionText.text = suggestions.fold("") { acc, it -> acc + SEPARATOR + it + "\n" }
+                }
+            }
+        }
     }
+
+    override fun displayResult(text: CharSequence?, isError: Boolean) {
+        with(content) {
+            title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
+            hint.visibility = View.GONE
+            suggestionText.text = text
+            suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
+        }
+    }
+    // endregion
 }
