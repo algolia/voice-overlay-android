@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import com.algolia.instantsearch.voice.ui.PermissionDialogFragment.Companion.ID_REQ_VOICE_PERM
+import com.algolia.instantsearch.voice.ui.PermissionDialogFragment.Companion.PermissionRequestRecordAudio
 
 /** Helper functions for voice permission handling. */
 object Voice {
@@ -19,12 +19,12 @@ object Voice {
         grantResult[0] == PackageManager.PERMISSION_GRANTED
 
     /** Gets whether the [request's code][requestCode] and [results][grantResults] are valid, by respectively checking
-     * that it matches the [request identifier][ID_REQ_VOICE_PERM] and that they are not empty.
+     * that it matches the [request identifier][PermissionRequestRecordAudio] and that they are not empty.
      *
      */
     @JvmStatic
     fun isRecordPermissionWithResults(requestCode: Int, grantResults: IntArray) =
-        requestCode == ID_REQ_VOICE_PERM && grantResults.isNotEmpty()
+        requestCode == PermissionRequestRecordAudio && grantResults.isNotEmpty()
 
     /**
      * Gets whether your application was granted the [recording permission][RECORD_AUDIO].
