@@ -16,12 +16,14 @@ import kotlinx.android.synthetic.main.layout_voice_overlay.view.*
 
 @SuppressLint("InflateParams")
 class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
-    val input: VoiceInput by lazy { VoiceInput(this) }
+
     private val content: View by lazy {
         LayoutInflater.from(activity).inflate(R.layout.layout_voice_overlay, null)
     }
-
     private var suggestions: List<String> = emptyList()
+
+    val input: VoiceInput by lazy { VoiceInput(this) }
+
     fun setSuggestions(vararg suggestions: String) {
         this.suggestions = listOf(*suggestions)
     }
@@ -54,6 +56,7 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
     //endregion
     //region Helpers
     companion object {
+
         const val SEPARATOR = "• "
     }
     //endregion
