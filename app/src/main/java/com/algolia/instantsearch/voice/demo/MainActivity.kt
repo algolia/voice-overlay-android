@@ -9,6 +9,7 @@ import com.algolia.instantsearch.voice.VoiceInput
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), VoiceInput.VoiceResultsListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

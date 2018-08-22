@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
 
 class PermissionDialogFragment : DialogFragment() {
+
     var title = DEFAULT_TITLE
     var message = DEFAULT_MESSAGE
     var positiveButton = DEFAULT_POSITIVE_BUTTON
@@ -16,14 +17,14 @@ class PermissionDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         requireActivity().let { activity ->
             return AlertDialog.Builder(activity)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(positiveButton) { _, _ ->
-                        ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), ID_REQ_VOICE_PERM)
-                        dismiss()
-                    }
-                    .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
-                    .create()
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButton) { _, _ ->
+                    ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), ID_REQ_VOICE_PERM)
+                    dismiss()
+                }
+                .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
+                .create()
         }
 
     }
