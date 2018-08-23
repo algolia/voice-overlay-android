@@ -1,40 +1,37 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.algolia.instantsearch.voice.ERROR_NO_LISTENER
 import com.algolia.instantsearch.voice.R
 import com.algolia.instantsearch.voice.VoiceInput
-import kotlinx.android.synthetic.main.layout_voice_overlay.view.*
+import kotlinx.android.synthetic.main.layout_voice_overlay.*
 
 @SuppressLint("InflateParams")
 class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
+    val input: VoiceInput = VoiceInput(this)
 
-    private val content: View by lazy {
-        LayoutInflater.from(activity).inflate(R.layout.layout_voice_overlay, null)
-    }
     private var suggestions: List<String> = emptyList()
-
-    val input: VoiceInput by lazy { VoiceInput(this) }
 
     fun setSuggestions(vararg suggestions: String) {
         this.suggestions = listOf(*suggestions)
     }
 
     //region Lifecycle
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        with(content) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.layout_voice_overlay, null)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.let { _ ->
             closeButton.setOnClickListener { dismiss() }
             micButton.setOnClickListener { input.toggleVoiceRecognition() }
         }
-        return AlertDialog.Builder(activity).setView(content).create()
     }
 
     override fun onAttach(context: Context?) {
@@ -63,7 +60,7 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
 
     // region VoiceInputPresenter
     override fun displayListening(isListening: Boolean) {
-        with(content) {
+        view.let {
             micButton.toggleState()
             title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
             if (isListening) ripple.start() else ripple.cancel()
@@ -71,15 +68,13 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
                 hint.visibility = View.GONE
             } else {
                 hint.visibility = View.VISIBLE
-                with(content) {
-                    suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
-                }
+                suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
             }
         }
     }
 
     override fun displayResult(text: CharSequence?, isError: Boolean) {
-        with(content) {
+        view.let {
             title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
             hint.visibility = View.GONE
             suggestionText.text = text
