@@ -2,7 +2,7 @@
 <resources>
     <style name="Algolia" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="algolia_voiceOverlayBackground">@android:color/background_dark</item>
-        <item name="algolia_voiceOverlayTitleTextColor">@color/colorVoiceTitle</item>
+        <item name="algolia_voiceOverlayTitleTextColor">@color/voice_title</item>
         <item name="algolia_voiceOverlayTitleTextAppearance">
             @style/TextAppearance.Algolia.VoiceOverlay.Title
         </item>
@@ -14,7 +14,6 @@
         <item name="algolia_voiceOverlaySuggestionsTextColor">@android:color/primary_text_dark
         </item>
         <item name="algolia_voiceOverlaySuggestionsTextSize">18sp</item>
-        <item name="algolia_voiceOverlayFeedbackColor">@color/colorVoiceFeedback</item>
         <item name="algolia_voiceOverlayMicButtonBackground">@drawable/ic_mic</item>
         <item name="algolia_voiceOverlayCloseButtonBackground">
             @android:drawable/ic_menu_close_clear_cancel
