@@ -28,10 +28,8 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
         inflater.inflate(R.layout.layout_voice_overlay, null)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.let { _ ->
-            closeButton.setOnClickListener { dismiss() }
-            micButton.setOnClickListener { input.toggleVoiceRecognition() }
-        }
+        closeButton.setOnClickListener { dismiss() }
+        micButton.setOnClickListener { input.toggleVoiceRecognition() }
     }
 
     override fun onAttach(context: Context?) {
@@ -60,26 +58,22 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
 
     // region VoiceInputPresenter
     override fun displayListening(isListening: Boolean) {
-        view.let {
-            micButton.toggleState()
-            title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
-            if (isListening) ripple.start() else ripple.cancel()
-            if (suggestions.isEmpty()) {
-                hint.visibility = View.GONE
-            } else {
-                hint.visibility = View.VISIBLE
-                suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
-            }
+        micButton.toggleState()
+        title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
+        if (isListening) ripple.start() else ripple.cancel()
+        if (suggestions.isEmpty()) {
+            hint.visibility = View.GONE
+        } else {
+            hint.visibility = View.VISIBLE
+            suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
         }
     }
 
     override fun displayResult(text: CharSequence?, isError: Boolean) {
-        view.let {
-            title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
-            hint.visibility = View.GONE
-            suggestionText.text = text
-            suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
-        }
+        title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
+        hint.visibility = View.GONE
+        suggestionText.text = text
+        suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
     }
     // endregion
 }
