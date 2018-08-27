@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), VoiceInput.VoiceResultsListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.setOnClickListener {
+        button.setOnClickListener { _ ->
             if (!Voice.hasRecordPermission(this)) {
                 PermissionDialogFragment().let {
                     it.arguments = PermissionDialogFragment.buildArguments(title = "Voice Search.")

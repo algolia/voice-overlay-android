@@ -45,6 +45,7 @@ class PermissionDialogFragment : DialogFragment() {
 
         const val PermissionRequestRecordAudio = 1
 
+        @JvmOverloads
         fun buildArguments(
             title: String = "You can use voice search to find results",
             message: String = "Can we access your device's microphone to enable voice search?",
