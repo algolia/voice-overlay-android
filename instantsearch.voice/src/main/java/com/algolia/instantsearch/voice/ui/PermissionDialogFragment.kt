@@ -8,31 +8,54 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
 
 class PermissionDialogFragment : DialogFragment() {
-    var title = DEFAULT_TITLE
-    var message = DEFAULT_MESSAGE
-    var positiveButton = DEFAULT_POSITIVE_BUTTON
-    var negativeButton = DEFAULT_NEGATIVE_BUTTON
+
+    private enum class Argument {
+        Title,
+        Message,
+        PositiveButton,
+        NegativeButton
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments == null) {
+            arguments = buildArguments()
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        requireActivity().let { activity ->
-            return AlertDialog.Builder(activity)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(positiveButton) { _, _ ->
-                        ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), ID_REQ_VOICE_PERM)
-                        dismiss()
-                    }
-                    .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
-                    .create()
-        }
+        val bundle = arguments!!
+        val title = bundle.getString(Argument.Title.name)
+        val message = bundle.getString(Argument.Message.name)
+        val positiveButton = bundle.getString(Argument.PositiveButton.name)
+        val negativeButton = bundle.getString(Argument.NegativeButton.name)
 
+        return AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveButton) { _, _ ->
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
+                dismiss()
+            }
+            .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
+            .create()
     }
 
     companion object {
-        const val ID_REQ_VOICE_PERM = 1
-        const val DEFAULT_TITLE = "You can use voice search to find results"
-        const val DEFAULT_MESSAGE = "Can we access your device's microphone to enable voice search?"
-        const val DEFAULT_POSITIVE_BUTTON = "Allow microphone access"
-        const val DEFAULT_NEGATIVE_BUTTON = "No"
+
+        const val PermissionRequestRecordAudio = 1
+
+        @JvmOverloads
+        fun buildArguments(
+            title: String = "You can use voice search to find results",
+            message: String = "Can we access your device's microphone to enable voice search?",
+            positiveButton: String = "Allow microphone access",
+            negativeButton: String = "No"
+        ) = Bundle().also {
+            it.putString(Argument.Title.name, title)
+            it.putString(Argument.Message.name, message)
+            it.putString(Argument.PositiveButton.name, positiveButton)
+            it.putString(Argument.NegativeButton.name, negativeButton)
+        }
     }
 }

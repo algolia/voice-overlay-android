@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VoiceDemo</string>
+    <string name="placeholder">Let\'s use your voice!</string>
 </resources>
