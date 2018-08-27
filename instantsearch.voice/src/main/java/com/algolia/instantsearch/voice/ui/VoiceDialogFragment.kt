@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.layout_voice_overlay.*
 
 @SuppressLint("InflateParams")
 class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
+
     val input: VoiceInput = VoiceInput(this)
 
     private var suggestions: List<String> = emptyList()
