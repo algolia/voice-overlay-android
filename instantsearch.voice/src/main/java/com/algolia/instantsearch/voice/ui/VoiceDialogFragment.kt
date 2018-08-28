@@ -18,15 +18,24 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
 
     val input: VoiceInput = VoiceInput(this)
 
-    private var suggestions: List<String> = emptyList()
+    private var suggestions: ArrayList<String> = arrayListOf()
 
     fun setSuggestions(vararg suggestions: String) {
-        this.suggestions = listOf(*suggestions)
+        this.suggestions = arrayListOf(*suggestions)
     }
 
     //region Lifecycle
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.layout_voice_overlay, null)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        savedInstanceState?.let {
+            suggestions = it.getStringArrayList(keySuggestions)
+        }
+        return inflater.inflate(R.layout.layout_voice_overlay, null)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putStringArrayList(keySuggestions, suggestions)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         closeButton.setOnClickListener { dismiss() }
@@ -53,7 +62,8 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
     //region Helpers
     companion object {
 
-        const val SEPARATOR = "• "
+        const val separator = "• "
+        const val keySuggestions = "keySuggestions"
     }
     //endregion
 
@@ -66,7 +76,7 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
             hint.visibility = View.GONE
         } else {
             hint.visibility = View.VISIBLE
-            suggestionText.text = suggestions.fold("") { acc, it -> "$acc$SEPARATOR$it\n" }
+            suggestionText.text = suggestions.fold("") { acc, it -> "$acc$separator$it\n" }
         }
     }
 
