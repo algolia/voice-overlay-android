@@ -24,25 +24,28 @@ ext {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion sdkCompile
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion sdkMin
+        targetSdkVersion sdkTarget
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+    }
 }
 
 kotlin {
@@ -52,26 +55,21 @@ kotlin {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation dependency_jvm.kotlin_stdlib
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$VERSION_KOTLIN"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4"
+    implementation dependency_android.coroutines
+    implementation dependency_android.appcompat
+    implementation dependency_android.constraint_layout
+    implementation dependency_android.design
 
-    // region UI
-    implementation "com.android.support:appcompat-v7:$VERSION_SUPPORT"
-    implementation "com.android.support:design:$VERSION_SUPPORT"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    // endregion
+    androidTestImplementation dependency_android.espresso
+    androidTestImplementation dependency_jvm.kotlin_test
+    androidTestImplementation dependency_jvm.kotlin_test_junit
 
-    // region Tests
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    // endregion
-
+    testImplementation dependency_jvm.kotlin_test
+    testImplementation dependency_jvm.kotlin_test_junit
 }
 
-// region Deployment
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -112,4 +110,3 @@ artifacts {
 }
 
 apply from: "https://raw.githubusercontent.com/algolia/instantsearch-mobile-tools/7b9e6e1cc28f12497b88b6868ab99d5884f7c86b/gradle/bintrayv.gradle"
-// endregion

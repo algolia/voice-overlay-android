@@ -1,1 +1,8 @@
-include ':app', ':instantsearch.voice', ':instantsearch.voice'
+include ':app', ':voice'
+
+void rename_recursively(project) {
+    project.buildFileName = "${project.name}.gradle"
+    project.children.each { child -> rename_recursively(child) }
+}
+
+rootProject.children.each { project -> rename_recursively(project) }
