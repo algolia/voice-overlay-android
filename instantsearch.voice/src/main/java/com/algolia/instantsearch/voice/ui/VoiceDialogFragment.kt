@@ -18,28 +18,28 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
 
     val input: VoiceInput = VoiceInput(this)
 
-    private var suggestions: ArrayList<String> = arrayListOf()
+    private var suggestions: Array<out String> = arrayOf()
 
     fun setSuggestions(vararg suggestions: String) {
-        this.suggestions = arrayListOf(*suggestions)
+        this.suggestions = suggestions
     }
 
     //region Lifecycle
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        savedInstanceState?.let {
-            suggestions = it.getStringArrayList(keySuggestions)
-        }
         return inflater.inflate(R.layout.layout_voice_overlay, null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putStringArrayList(keySuggestions, suggestions)
         super.onSaveInstanceState(outState)
+        outState.putStringArray(keySuggestions, suggestions)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         closeButton.setOnClickListener { dismiss() }
         micButton.setOnClickListener { input.toggleVoiceRecognition() }
+        savedInstanceState?.let {
+            suggestions = it.getStringArray(keySuggestions)
+        }
     }
 
     override fun onAttach(context: Context?) {
