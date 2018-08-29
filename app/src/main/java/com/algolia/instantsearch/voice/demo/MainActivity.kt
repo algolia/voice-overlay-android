@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity(), VoiceInput.VoiceResultsListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val voiceFragment = VoiceDialogFragment()
+
         button.setOnClickListener { _ ->
             if (!Voice.hasRecordPermission(this)) {
                 PermissionDialogFragment().let {
@@ -22,7 +24,6 @@ class MainActivity : AppCompatActivity(), VoiceInput.VoiceResultsListener {
                     it.show(supportFragmentManager, "perm")
                 }
             } else {
-                val voiceFragment = VoiceDialogFragment() //FIXME: Handle orientation changes, storing state properly
                 voiceFragment.setSuggestions("Something", "Something else")
                 voiceFragment.input.language = "en-US"
                 voiceFragment.input.maxResults = 2
