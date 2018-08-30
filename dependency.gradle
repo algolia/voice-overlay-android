@@ -6,7 +6,6 @@ ext.with {
     versioningName = '1.0'
     versioningCode = 1
 
-    buildTools = '28.0.2'
     benManes = '0.20.0'
     jvm = '1.8'
 

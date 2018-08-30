@@ -1,4 +1,4 @@
-include ':app', ':voice'
+include ':app', ':voice', ':ui'
 
 void rename_recursively(project) {
     project.buildFileName = "${project.name}.gradle"

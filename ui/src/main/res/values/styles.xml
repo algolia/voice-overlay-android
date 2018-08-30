@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="DialogTheme" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
         <item name="colorControlHighlight">@color/white_a26</item>
     </style>
+
 </resources>

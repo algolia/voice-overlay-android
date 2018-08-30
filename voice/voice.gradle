@@ -29,8 +29,8 @@ android {
     defaultConfig {
         minSdkVersion sdkMin
         targetSdkVersion sdkTarget
-        versionCode 1
-        versionName "1.0"
+        versionCode versioningCode
+        versionName versioningName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -59,8 +59,6 @@ dependencies {
 
     implementation dependency_android.coroutines
     implementation dependency_android.appcompat
-    implementation dependency_android.constraint_layout
-    implementation dependency_android.design
 
     androidTestImplementation dependency_android.espresso
     androidTestImplementation dependency_jvm.kotlin_test

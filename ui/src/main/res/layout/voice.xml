@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/voice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <com.algolia.instantsearch.voice.ui.view.RippleView
+    <com.algolia.instantsearch.voice.ui.RippleView
         android:id="@+id/voiceRipple"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,7 +23,7 @@
         app:radius="10"
         app:size="80dp"/>
 
-    <com.algolia.instantsearch.voice.ui.VoiceFAB
+    <com.algolia.instantsearch.voice.ui.VoiceMicrophone
         android:id="@+id/voiceMicrophone"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -57,11 +57,11 @@
     <TextView
         android:id="@+id/voiceTitle"
         android:textSize="24sp"
-        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_bias="0.4"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@id/voiceHint"
+        app:layout_constraintBottom_toTopOf="@id/voiceSubtitle"
         android:layout_height="wrap_content"
-        android:text="@string/voice_search_listening"
+        android:text="@string/listening"
         android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
@@ -71,19 +71,19 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/voiceHint"
+        android:id="@+id/voiceSubtitle"
         android:layout_width="0dp"
         android:textAppearance="?attr/textAppearanceBody1"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/voice_search_hint"
+        android:text="@string/say_something_like"
         app:layout_constraintBottom_toTopOf="@id/voiceMicrophone"
         app:layout_constraintEnd_toEndOf="@id/voiceTitle"
         app:layout_constraintStart_toStartOf="@id/voiceTitle"
         app:layout_constraintTop_toBottomOf="@+id/voiceTitle"/>
 
     <TextView
-        android:id="@+id/voiceSuggestionText"
+        android:id="@+id/voiceSuggestions"
         android:layout_width="0dp"
         android:textSize="16sp"
         android:layout_height="0dp"
@@ -96,11 +96,11 @@
         app:layout_constraintBottom_toTopOf="@id/voiceMicrophone"
         app:layout_constraintEnd_toEndOf="@id/voiceTitle"
         app:layout_constraintStart_toStartOf="@id/voiceTitle"
-        app:layout_constraintTop_toBottomOf="@id/voiceHint"
+        app:layout_constraintTop_toBottomOf="@id/voiceSubtitle"
         tools:text="•\tiPhone Case \n•\tRunning shoes"/>
 
     <TextView
-        android:id="@+id/voiceTryAgain"
+        android:id="@+id/voiceHint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0"
@@ -109,7 +109,7 @@
         android:textAppearance="?attr/textAppearanceSubtitle2"
         android:textSize="16sp"
         android:visibility="invisible"
-        android:text="@string/voice_search_try_again"
+        android:text="@string/try_again"
         app:layout_constraintTop_toBottomOf="@id/voiceMicrophone"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"

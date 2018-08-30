@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.voice.ui.sprite
+package com.algolia.instantsearch.voice.ui
 
 import android.animation.ValueAnimator
 import android.graphics.Canvas

@@ -5,10 +5,10 @@ import android.content.res.ColorStateList
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.ImageView
-import com.algolia.instantsearch.voice.R
+import com.algolia.instantsearch.voice.ui.R
 
 
-class VoiceFAB(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
+class VoiceMicrophone(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
     enum class State {
         Activated,
@@ -30,11 +30,4 @@ class VoiceFAB(context: Context, attrs: AttributeSet) : ImageView(context, attrs
                 State.Deactivated -> ColorStateList.valueOf(white)
             }
         }
-
-    fun toggleState() {
-        state = when (state) {
-            State.Activated -> State.Deactivated
-            State.Deactivated -> State.Activated
-        }
-    }
 }

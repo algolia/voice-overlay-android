@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
+import com.algolia.instantsearch.voice.Voice
 
 class PermissionDialogFragment : DialogFragment() {
 
@@ -34,7 +35,7 @@ class PermissionDialogFragment : DialogFragment() {
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(positiveButton) { _, _ ->
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(RECORD_AUDIO), Voice.PermissionRequestRecordAudio)
                 dismiss()
             }
             .setNegativeButton(negativeButton) { dialog, _ -> dialog.cancel() }
@@ -43,7 +44,6 @@ class PermissionDialogFragment : DialogFragment() {
 
     companion object {
 
-        const val PermissionRequestRecordAudio = 1
 
         @JvmOverloads
         fun buildArguments(

@@ -1,12 +1,10 @@
-package com.algolia.instantsearch.voice.ui.view
+package com.algolia.instantsearch.voice.ui
 
 import android.animation.AnimatorSet
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.algolia.instantsearch.voice.R
-import com.algolia.instantsearch.voice.ui.sprite.DrawableSprite
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay

@@ -7,10 +7,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import com.algolia.instantsearch.voice.ui.PermissionDialogFragment.Companion.PermissionRequestRecordAudio
 
 /** Helper functions for voice permission handling. */
 object Voice {
+
+    const val PermissionRequestRecordAudio = 1
+
     /**
      * Gets whether the [permission results][grantResult] confirm it has been [granted][PackageManager.PERMISSION_GRANTED].
      */
@@ -30,7 +32,7 @@ object Voice {
      * Gets whether your application was granted the [recording permission][RECORD_AUDIO].
      */
     @JvmStatic
-    fun hasRecordPermission(context: Context) =
+    fun isRecordAudioPermissionGranted(context: Context) =
         ContextCompat.checkSelfPermission(context, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
     /**
