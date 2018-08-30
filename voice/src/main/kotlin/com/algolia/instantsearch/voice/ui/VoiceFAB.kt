@@ -2,27 +2,32 @@ package com.algolia.instantsearch.voice.ui
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.widget.ImageView
 import com.algolia.instantsearch.voice.R
 
-class VoiceFAB(context: Context?, attrs: AttributeSet?) : FloatingActionButton(context, attrs) {
+
+class VoiceFAB(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
     enum class State {
         Activated,
         Deactivated
     }
 
-    private val green = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.green))
-    private val blue = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.blue_light))
+    private val white = ContextCompat.getColor(context, R.color.white)
+    private val blue = ContextCompat.getColor(context, R.color.blue_dark)
 
-    private var state = State.Deactivated
+    var state = State.Deactivated
         set(value) {
             field = value
-            backgroundTintList = when (value) {
-                State.Activated -> green
+            imageTintList = ColorStateList.valueOf(when (value) {
+                State.Activated -> white
                 State.Deactivated -> blue
+            })
+            backgroundTintList = when (value) {
+                State.Activated -> null
+                State.Deactivated -> ColorStateList.valueOf(white)
             }
         }
 

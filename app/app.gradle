@@ -30,5 +30,6 @@ dependencies {
 
     implementation dependency_android.coroutines
     implementation dependency_android.appcompat
+    implementation dependency_android.design
     implementation dependency_android.constraint_layout
 }

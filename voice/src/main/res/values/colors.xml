@@ -4,5 +4,9 @@
     <color name="voice_feedback">#d26213</color>
     <color name="blue_light">#01adff</color>
     <color name="blue_dark">#3369e6</color>
+    <color name="blue_cyan">#1cc7d0</color>
     <color name="green">#22cebf</color>
+    <color name="white">#ffffff</color>
+    <color name="white_a26">#42ffffff</color>
+    <color name="black_a85">#0f1114d9</color>
 </resources>

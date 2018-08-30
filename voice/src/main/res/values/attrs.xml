@@ -7,16 +7,4 @@
         <attr name="size" format="dimension" />
         <attr name="radius" format="float" />
     </declare-styleable>
-    <!-- VoiceDialogFragment attributes -->
-    <attr name="algolia_voiceOverlayBackground" format="reference|color" />
-    <attr name="algolia_voiceOverlayTitleTextAppearance" format="reference" />
-    <attr name="algolia_voiceOverlayTitleTextColor" format="reference|color" />
-    <attr name="algolia_voiceOverlayTitleTextSize" format="reference|dimension" />
-    <attr name="algolia_voiceOverlayHintTextColor" format="reference|color" />
-    <attr name="algolia_voiceOverlaySuggestionsTextAppearance" format="reference" />
-    <attr name="algolia_voiceOverlaySuggestionsTextColor" format="reference|color" />
-    <attr name="algolia_voiceOverlaySuggestionsTextSize" format="reference|dimension" />
-    <attr name="algolia_voiceOverlayCloseButtonBackground" format="reference|color" />
-    <attr name="algolia_voiceOverlayMicButtonBackground" format="reference|color" />
-    <!--TODO: Remove useless attrs-->
 </resources>

@@ -2,10 +2,12 @@
     <string name="voice_search_hint">Say something like:</string>
     <string name="voice_search_listening">Listening…</string>
     <string name="voice_search_paused">Paused, tap to search</string>
-    <string name="voice_search_error">Error:</string>
+    <string name="voice_search_error">Sorry, we didn\'t quite get that.</string>
+    <string name="voice_search_try_again">Try again</string>
     <string name="voice_search_rationale">Voice search requires this permission.</string>
-    <string name="voice_search_button_again">Request again?</string>
+    <string name="voice_search_button_again">Try repeating your request.</string>
     <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
     <string name="voice_search_button_enable">Give permission</string>
     <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
+    <string name="voice_suggestion_format"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
 </resources>

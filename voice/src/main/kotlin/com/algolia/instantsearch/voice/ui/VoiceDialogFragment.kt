@@ -1,20 +1,24 @@
 package com.algolia.instantsearch.voice.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.algolia.instantsearch.voice.ERROR_NO_LISTENER
 import com.algolia.instantsearch.voice.R
 import com.algolia.instantsearch.voice.VoiceInput
-import kotlinx.android.synthetic.main.layout_voice_overlay.*
+import kotlinx.android.synthetic.main.voice.*
 
-@SuppressLint("InflateParams")
+
 class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
+
+    private enum class Key {
+        Suggestions
+    }
 
     val input: VoiceInput = VoiceInput(this)
 
@@ -24,21 +28,25 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
         this.suggestions = suggestions
     }
 
-    //region Lifecycle
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.layout_voice_overlay, null)
+        return inflater.inflate(R.layout.voice, container, false)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArray(keySuggestions, suggestions)
+        outState.putStringArray(Key.Suggestions.name, suggestions)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        closeButton.setOnClickListener { dismiss() }
-        micButton.setOnClickListener { input.toggleVoiceRecognition() }
+        voiceClose.setOnClickListener { dismiss() }
+        voiceMicrophone.setOnClickListener { input.toggleVoiceRecognition() }
         savedInstanceState?.let {
-            suggestions = it.getStringArray(keySuggestions)
+            suggestions = it.getStringArray(Key.Suggestions.name)!!
         }
     }
 
@@ -48,43 +56,38 @@ class VoiceDialogFragment : DialogFragment(), VoiceInput.VoiceInputPresenter {
         else if (input.listener == null) throw IllegalStateException(ERROR_NO_LISTENER)
     }
 
-    override fun onPause() {//TODO: Refactor using LifecycleObserver
+    override fun onPause() {
         super.onPause()
         input.stopVoiceRecognition()
     }
 
     override fun onResume() {
         super.onResume()
+        voiceMicrophone.state = VoiceFAB.State.Activated
+        voiceTryAgain.visibility = View.INVISIBLE
         input.startVoiceRecognition()
     }
 
-    //endregion
-    //region Helpers
-    companion object {
-
-        const val separator = "• "
-        const val keySuggestions = "keySuggestions"
-    }
-    //endregion
-
-    // region VoiceInputPresenter
     override fun displayListening(isListening: Boolean) {
-        micButton.toggleState()
-        title.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
-        if (isListening) ripple.start() else ripple.cancel()
+        voiceTryAgain.visibility = if (isListening) View.INVISIBLE else View.VISIBLE
+        voiceMicrophone.state = if (isListening) VoiceFAB.State.Activated else VoiceFAB.State.Deactivated
+        voiceTitle.setText(if (isListening) R.string.voice_search_listening else R.string.voice_search_paused)
+        if (isListening) voiceRipple.start() else voiceRipple.cancel()
         if (suggestions.isEmpty()) {
-            hint.visibility = View.GONE
+            voiceHint.visibility = View.GONE
         } else {
-            hint.visibility = View.VISIBLE
-            suggestionText.text = suggestions.fold("") { acc, it -> "$acc$separator$it\n" }
+            voiceHint.visibility = View.VISIBLE
+            voiceSuggestionText.text = suggestions.joinToString("") {
+                Html.fromHtml(getString(R.string.voice_suggestion_format, it))
+            }
         }
     }
 
     override fun displayResult(text: CharSequence?, isError: Boolean) {
-        title.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
-        hint.visibility = View.GONE
-        suggestionText.text = text
-        suggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
+        voiceTryAgain.visibility = if (isError) View.VISIBLE else View.INVISIBLE
+        voiceTitle.setText(if (isError) R.string.voice_search_error else R.string.voice_search_listening)
+        voiceHint.visibility = View.GONE
+        voiceSuggestionText.text = text
+        voiceSuggestionText.setTypeface(null, if (isError) Typeface.BOLD else Typeface.ITALIC)
     }
-    // endregion
 }
