@@ -91,13 +91,13 @@ class RippleView : View {
     }
 
     private fun DrawableSprite.circleAnimation(): AnimatorSet =
-            AnimatorSet().also {
-                it.duration = duration
-                it.playTogether(
-                        explodeAlpha(Opacity.p0, Opacity.p30, Opacity.p15, Opacity.p0),
-                        explodeSize(1f, radius)
-                )
-            }
+        AnimatorSet().also {
+            it.duration = duration
+            it.playTogether(
+                explodeAlpha(Opacity.p0, Opacity.p30, Opacity.p15, Opacity.p0),
+                explodeSize(1f, radius)
+            )
+        }
 
     fun start() {
         state = State.Playing
@@ -113,7 +113,6 @@ class RippleView : View {
             it.position.let {
                 it.x = w / 2
                 it.y = h / 2
-
             }
         }
     }
