@@ -16,11 +16,11 @@ class VoiceAndroidView(
     override val formatterSuggestion = { suggestion: String -> context.getString(R.string.voice_suggestion_html_format, suggestion) }
 
     override fun setOnClickListenerClose(onClickListener: View.OnClickListener) {
-        view.voiceClose.setOnClickListener(onClickListener)
+        view.voice.close.setOnClickListener(onClickListener)
     }
 
     override fun setOnClickMicrophoneListener(onClickListener: View.OnClickListener) {
-        view.voiceMicrophone.setOnClickListener(onClickListener)
+        view.voice.microphone.setOnClickListener(onClickListener)
     }
 
     override fun setSuggestions(suggestions: Array<out String>) {
@@ -31,36 +31,36 @@ class VoiceAndroidView(
             Html.fromHtml(formattedSuggestions)
         }
 
-        view.voiceSuggestions.text = html
+        view.suggestions.text = html
     }
 
     override fun setTitle(title: VoiceUI.Title) {
-        view.voiceTitle.setText(title.resource)
+        view.voice.title.setText(title.resource)
     }
 
     override fun setSubtitle(subtitle: String) {
-        view.voiceSubtitle.text = subtitle
+        view.voice.subtitle.text = subtitle
     }
 
     override fun setSubtitle(subtitle: VoiceUI.Subtitle) {
-        view.voiceSubtitle.setText(subtitle.resource)
+        view.voice.subtitle.setText(subtitle.resource)
     }
 
     override fun setSuggestionVisibility(isVisible: Boolean) {
-        view.voiceSuggestions.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+        view.voice.suggestions.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun setHintVisibility(isVisible: Boolean) {
-        view.voiceHint.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+        view.voice.hint.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun setRippleActivity(isActive: Boolean) {
-        if (isActive) view.voiceRipple.start() else view.voiceRipple.cancel()
+        if (isActive) view.voice.ripple.start() else view.voice.ripple.cancel()
     }
 
     override fun setMicrophoneState(state: VoiceMicrophone.State) {
-        view.voiceMicrophone.state = state
+        view.voice.microphone.state = state
     }
 
-    override fun getMicrophoneState(): VoiceMicrophone.State = view.voiceMicrophone.state
+    override fun getMicrophoneState(): VoiceMicrophone.State = view.voice.microphone.state
 }

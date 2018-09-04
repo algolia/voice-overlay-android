@@ -1,9 +1,12 @@
 <resources>
 
-    <style name="DialogTheme" parent="ThemeOverlay.MaterialComponents.Dark">
+    <style name="VoiceDialogTheme" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="colorControlHighlight">@color/white_a26</item>
+        <item name="android:windowBackground">@color/black_a85</item>
+        <item name="android:windowAnimationStyle">@style/Base.Animation.AppCompat.Dialog</item>
     </style>
 
 </resources>

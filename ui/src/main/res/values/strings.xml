@@ -1,13 +1,17 @@
 <resources>
-    <string name="say_something_like">Say something like:</string>
-    <string name="searching_for">Searching for:</string>
-    <string name="sorry_we_did_not_quite_get_that">Sorry, we didn\'t quite get that.</string>
-    <string name="listening">Listening…</string>
-    <string name="try_again">Try again</string>
-    <string name="try_repeating_your_request">Try repeating your request.</string>
+    <string name="voice_title_search">Searching for:</string>
+    <string name="voice_title_error">Sorry, we didn\'t quite get that.</string>
+    <string name="voice_title_listen">Listening…</string>
+    <string name="voice_hint">Try again</string>
+    <string name="voice_subtitle_listen">Say something like:</string>
+    <string name="voice_subtitle_error">Try repeating your request.</string>
     <string name="voice_suggestion_html_format"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
     <string name="voice_search_rationale">Voice search requires this permission.</string>
     <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
     <string name="voice_search_button_enable">Give permission</string>
     <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
+    <string name="permission_positive_button">Allow microphone access</string>
+    <string name="permission_negative_button">No</string>
+    <string name="permission_subtitle">May we access your device’s microphone to enable voice search?</string>
+    <string name="permission_title">You can use voice search to find products.</string>
 </resources>

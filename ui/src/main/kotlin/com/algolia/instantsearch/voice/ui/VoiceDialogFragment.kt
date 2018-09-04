@@ -27,7 +27,7 @@ class VoiceDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.VoiceDialogTheme)
         speechRecognizer = VoiceSpeechRecognizer(requireContext())
         suggestions = arguments?.getStringArray(Field.Suggestions.name)
     }

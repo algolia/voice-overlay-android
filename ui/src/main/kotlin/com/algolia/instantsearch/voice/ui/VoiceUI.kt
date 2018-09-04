@@ -8,14 +8,14 @@ interface VoiceUI {
     val formatterSuggestion: (String) -> String
 
     enum class Title(val resource: Int) {
-        Search(R.string.searching_for),
-        Listen(R.string.listening),
-        Error(R.string.sorry_we_did_not_quite_get_that)
+        Search(R.string.voice_title_search),
+        Listen(R.string.voice_title_listen),
+        Error(R.string.voice_title_error)
     }
 
     enum class Subtitle(val resource: Int) {
-        Error(R.string.try_repeating_your_request),
-        Listen(R.string.say_something_like)
+        Error(R.string.voice_subtitle_error),
+        Listen(R.string.voice_subtitle_listen)
     }
 
     fun setOnClickListenerClose(onClickListener: View.OnClickListener)

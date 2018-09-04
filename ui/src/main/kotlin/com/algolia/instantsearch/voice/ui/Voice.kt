@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.voice
+package com.algolia.instantsearch.voice.ui
 
 import android.Manifest
 import android.Manifest.permission.RECORD_AUDIO
