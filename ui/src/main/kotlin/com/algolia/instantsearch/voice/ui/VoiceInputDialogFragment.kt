@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
-import kotlinx.android.synthetic.main.voice.*
+import kotlinx.android.synthetic.main.voice_input.*
 
 
-class VoiceDialogFragment : DialogFragment() {
+class VoiceInputDialogFragment : DialogFragment() {
 
     private enum class Field {
         Suggestions
@@ -33,12 +33,12 @@ class VoiceDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.voice, container, false)
+        return inflater.inflate(R.layout.voice_input, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val androidView = VoiceAndroidView(voice)
+        val androidView = VoiceAndroidView(voiceInput)
         val presenter = VoicePresenter(androidView) { result ->
             (activity as? VoiceSpeechRecognizer.Result)?.onResults(result.toTypedArray())
             dismiss()

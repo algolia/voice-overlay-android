@@ -1,11 +1,10 @@
 package com.algolia.instantsearch.voice.demo
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import com.algolia.instantsearch.voice.ui.Voice
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
-import com.algolia.instantsearch.voice.ui.VoiceDialogFragment
+import com.algolia.instantsearch.voice.ui.VoiceInputDialogFragment
 import com.algolia.instantsearch.voice.ui.VoicePermissionDialogFragment
 import kotlinx.android.synthetic.main.main.*
 import kotlinx.android.synthetic.main.main.view.*
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.Result {
     }
 
     private fun showVoiceDialog() {
-        (getVoiceDialog() ?: VoiceDialogFragment()).let {
+        (getVoiceDialog() ?: VoiceInputDialogFragment()).let {
             it.setArguments(
                 "Hey, I just met you",
                 "And this is crazy",
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.Result {
         }
     }
 
-    private fun getVoiceDialog() = (supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceDialogFragment)
+    private fun getVoiceDialog() = (supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceInputDialogFragment)
 
     private fun getPermissionDialog() = (supportFragmentManager.findFragmentByTag(Tag.Permission.name) as? VoicePermissionDialogFragment)
 
