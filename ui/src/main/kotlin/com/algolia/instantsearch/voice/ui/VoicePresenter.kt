@@ -20,8 +20,8 @@ class VoicePresenter(
         val matches = partialResults.resultsRecognition
 
         ui.setSuggestionVisibility(false)
-        ui.setSubtitle(matches.joinToString("").capitalize())
         ui.setTitle(VoiceUI.Title.Listen)
+        matches.firstOrNull()?.capitalize()?.let(ui::setSubtitle)
     }
 
     override fun isListening(isListening: Boolean) {

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.Result {
     }
 
     override fun onResults(results: Array<out String>) {
-        main.results.text = results[0].capitalize()
+        main.results.text = results.firstOrNull()?.capitalize()
     }
 
     private fun showVoiceDialog() {
