@@ -1,5 +1,6 @@
 include ':app', ':voice', ':ui'
 
+//Read more on renaming gradle files: http://www.developerphil.com/renaming-your-gradle-build-files/
 void rename_recursively(project) {
     project.buildFileName = "${project.name}.gradle"
     project.children.each { child -> rename_recursively(child) }
