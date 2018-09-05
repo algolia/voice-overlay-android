@@ -19,30 +19,30 @@ class VoicePresenter(
     override fun onPartialResults(partialResults: Bundle) {
         val matches = partialResults.resultsRecognition
 
-        ui.setSuggestionVisibility(isVisible = false)
+        ui.setSuggestionVisibility(false)
         ui.setSubtitle(matches.joinToString("").capitalize())
         ui.setTitle(VoiceUI.Title.Listen)
     }
 
     override fun isListening(isListening: Boolean) {
         if (isListening) {
-            ui.setHintVisibility(isVisible = false)
-            ui.setRippleActivity(isActive = true)
-            ui.setSuggestionVisibility(isVisible = true)
+            ui.setHintVisibility(false)
+            ui.setRippleActivity(true)
+            ui.setSuggestionVisibility(true)
             ui.setTitle(VoiceUI.Title.Listen)
             ui.setSubtitle(VoiceUI.Subtitle.Listen)
             ui.setMicrophoneState(VoiceMicrophone.State.Activated)
         } else {
-            ui.setHintVisibility(isVisible = true)
-            ui.setRippleActivity(isActive = false)
+            ui.setHintVisibility(true)
+            ui.setRippleActivity(false)
             ui.setMicrophoneState(VoiceMicrophone.State.Deactivated)
         }
     }
 
     override fun onError(error: Int) {
-        ui.setHintVisibility(isVisible = true)
-        ui.setRippleActivity(isActive = false)
-        ui.setSuggestionVisibility(isVisible = false)
+        ui.setHintVisibility(true)
+        ui.setRippleActivity(false)
+        ui.setSuggestionVisibility(false)
         ui.setMicrophoneState(VoiceMicrophone.State.Deactivated)
         ui.setTitle(VoiceUI.Title.Error)
         ui.setSubtitle(VoiceUI.Subtitle.Error)
