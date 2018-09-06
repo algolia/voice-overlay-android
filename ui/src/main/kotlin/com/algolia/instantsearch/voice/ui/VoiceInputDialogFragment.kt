@@ -19,6 +19,7 @@ class VoiceInputDialogFragment : DialogFragment() {
 
     private var suggestions: Array<out String>? = null
 
+    /** Defines suggestions to display to the user before they speak. */
     fun setArguments(vararg suggestions: String) {
         arguments = Bundle().also {
             it.putStringArray(Field.Suggestions.name, suggestions)
