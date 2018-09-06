@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion sdkCompile
+
+    defaultConfig {
+        minSdkVersion sdkMin
+        targetSdkVersion sdkTarget
+        versionCode versioningCode
+        versionName versioningName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+    }
+}
+
+dependencies {
+    implementation project(":voice")
+
+    implementation dependency_jvm.kotlin_stdlib
+
+    implementation dependency_android.coroutines
+    implementation dependency_android.appcompat
+    implementation dependency_android.constraint_layout
+    implementation dependency_android.design
+
+    androidTestImplementation dependency_android.espresso
+    androidTestImplementation dependency_jvm.kotlin_test
+    androidTestImplementation dependency_jvm.kotlin_test_junit
+
+    testImplementation dependency_jvm.kotlin_test
+    testImplementation dependency_jvm.kotlin_test_junit
+}

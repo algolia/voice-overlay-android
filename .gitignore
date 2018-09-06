@@ -6,8 +6,6 @@ projectFilesBackup
 
 # Build
 .gradle
-/.idea/workspace.xml
-/.idea/libraries
 /build
 /captures
 .bintray.json

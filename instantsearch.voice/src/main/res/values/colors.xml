@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="voice_title">@android:color/primary_text_dark</color>
-    <color name="voice_feedback">#d26213</color>
-    <color name="blue_light">#01adff</color>
-    <color name="blue_dark">#3369e6</color>
-    <color name="green">#22cebf</color>
-</resources>

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">VoiceDemo</string>
-    <string name="placeholder">Let\'s use your voice!</string>
+    <string name="button_request_permission">Show permission fragment</string>
+    <string name="button_voice">Start using voice</string>
 </resources>

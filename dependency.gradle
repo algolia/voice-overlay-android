@@ -1,0 +1,41 @@
+ext.with {
+    sdkCompile = 28
+    sdkMin = 23
+    sdkTarget = 28
+
+    versioningName = '1.0'
+    versioningCode = 1
+
+    benManes = '0.20.0'
+    jvm = '1.8'
+
+    appcompat = '28.0.0-rc02'
+    design = '28.0.0-rc01'
+    constraintLayout = '1.1.2'
+    espresso = '3.0.2'
+
+    archRuntime = '1.1.1'
+    archCompiler = '1.1.1'
+
+    kotlins = '1.2.61'
+    coroutines = '0.25.0'
+
+    bintray = '1.8.4'
+    maven = '2.1'
+
+    dependency_jvm = [
+            kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
+            kotlin_reflection: "org.jetbrains.kotlin:kotlin-reflect:$kotlins",
+            kotlin_test      : "org.jetbrains.kotlin:kotlin-test:$kotlins",
+            kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlins"
+    ]
+    dependency_android = [
+            appcompat          : "com.android.support:appcompat-v7:$appcompat",
+            constraint_layout  : "com.android.support.constraint:constraint-layout:$constraintLayout",
+            arch_extensions    : "android.arch.lifecycle:extensions:$archRuntime",
+            arch_compiler      : "android.arch.lifecycle:common-java8:$archCompiler",
+            espresso           : "com.android.support.test.espresso:espresso-core:$espresso",
+            design             : "com.android.support:design:$design",
+            coroutines         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    ]
+}
