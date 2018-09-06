@@ -13,12 +13,12 @@ class VoiceSpeechRecognizer(
     private val language: String? = null
 ) {
 
-    interface Listener {
+    interface StateListener {
 
         fun isListening(isListening: Boolean)
     }
 
-    interface Result {
+    interface ResultsListener {
 
         fun onResults(results: Array<out String>)
     }
@@ -34,19 +34,19 @@ class VoiceSpeechRecognizer(
         }
     }
 
-    var listener: Listener? = null
+    var stateListener: StateListener? = null
 
     fun setRecognitionListener(recognitionListener: RecognitionListener) {
         speechRecognizer.setRecognitionListener(recognitionListener)
     }
 
     fun start() {
-        listener?.isListening(true)
+        stateListener?.isListening(true)
         speechRecognizer.startListening(intent)
     }
 
     fun stop() {
-        listener?.isListening(false)
+        stateListener?.isListening(false)
         speechRecognizer.stopListening()
     }
 

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.main.*
 import kotlinx.android.synthetic.main.main.view.*
 
 
-class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.Result {
+class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener {
 
     private enum class Tag {
         Permission,

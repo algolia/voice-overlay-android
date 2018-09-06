@@ -10,7 +10,7 @@ class VoicePresenter(
     private val ui: VoiceUI,
     private val onResults: (results: ArrayList<String>) -> Unit
 ) : RecognitionListener,
-    VoiceSpeechRecognizer.Listener {
+    VoiceSpeechRecognizer.StateListener {
 
     override fun onResults(results: Bundle) {
         onResults(results.resultsRecognition)

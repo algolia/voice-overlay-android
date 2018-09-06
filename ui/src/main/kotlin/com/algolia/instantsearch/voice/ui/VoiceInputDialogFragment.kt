@@ -40,7 +40,7 @@ class VoiceInputDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val androidView = VoiceAndroidView(voiceInput)
         val presenter = VoicePresenter(androidView) { result ->
-            (activity as? VoiceSpeechRecognizer.Result)?.onResults(result.toTypedArray())
+            (activity as? VoiceSpeechRecognizer.ResultsListener)?.onResults(result.toTypedArray())
             dismiss()
         }
 
@@ -53,7 +53,7 @@ class VoiceInputDialogFragment : DialogFragment() {
         })
         suggestions?.let(androidView::setSuggestions)
         speechRecognizer.setRecognitionListener(presenter)
-        speechRecognizer.listener = presenter
+        speechRecognizer.stateListener = presenter
     }
 
 
