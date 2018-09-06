@@ -20,6 +20,9 @@ ext.with {
     kotlins = '1.2.61'
     coroutines = '0.25.0'
 
+    bintray = '1.8.4'
+    maven = '2.1'
+
     dependency_jvm = [
             kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
             kotlin_reflection: "org.jetbrains.kotlin:kotlin-reflect:$kotlins",
