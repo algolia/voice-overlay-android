@@ -66,7 +66,7 @@
         android:id="@+id/positive"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/permission_positive_button"
+        android:text="@string/permission_allow_text"
         android:background="@drawable/button_positive_background_ripple"
         android:layout_marginStart="24dp"
         android:textSize="16sp"
@@ -82,7 +82,7 @@
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/negative"
         android:layout_marginTop="16dp"
-        android:text="@string/permission_negative_button"
+        android:text="@string/permission_reject_text"
         android:background="@drawable/button_negative_background_ripple"
         android:textSize="16sp"
         android:textAllCaps="false"

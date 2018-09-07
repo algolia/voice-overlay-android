@@ -1,17 +1,21 @@
 <resources>
-    <string name="voice_title_search">Searching for:</string>
+    <!--TODO: Rename voice_ to input_ -->
+    <string name="voice_title_listening">Listening…</string>
+    <string name="voice_subtitle_listening">Say something like:</string>
     <string name="voice_title_error">Sorry, we didn\'t quite get that.</string>
-    <string name="voice_title_listen">Listening…</string>
-    <string name="voice_hint">Try again</string>
-    <string name="voice_subtitle_listen">Say something like:</string>
     <string name="voice_subtitle_error">Try repeating your request.</string>
-    <string name="voice_suggestion_html_format"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
-    <string name="voice_search_rationale">Voice search requires this permission.</string>
-    <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
-    <string name="voice_search_button_enable">Give permission</string>
-    <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
-    <string name="permission_positive_button">Allow microphone access</string>
-    <string name="permission_negative_button">No</string>
-    <string name="permission_subtitle">May we access your device’s microphone to enable voice search?</string>
+    <string name="voice_hint_error">Try again</string>
+
     <string name="permission_title">You can use voice search to find products.</string>
+    <string name="permission_subtitle">May we access your device’s microphone to enable voice search?</string>
+    <string name="permission_allow_text">Allow microphone access</string>
+    <string name="permission_reject_text">No</string>
+
+    <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
+    <string name="permission_enable_text">Give permission</string>
+    <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
+    <string name="voice_search_rationale">Voice search requires this permission.</string>
+
+    <!-- Not intended to be overridden by user app. -->
+    <string name="voice_suggestion_html_format"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
 </resources>
