@@ -77,31 +77,55 @@ object Voice {
                                          @StringRes buttonEnable: Int? = null,
                                          @StringRes howEnable: Int? = null) {
         return showPermissionManualInstructions(anchor,
-            whyEnable?.let { anchor.context.getString(whyEnable) },
-            buttonEnable?.let { anchor.context.getString(buttonEnable) },
-            howEnable?.let { anchor.context.getString(howEnable) })
+            whyEnable?.let { anchor.context.getText(whyEnable) },
+            buttonEnable?.let { anchor.context.getText(buttonEnable) },
+            howEnable?.let { anchor.context.getText(howEnable) })
     }
 
     /** Guides the user to manually enable recording permission in the app's settings.*/
     @JvmStatic
     fun showPermissionManualInstructions(anchor: View,
-                                         whyEnable: String? = null,
-                                         buttonEnable: String? = null,
-                                         howEnable: String? = null) {
-        val snackbar = Snackbar.make(anchor, whyEnable
-            ?: anchor.context.getString(R.string.permission_enable_rationale), Snackbar.LENGTH_LONG)
-            .setAction(buttonEnable
-                ?: anchor.context.getString(R.string.permission_button_enable)) {
-                Snackbar.make(anchor, howEnable
-                    ?: anchor.context.getString(R.string.permission_enable_instructions), Snackbar.LENGTH_SHORT)
-                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            openAppSettings(anchor.context)
-                        }
-                    }).show()
-            }
+                                         whyEnable: CharSequence? = null,
+                                         buttonEnable: CharSequence? = null,
+                                         howEnable: CharSequence? = null) {
+        val c = anchor.context
+        val whyText = (whyEnable ?: c.getText(R.string.permission_enable_rationale))
+        val buttonText = (buttonEnable ?: c.getText(R.string.permission_button_enable))
+        val howText = (howEnable ?: c.getText(R.string.permission_enable_instructions))
+
+        val snackbar = Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) {
+            Snackbar.make(anchor, howText, Snackbar.LENGTH_SHORT)
+                .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = openAppSettings(c)
+                }).show()
+        }
         (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
         snackbar.show()
+    }
+
+    @JvmStatic
+    fun showPermissionRationale(anchor: View,
+                                activity: Activity) {
+        showPermissionRationale(anchor, activity, null as String?)
+    }
+
+    @Suppress("unused") // For library users
+    @JvmStatic
+    fun showPermissionRationale(anchor: View, activity: Activity,
+                                @StringRes whyAllow: Int? = null, @StringRes buttonAllow: Int? = null) {
+        @StringRes val whyRes = whyAllow ?: R.string.permission_rationale
+        @StringRes val buttonRes = (buttonAllow ?: R.string.permission_button_again)
+        Snackbar.make(anchor, whyRes, Snackbar.LENGTH_LONG).setAction(buttonRes) { requestPermission(activity) }.show()
+    }
+
+    @JvmStatic
+    fun showPermissionRationale(anchor: View,
+                                activity: Activity,
+                                whyAllow: CharSequence? = null,
+                                buttonAllow: CharSequence? = null) {
+        val whyText = whyAllow ?: activity.getString(R.string.permission_rationale)
+        val buttonText = (buttonAllow ?: activity.getString(R.string.permission_button_again))
+        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestPermission(activity) }.show()
     }
 }
 

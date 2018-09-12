@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.voice.demo
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
         if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
             when {
                 Voice.isPermissionGranted(grantResults) -> showVoiceDialog()
-                Voice.shouldExplainPermission(this) -> showPermissionRationale()
+                Voice.shouldExplainPermission(this) -> Voice.showPermissionRationale(getPermissionView(), this)
                 else -> Voice.showPermissionManualInstructions(getPermissionView())
             }
         }
@@ -62,11 +61,6 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
             )
             it.show(supportFragmentManager, Tag.Voice.name)
         }
-    }
-
-    private fun showPermissionRationale() {
-        Snackbar.make(getPermissionView(), R.string.permission_rationale, Snackbar.LENGTH_LONG)
-            .setAction(R.string.permission_button_again) { Voice.requestPermission(this) }.show()
     }
 
     private fun getVoiceDialog() = (supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceInputDialogFragment)
