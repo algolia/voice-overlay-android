@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
     }
 
     private fun showVoiceDialog() {
+        getPermissionDialog()?.dismiss()
         (getVoiceDialog() ?: VoiceInputDialogFragment()).let {
             it.setArguments(
                 "Hey, I just met you",
@@ -57,9 +58,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
-            if (Voice.isPermissionGranted(grantResults)) {
-                getPermissionDialog()?.dismiss()
-                showVoiceDialog()
+            if (Voice.isPermissionGranted(grantResults)) { showVoiceDialog()
             }
         }
     }
