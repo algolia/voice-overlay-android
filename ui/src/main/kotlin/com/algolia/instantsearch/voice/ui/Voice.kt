@@ -51,26 +51,74 @@ object Voice {
         ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)
 
     /**
-     * Requests the [recording permission][RECORD_AUDIO].*/
+     * Requests the [recording permission][RECORD_AUDIO] from your [activity].*/
     @JvmStatic
     fun requestPermission(activity: Activity) {
         ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
     }
 
-    /** Opens the application's settings, so the user can enable recording permission.*/
+    /** Opens the application's settings from a given [context], so the user can enable recording permission.*/
     @JvmStatic
     fun openAppSettings(context: Context) {
         context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             .setData(Uri.fromParts("package", context.packageName, null)))
     }
 
-    /** Guides the user to manually enable recording permission in the app's settings.*/
+    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
+     * @param anchor the view on which the SnackBar will be anchored.
+     * @param activity the activity which would request the permission.
+     * */
+    @JvmStatic
+    fun showPermissionRationale(anchor: View,
+                                activity: Activity) {
+        showPermissionRationale(anchor, activity, null as String?)
+    }
+
+    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
+     * @param anchor the view on which the SnackBar will be anchored.
+     * @param activity the activity which would request the permission.
+     * @param whyAllow a description of why the permission should be granted.
+     * @param buttonAllow a call to action for granting the permission.
+     * */
+    @Suppress("unused") // For library users
+    @JvmStatic
+    fun showPermissionRationale(anchor: View, activity: Activity,
+                                @StringRes whyAllow: Int? = null, @StringRes buttonAllow: Int? = null) {
+        @StringRes val whyRes = whyAllow ?: R.string.permission_rationale
+        @StringRes val buttonRes = (buttonAllow ?: R.string.permission_button_again)
+        Snackbar.make(anchor, whyRes, Snackbar.LENGTH_LONG).setAction(buttonRes) { requestPermission(activity) }.show()
+    }
+
+    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
+     * @param anchor the view on which the SnackBar will be anchored.
+     * @param activity the activity which would request the permission.
+     * @param whyAllow a description of why the permission should be granted.
+     * @param buttonAllow a call to action for granting the permission.
+     * */
+    @JvmStatic
+    fun showPermissionRationale(anchor: View,
+                                activity: Activity,
+                                whyAllow: CharSequence? = null,
+                                buttonAllow: CharSequence? = null) {
+        val whyText = whyAllow ?: activity.getString(R.string.permission_rationale)
+        val buttonText = (buttonAllow ?: activity.getString(R.string.permission_button_again))
+        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestPermission(activity) }.show()
+    }
+
+    /** Guides the user to manually enable recording permission in the app's settings via [Snackbars][Snackbar].
+     * @param anchor the view on which the SnackBar will be anchored.
+     * */
     @JvmStatic
     fun showPermissionManualInstructions(anchor: View) {
         return showPermissionManualInstructions(anchor, null as Int?, null, null)
     }
 
-    /** Guides the user to manually enable recording permission in the app's settings.*/
+    /** Guides the user to manually enable recording permission in the app's settings.
+     * @param anchor the view on which the SnackBar will be anchored.
+     * @param whyEnable a description of why the permission should be enabled.
+     * @param buttonEnable a call to action for enabling the permission.
+     * @param howEnable instructions to manually enable the permission in settings.
+     * */
     @JvmStatic
     fun showPermissionManualInstructions(anchor: View,
                                          @StringRes whyEnable: Int? = null,
@@ -82,7 +130,12 @@ object Voice {
             howEnable?.let { anchor.context.getText(howEnable) })
     }
 
-    /** Guides the user to manually enable recording permission in the app's settings.*/
+    /** Guides the user to manually enable recording permission in the app's settings.
+     * @param anchor the view on which the SnackBar will be anchored.
+     * @param whyEnable a description of why the permission should be enabled.
+     * @param buttonEnable a call to action for enabling the permission.
+     * @param howEnable instructions to manually enable the permission in settings.
+     * */
     @JvmStatic
     fun showPermissionManualInstructions(anchor: View,
                                          whyEnable: CharSequence? = null,
@@ -101,31 +154,6 @@ object Voice {
         }
         (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
         snackbar.show()
-    }
-
-    @JvmStatic
-    fun showPermissionRationale(anchor: View,
-                                activity: Activity) {
-        showPermissionRationale(anchor, activity, null as String?)
-    }
-
-    @Suppress("unused") // For library users
-    @JvmStatic
-    fun showPermissionRationale(anchor: View, activity: Activity,
-                                @StringRes whyAllow: Int? = null, @StringRes buttonAllow: Int? = null) {
-        @StringRes val whyRes = whyAllow ?: R.string.permission_rationale
-        @StringRes val buttonRes = (buttonAllow ?: R.string.permission_button_again)
-        Snackbar.make(anchor, whyRes, Snackbar.LENGTH_LONG).setAction(buttonRes) { requestPermission(activity) }.show()
-    }
-
-    @JvmStatic
-    fun showPermissionRationale(anchor: View,
-                                activity: Activity,
-                                whyAllow: CharSequence? = null,
-                                buttonAllow: CharSequence? = null) {
-        val whyText = whyAllow ?: activity.getString(R.string.permission_rationale)
-        val buttonText = (buttonAllow ?: activity.getString(R.string.permission_button_again))
-        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestPermission(activity) }.show()
     }
 }
 
