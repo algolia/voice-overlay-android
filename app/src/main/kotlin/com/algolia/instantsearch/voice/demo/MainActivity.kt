@@ -1,9 +1,11 @@
 package com.algolia.instantsearch.voice.demo
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import com.algolia.instantsearch.voice.ui.Voice
+import android.view.View
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
+import com.algolia.instantsearch.voice.ui.Voice
 import com.algolia.instantsearch.voice.ui.VoiceInputDialogFragment
 import com.algolia.instantsearch.voice.ui.VoicePermissionDialogFragment
 import kotlinx.android.synthetic.main.main.*
@@ -37,6 +39,16 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
     override fun onResults(possibleTexts: Array<out String>) {
         main.results.text = possibleTexts.firstOrNull()?.capitalize()
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
+            when {
+                Voice.isPermissionGranted(grantResults) -> showVoiceDialog()
+                Voice.shouldExplainPermission(this) -> showPermissionRationale()
+                else -> Voice.showPermissionManualInstructions(getPermissionView())
+            }
+        }
     }
 
     private fun showVoiceDialog() {
@@ -52,15 +64,15 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
         }
     }
 
+    private fun showPermissionRationale() {
+        Snackbar.make(getPermissionView(), R.string.permission_rationale, Snackbar.LENGTH_LONG)
+            .setAction(R.string.permission_button_again) { Voice.requestPermission(this) }.show()
+    }
+
     private fun getVoiceDialog() = (supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceInputDialogFragment)
 
     private fun getPermissionDialog() = (supportFragmentManager.findFragmentByTag(Tag.Permission.name) as? VoicePermissionDialogFragment)
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
-            if (Voice.isPermissionGranted(grantResults)) { showVoiceDialog()
-            }
-        }
-    }
+    private fun getPermissionView(): View = getPermissionDialog()!!.view!!.findViewById(R.id.positive)
+
 }
