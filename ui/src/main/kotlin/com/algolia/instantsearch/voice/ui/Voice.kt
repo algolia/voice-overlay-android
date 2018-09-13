@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.support.annotation.StringRes
 import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
@@ -67,52 +66,21 @@ object Voice {
     /** Displays the rationale behind requesting the recording permission via a [Snackbar].
      * @param anchor the view on which the SnackBar will be anchored.
      * @param activity the activity which would request the permission.
-     * */
-    @JvmStatic
-    fun showPermissionRationale(anchor: View,
-                                activity: Activity) {
-        showPermissionRationale(anchor, activity, null as String?)
-    }
-
-    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
-     * @param anchor the view on which the SnackBar will be anchored.
-     * @param activity the activity which would request the permission.
-     * @param whyAllow a description of why the permission should be granted.
-     * @param buttonAllow a call to action for granting the permission.
-     * */
-    @Suppress("unused") // For library users
-    @JvmStatic
-    fun showPermissionRationale(anchor: View, activity: Activity,
-                                @StringRes whyAllow: Int? = null, @StringRes buttonAllow: Int? = null) {
-        @StringRes val whyRes = whyAllow ?: R.string.permission_rationale
-        @StringRes val buttonRes = (buttonAllow ?: R.string.permission_button_again)
-        Snackbar.make(anchor, whyRes, Snackbar.LENGTH_LONG).setAction(buttonRes) { requestPermission(activity) }.show()
-    }
-
-    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
-     * @param anchor the view on which the SnackBar will be anchored.
-     * @param activity the activity which would request the permission.
      * @param whyAllow a description of why the permission should be granted.
      * @param buttonAllow a call to action for granting the permission.
      * */
     @JvmStatic
-    fun showPermissionRationale(anchor: View,
-                                activity: Activity,
-                                whyAllow: CharSequence? = null,
-                                buttonAllow: CharSequence? = null) {
+    fun showPermissionRationale(
+        anchor: View,
+        activity: Activity,
+        whyAllow: CharSequence? = null,
+        buttonAllow: CharSequence? = null
+    ) {
         val whyText = whyAllow ?: activity.getString(R.string.permission_rationale)
         val buttonText = (buttonAllow ?: activity.getString(R.string.permission_button_again))
         Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestPermission(activity) }.show()
     }
 
-    /** Guides the user to manually enable recording permission in the app's settings via [Snackbars][Snackbar].
-     * @param anchor the view on which the SnackBar will be anchored.
-     * */
-    @JvmStatic
-    fun showPermissionManualInstructions(anchor: View) {
-        return showPermissionManualInstructions(anchor, null as Int?, null, null)
-    }
-
     /** Guides the user to manually enable recording permission in the app's settings.
      * @param anchor the view on which the SnackBar will be anchored.
      * @param whyEnable a description of why the permission should be enabled.
@@ -120,36 +88,21 @@ object Voice {
      * @param howEnable instructions to manually enable the permission in settings.
      * */
     @JvmStatic
-    fun showPermissionManualInstructions(anchor: View,
-                                         @StringRes whyEnable: Int? = null,
-                                         @StringRes buttonEnable: Int? = null,
-                                         @StringRes howEnable: Int? = null) {
-        return showPermissionManualInstructions(anchor,
-            whyEnable?.let { anchor.context.getText(whyEnable) },
-            buttonEnable?.let { anchor.context.getText(buttonEnable) },
-            howEnable?.let { anchor.context.getText(howEnable) })
-    }
-
-    /** Guides the user to manually enable recording permission in the app's settings.
-     * @param anchor the view on which the SnackBar will be anchored.
-     * @param whyEnable a description of why the permission should be enabled.
-     * @param buttonEnable a call to action for enabling the permission.
-     * @param howEnable instructions to manually enable the permission in settings.
-     * */
-    @JvmStatic
-    fun showPermissionManualInstructions(anchor: View,
-                                         whyEnable: CharSequence? = null,
-                                         buttonEnable: CharSequence? = null,
-                                         howEnable: CharSequence? = null) {
-        val c = anchor.context
-        val whyText = (whyEnable ?: c.getText(R.string.permission_enable_rationale))
-        val buttonText = (buttonEnable ?: c.getText(R.string.permission_button_enable))
-        val howText = (howEnable ?: c.getText(R.string.permission_enable_instructions))
+    fun showPermissionManualInstructions(
+        anchor: View,
+        whyEnable: CharSequence? = null,
+        buttonEnable: CharSequence? = null,
+        howEnable: CharSequence? = null
+    ) {
+        val context = anchor.context
+        val whyText = (whyEnable ?: context.getText(R.string.permission_enable_rationale))
+        val buttonText = (buttonEnable ?: context.getText(R.string.permission_button_enable))
+        val howText = (howEnable ?: context.getText(R.string.permission_enable_instructions))
 
         val snackbar = Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) {
             Snackbar.make(anchor, howText, Snackbar.LENGTH_SHORT)
                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = openAppSettings(c)
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = openAppSettings(context)
                 }).show()
         }
         (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
