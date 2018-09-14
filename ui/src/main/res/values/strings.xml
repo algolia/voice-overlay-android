@@ -1,21 +1,31 @@
 <resources>
-    <!--TODO: Rename voice_ to input_ -->
-    <string name="voice_title_listening">Listening…</string>
-    <string name="voice_subtitle_listening">Say something like:</string>
-    <string name="voice_title_error">Sorry, we didn\'t quite get that.</string>
-    <string name="voice_subtitle_error">Try repeating your request.</string>
-    <string name="voice_hint_error">Try again</string>
+    <!-- region VoiceInputDialogFragment -->
+    <string name="input_title_listening">Listening…</string>
+    <string name="input_subtitle_listening">Say something like:</string>
+    <string name="input_title_error">Sorry, we didn\'t quite get that.</string>
+    <string name="input_subtitle_error">Try repeating your request.</string>
+    <string name="input_hint_error">Try again</string>
+    <!-- endregion -->
 
+    <!-- region VoicePermissionDialogFragment -->
     <string name="permission_title">You can use voice search to find products.</string>
     <string name="permission_subtitle">May we access your device’s microphone to enable voice search?</string>
-    <string name="permission_allow_text">Allow microphone access</string>
-    <string name="permission_reject_text">No</string>
+    <string name="permission_button_allow">Allow microphone access</string>
+    <string name="permission_button_reject">No</string>
 
-    <string name="voice_search_disabled_rationale">To use voice search you need to allow recording.</string>
-    <string name="permission_enable_text">Give permission</string>
-    <string name="voice_search_disabled_instructions">On the next screen, tap Permissions then Microphone.</string>
-    <string name="voice_search_rationale">Voice search requires this permission.</string>
+    <!-- region Rationale/Try Again -->
+    <string name="permission_rationale">Voice search requires this permission.</string>
+    <string name="permission_button_again">Request again?</string>
+    <!-- endregion -->
+
+    <!-- region Manual Instructions -->
+    <string name="permission_enable_rationale">Permission denied, allow it to use voice search.</string>
+    <string name="permission_button_enable">Allow recording</string>
+    <string name="permission_enable_instructions">On the next screen, tap Permissions then Microphone.</string>
+    <!-- endregion -->
+
+    <!-- endregion -->
 
     <!-- Not intended to be overridden by user app. -->
-    <string name="voice_suggestion_html_format"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
+    <string name="format_voice_suggestion_html"><![CDATA[&#8226;\t\t\t%s<br/>]]></string>
 </resources>

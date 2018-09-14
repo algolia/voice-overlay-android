@@ -20,7 +20,9 @@ class VoiceSpeechRecognizer(
 
     interface ResultsListener {
 
-        fun onResults(results: Array<out String>)
+        //TODO: Document
+        //TODO: Also see if can be vararg
+        fun onResults(possibleTexts: Array<out String>)
     }
 
     private val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)

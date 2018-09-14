@@ -13,7 +13,7 @@ class VoiceAndroidView(
 
     private val context = view.context
 
-    override val formatterSuggestion = { suggestion: String -> context.getString(R.string.voice_suggestion_html_format, suggestion) }
+    override val formatterSuggestion = { suggestion: String -> context.getString(R.string.format_voice_suggestion_html, suggestion) }
 
     override fun setOnClickListenerClose(onClickListener: View.OnClickListener) {
         view.voiceInput.close.setOnClickListener(onClickListener)
