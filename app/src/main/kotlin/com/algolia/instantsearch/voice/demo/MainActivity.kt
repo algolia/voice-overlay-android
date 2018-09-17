@@ -58,9 +58,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
                 "But here's my number",
                 "So call me maybe"
             )
-            it.autoStart = false
             it.show(supportFragmentManager, Tag.Voice.name)
-//            it.start()
         }
     }
 
