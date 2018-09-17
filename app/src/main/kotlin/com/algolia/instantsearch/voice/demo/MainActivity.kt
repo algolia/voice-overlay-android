@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 import com.algolia.instantsearch.voice.ui.Voice
+import com.algolia.instantsearch.voice.ui.Voice.isRecordAudioPermissionGranted
+import com.algolia.instantsearch.voice.ui.Voice.shouldExplainPermission
+import com.algolia.instantsearch.voice.ui.Voice.showPermissionRationale
 import com.algolia.instantsearch.voice.ui.VoiceInputDialogFragment
 import com.algolia.instantsearch.voice.ui.VoicePermissionDialogFragment
 import kotlinx.android.synthetic.main.main.*
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
         setContentView(R.layout.main)
 
         main.buttonVoice.setOnClickListener { _ ->
-            if (!Voice.isRecordAudioPermissionGranted(this)) {
+            if (!isRecordAudioPermissionGranted()) {
                 VoicePermissionDialogFragment().show(supportFragmentManager, Tag.Permission.name)
             } else {
                 showVoiceDialog()
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
         if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
             when {
                 Voice.isPermissionGranted(grantResults) -> showVoiceDialog()
-                Voice.shouldExplainPermission(this) -> Voice.showPermissionRationale(getPermissionView(), this)
+                shouldExplainPermission() -> showPermissionRationale(getPermissionView())
                 else -> Voice.showPermissionManualInstructions(getPermissionView())
             }
         }
