@@ -34,7 +34,9 @@ class VoiceAndroidView(
         view.suggestions.text = html
     }
 
-    override fun setTitle(title: VoiceUI.Title) = view.voiceInput.title.setText(title.resource)
+    override fun setTitle(title: VoiceUI.Title) {
+        view.voiceInput.title.setText(title.resource)
+    }
 
     override fun setSubtitle(subtitle: String) {
         view.voiceInput.subtitle.text = subtitle
