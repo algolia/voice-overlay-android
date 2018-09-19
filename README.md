@@ -130,4 +130,4 @@ voiceOverlayController.settings.layout.permissionScreen.backgroundColor = UIColo
 
 ## License
 
-InstantSearchVoiceOverlay is available under the MIT license. See the LICENSE file for more info.
+InstantSearchVoiceOverlay is available under the MIT license. See the [LICENSE file](./LICENSE) for more info.
