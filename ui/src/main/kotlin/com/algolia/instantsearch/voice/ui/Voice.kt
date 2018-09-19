@@ -39,46 +39,45 @@ object Voice {
      * Gets whether your application was granted the [recording permission][RECORD_AUDIO].
      */
     @JvmStatic
-    fun isRecordAudioPermissionGranted(context: Context) =
-        ContextCompat.checkSelfPermission(context, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+    fun Context.isRecordAudioPermissionGranted() =
+        ContextCompat.checkSelfPermission(this, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
     /**
-     * Gets whether your [activity] should show UI with rationale for requesting the [recording permission][RECORD_AUDIO].
+     * Gets whether your activity should show UI with rationale for requesting the [recording permission][RECORD_AUDIO].
      */
     @JvmStatic
-    fun shouldExplainPermission(activity: Activity) =
-        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)
+    fun Activity.shouldExplainPermission() =
+        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)
 
     /**
-     * Requests the [recording permission][RECORD_AUDIO] from your [activity].*/
+     * Requests the [recording permission][RECORD_AUDIO] from your activity.*/
     @JvmStatic
-    fun requestPermission(activity: Activity) {
-        ActivityCompat.requestPermissions(activity, arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
+    fun Activity.requestRecordingPermission() {
+        ActivityCompat.requestPermissions(this, arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
     }
 
-    /** Opens the application's settings from a given [context], so the user can enable recording permission.*/
+    /** Opens the application's settings from a given context, so the user can enable the recording permission.*/
     @JvmStatic
-    fun openAppSettings(context: Context) {
-        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            .setData(Uri.fromParts("package", context.packageName, null)))
+    fun Context.openAppSettings() {
+        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(Uri.fromParts("package", packageName, null)))
     }
 
     /** Displays the rationale behind requesting the recording permission via a [Snackbar].
      * @param anchor the view on which the SnackBar will be anchored.
-     * @param activity the activity which would request the permission.
      * @param whyAllow a description of why the permission should be granted.
      * @param buttonAllow a call to action for granting the permission.
      * */
     @JvmStatic
-    fun showPermissionRationale(
+    @JvmOverloads
+    fun Activity.showPermissionRationale(
         anchor: View,
-        activity: Activity,
         whyAllow: CharSequence? = null,
         buttonAllow: CharSequence? = null
     ) {
-        val whyText = whyAllow ?: activity.getString(R.string.permission_rationale)
-        val buttonText = (buttonAllow ?: activity.getString(R.string.permission_button_again))
-        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestPermission(activity) }.show()
+        val whyText = whyAllow ?: getString(R.string.permission_rationale)
+        val buttonText = (buttonAllow ?: getString(R.string.permission_button_again))
+        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestRecordingPermission() }.show()
     }
 
     /** Guides the user to manually enable recording permission in the app's settings.
@@ -88,6 +87,7 @@ object Voice {
      * @param howEnable instructions to manually enable the permission in settings.
      * */
     @JvmStatic
+    @JvmOverloads
     fun showPermissionManualInstructions(
         anchor: View,
         whyEnable: CharSequence? = null,
@@ -102,12 +102,10 @@ object Voice {
         val snackbar = Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) {
             Snackbar.make(anchor, howText, Snackbar.LENGTH_SHORT)
                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = openAppSettings(context)
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = context.openAppSettings()
                 }).show()
         }
         (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
         snackbar.show()
     }
 }
-
-//TODO: Expose Activity extension methods instead?

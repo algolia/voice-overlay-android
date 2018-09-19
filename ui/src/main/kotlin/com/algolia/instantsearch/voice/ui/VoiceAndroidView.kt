@@ -42,9 +42,7 @@ class VoiceAndroidView(
         view.voiceInput.subtitle.text = subtitle
     }
 
-    override fun setSubtitle(subtitle: VoiceUI.Subtitle) {
-        view.voiceInput.subtitle.setText(subtitle.resource)
-    }
+    override fun setSubtitle(subtitle: VoiceUI.Subtitle) = view.voiceInput.subtitle.setText(subtitle.resource)
 
     override fun setSuggestionVisibility(isVisible: Boolean) {
         view.voiceInput.suggestions.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
@@ -54,9 +52,8 @@ class VoiceAndroidView(
         view.voiceInput.hint.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun setRippleActivity(isActive: Boolean) {
+    override fun setRippleActivity(isActive: Boolean) =
         if (isActive) view.voiceInput.ripple.start() else view.voiceInput.ripple.cancel()
-    }
 
     override fun setMicrophoneState(state: VoiceMicrophone.State) {
         view.voiceInput.microphone.state = state

@@ -12,20 +12,41 @@ import kotlinx.android.synthetic.main.voice_input.*
 class VoiceInputDialogFragment : DialogFragment() {
 
     private enum class Field {
-        Suggestions
+        Suggestions,
+        AutoStart
     }
 
     private lateinit var speechRecognizer: VoiceSpeechRecognizer
 
-    private var suggestions: Array<out String>? = null
-
-    /** Defines suggestions to display to the user before they speak. */
-    fun setArguments(vararg suggestions: String) {
-        arguments = Bundle().also {
-            it.putStringArray(Field.Suggestions.name, suggestions)
+    /** suggestions to display to the user before they speak. */
+    var suggestions: Array<out String>? = null
+        @JvmName("setSuggestionsArray")
+        set(value) {
+            if (arguments == null) {
+                arguments = Bundle()
+            }
+            arguments?.putStringArray(Field.Suggestions.name, value)
+            field = value
         }
+
+    /** set to `false` if you want to manually [start] the voice recognition. */
+    var autoStart: Boolean = true
+        set(value) {
+            if (arguments == null) arguments = Bundle()
+            arguments?.putBoolean(Field.AutoStart.name, value)
+            field = value
+        }
+
+    /** Sets [suggestions] to display to the user before they speak. */
+    @Suppress("unused") // Java DX: Expose vararg setter
+    fun setSuggestions(vararg suggestions: String) {
+        this.suggestions = suggestions
     }
 
+    /** Starts listening to user input, in case you disabled [autoStart]. */
+    fun start() = speechRecognizer.start()
+
+    // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.VoiceDialogTheme)
@@ -33,9 +54,8 @@ class VoiceInputDialogFragment : DialogFragment() {
         suggestions = arguments?.getStringArray(Field.Suggestions.name)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.voice_input, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.voice_input, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +80,7 @@ class VoiceInputDialogFragment : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        speechRecognizer.start()
+        if (autoStart) start()
     }
 
     override fun onPause() {
@@ -72,4 +92,5 @@ class VoiceInputDialogFragment : DialogFragment() {
         super.onDestroy()
         speechRecognizer.destroy()
     }
+    //endregion
 }
