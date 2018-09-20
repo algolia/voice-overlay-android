@@ -118,16 +118,16 @@ voiceOverlayController.settings.layout.permissionScreen.backgroundColor = UIColo
 ## Getting Help
 
 - **Need help**? Ask a question to the [Algolia Community](https://discourse.algolia.com/) or on [Stack Overflow](http://stackoverflow.com/questions/tagged/algolia).
-- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/instantsearch-ios-insights).
+- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/voice-overlay-android/issues/new).
 - **Questions about Algolia?** You can search our [FAQ in our website](https://www.algolia.com/doc/faq/).
 
 
 ## Getting involved
 
-* If you **want to contribute** please feel free to **submit pull requests**.
-* If you **have a feature request** please **open an issue**.
-* If you use **InstantSearch** in your app, we would love to hear about it! Drop us a line on [discourse](https://discourse.algolia.com/) or [twitter](https://twitter.com/algolia).
+* If you **want to contribute** please feel free to [**submit pull requests**](https://github.com/algolia/voice-overlay-android/pull/new).
+* If you **have a feature request** please [**open an issue**](https://github.com/algolia/voice-overlay-android/issues/new).
+* If you use the **Voice Overlay** in your app, we would love to hear about it! Drop us a line on [discourse](https://discourse.algolia.com/) or [twitter](https://twitter.com/algolia).
 
 ## License
 
-InstantSearchVoiceOverlay is available under the MIT license. See the [LICENSE file](./LICENSE) for more info.
+The VoiceOverlay is available under the MIT license. See the [LICENSE file](./LICENSE) for more info.
