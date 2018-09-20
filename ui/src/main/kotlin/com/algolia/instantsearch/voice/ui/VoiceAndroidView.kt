@@ -24,14 +24,15 @@ class VoiceAndroidView(
     }
 
     override fun setSuggestions(suggestions: Array<out String>) {
-        val formattedSuggestions = suggestions.joinToString("") { formatterSuggestion(it) }
-        val html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(formattedSuggestions, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(formattedSuggestions)
+        view.suggestions?.let {
+            val formattedSuggestions = suggestions.joinToString("") { formatterSuggestion(it) }
+            val html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(formattedSuggestions, Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                Html.fromHtml(formattedSuggestions)
+            }
+            it.text = html
         }
-
-        view.suggestions.text = html
     }
 
     override fun setTitle(title: VoiceUI.Title) {
@@ -47,7 +48,7 @@ class VoiceAndroidView(
     }
 
     override fun setSuggestionVisibility(isVisible: Boolean) {
-        view.voiceInput.suggestions.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+        view.voiceInput.suggestions?.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun setHintVisibility(isVisible: Boolean) {

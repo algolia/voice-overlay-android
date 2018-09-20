@@ -1,7 +1,8 @@
 <resources>
     <!-- region VoiceInputDialogFragment -->
     <string name="input_title_listening">Listening…</string>
-    <string name="input_subtitle_listening">Say something like:</string>
+    <string name="input_subtitle_listening">Say something</string>
+    <string name="input_subtitle_suggestions">Say something like:</string>
     <string name="input_title_error">Sorry, we didn\'t quite get that.</string>
     <string name="input_subtitle_error">Try repeating your request.</string>
     <string name="input_hint_error">Try again</string>
