@@ -17,7 +17,7 @@ ext.with {
     archRuntime = '1.1.1'
     archCompiler = '1.1.1'
 
-    kotlins = '1.2.61'
+    kotlins = '1.2.70'
     coroutines = '0.26.1'
 
     bintray = '1.8.4'
