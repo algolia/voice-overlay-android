@@ -76,6 +76,8 @@ class VoiceInputDialogFragment : DialogFragment() {
             androidView.setSuggestions(it)
             androidView.setSubtitle(resources.getString(R.string.input_subtitle_listening))
         }
+        speechRecognizer.setRecognitionListener(presenter)
+        speechRecognizer.stateListener = presenter
     }
 
     override fun onResume() {
