@@ -42,9 +42,7 @@ class VoiceAndroidView(
         view.voiceInput.subtitle.text = subtitle
     }
 
-    override fun setSubtitle(subtitle: VoiceUI.Subtitle) {
-        view.voiceInput.subtitle.setText(subtitle.resource)
-    }
+    override fun setSubtitle(subtitle: VoiceUI.Subtitle) = view.voiceInput.subtitle.setText(subtitle.resource)
 
     override fun setSuggestionVisibility(isVisible: Boolean) {
         view.voiceInput.suggestions.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
