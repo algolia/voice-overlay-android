@@ -45,3 +45,9 @@ dependencies {
     testImplementation dependency_jvm.kotlin_test
     testImplementation dependency_jvm.kotlin_test_junit
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
