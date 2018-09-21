@@ -16,12 +16,15 @@ class VoicePresenter(
         onResults(results.resultsRecognition)
     }
 
+    private var hasPartialResults: Boolean = false
+
     override fun onPartialResults(partialResults: Bundle) {
         val matches = partialResults.resultsRecognition
 
         ui.setSuggestionVisibility(false)
         ui.setTitle(VoiceUI.Title.Listen)
         matches.firstOrNull()?.capitalize()?.let(ui::setSubtitle)
+        hasPartialResults = true
     }
 
     override fun isListening(isListening: Boolean) {
@@ -33,7 +36,9 @@ class VoicePresenter(
             ui.setSubtitle(VoiceUI.Subtitle.Listen)
             ui.setMicrophoneState(VoiceMicrophone.State.Activated)
         } else {
-            ui.setHintVisibility(true)
+            if (!hasPartialResults) {
+                ui.setHintVisibility(true)
+            }
             ui.setRippleActivity(false)
             ui.setMicrophoneState(VoiceMicrophone.State.Deactivated)
         }
@@ -46,6 +51,7 @@ class VoicePresenter(
         ui.setMicrophoneState(VoiceMicrophone.State.Deactivated)
         ui.setTitle(VoiceUI.Title.Error)
         ui.setSubtitle(VoiceUI.Subtitle.Error)
+        hasPartialResults = false
     }
 
     override fun onReadyForSpeech(params: Bundle) = Unit

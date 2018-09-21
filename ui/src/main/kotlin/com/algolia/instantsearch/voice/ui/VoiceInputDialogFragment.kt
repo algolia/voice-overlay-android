@@ -72,11 +72,13 @@ class VoiceInputDialogFragment : DialogFragment() {
                 VoiceMicrophone.State.Deactivated -> speechRecognizer.start()
             }
         })
-        suggestions?.let(androidView::setSuggestions)
+        suggestions?.let {
+            androidView.setSuggestions(it)
+            androidView.setSubtitle(resources.getString(R.string.input_subtitle_listening))
+        }
         speechRecognizer.setRecognitionListener(presenter)
         speechRecognizer.stateListener = presenter
     }
-
 
     override fun onResume() {
         super.onResume()
