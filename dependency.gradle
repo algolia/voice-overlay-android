@@ -1,6 +1,6 @@
 ext.with {
     sdkCompile = 28
-    sdkMin = 23
+    sdkMin = 14
     sdkTarget = 28
 
     versioningName = '1.0'
@@ -10,15 +10,15 @@ ext.with {
     jvm = '1.8'
 
     appcompat = '28.0.0-rc02'
-    design = '28.0.0-rc01'
+    design = '28.0.0-rc02'
     constraintLayout = '1.1.2'
     espresso = '3.0.2'
 
     archRuntime = '1.1.1'
     archCompiler = '1.1.1'
 
-    kotlins = '1.2.61'
-    coroutines = '0.25.0'
+    kotlins = '1.2.70'
+    coroutines = '0.26.1'
 
     bintray = '1.8.4'
     maven = '2.1'
