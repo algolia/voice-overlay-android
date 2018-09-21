@@ -3,6 +3,7 @@ package com.algolia.instantsearch.voice.ui
 import android.animation.AnimatorSet
 import android.content.Context
 import android.graphics.Canvas
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 
@@ -25,6 +26,8 @@ class RippleView : View {
         init(attrs)
     }
 
+    private val fps = 1000L / 60L
+
     /** All circles used in this RippleView, generated during [init]. */
     private var circles = listOf<DrawableSprite>()
     /** Current animations, filled when [State.Playing] triggers [animation] and emptied when [State.Stopped]. */
@@ -35,7 +38,7 @@ class RippleView : View {
 
         override fun run() {
             invalidate()
-            postDelayed(this, 1000 / 60)
+            postRunnableFps(this, fps)
         }
     }
 
@@ -47,7 +50,7 @@ class RippleView : View {
         override fun run() {
             animations[index] = circles[index].circleAnimation().also { it.start() }
             index = if (index == circles.lastIndex) 0 else index + 1
-            postDelayed(this, delay)
+            postRunnableAnimation(this)
         }
     }
 
@@ -64,7 +67,7 @@ class RippleView : View {
                 State.Playing -> {
                     animations.values.forEach { it.end() }
                     animations.clear()
-                    post(runnableAnimation)
+                    postRunnableAnimation(runnableAnimation)
                 }
                 State.Stopped -> removeCallbacks(runnableAnimation)
                 State.None -> Unit
@@ -73,7 +76,7 @@ class RippleView : View {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        post(runnableFps)
+        postRunnableFps(runnableFps, fps)
     }
 
     override fun onDetachedFromWindow() {
@@ -93,6 +96,22 @@ class RippleView : View {
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }
         }.recycle()
+    }
+
+    private fun postRunnableAnimation(runnable: Runnable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            postOnAnimationDelayed(runnable, delay)
+        } else {
+            postDelayed(runnable, delay)
+        }
+    }
+
+    private fun postRunnableFps(runnable: Runnable, fps: Long) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            postOnAnimation(runnable)
+        } else {
+            postDelayed(runnable, fps)
+        }
     }
 
     private fun DrawableSprite.circleAnimation(): AnimatorSet =
