@@ -7,7 +7,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 
 
-class VoiceSpeechRecognizer(
+class VoiceSpeechRecognizer @JvmOverloads constructor(
     context: Context,
     private val maxResults: Int = 1,
     private val language: String? = null
