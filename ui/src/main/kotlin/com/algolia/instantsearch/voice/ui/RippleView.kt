@@ -3,16 +3,12 @@ package com.algolia.instantsearch.voice.ui
 import android.animation.AnimatorSet
 import android.content.Context
 import android.graphics.Canvas
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.android.awaitFrame
 
 /** A View displaying a ripple effect. */
 class RippleView : View {
+
     enum class State {
         None,
         Playing,
@@ -34,14 +30,32 @@ class RippleView : View {
     /** Current animations, filled when [State.Playing] triggers [animation] and emptied when [State.Stopped]. */
     private val animations = mutableMapOf<Int, AnimatorSet>()
 
+    /** This runnable invalidate the view at 60 fps. */
+    private val runnableFps = object : java.lang.Runnable {
+
+        override fun run() {
+            invalidate()
+            postDelayed(this, 1000 / 60)
+        }
+    }
+
+    /** This runnable generates an animation at each [interval][circleCount]. */
+    private val runnableAnimation = object : Runnable {
+
+        private var index = 0
+
+        override fun run() {
+            animations[index] = circles[index].circleAnimation().also { it.start() }
+            index = if (index == circles.lastIndex) 0 else index + 1
+            postDelayed(this, delay)
+        }
+    }
+
     private var delay: Long = 0L
     private var duration: Long = 0L
     private var circleCount: Long = 0L
     private var radius: Float = 0f
     private var size: Int = 0
-
-    private var jobAnimation: Job? = null
-    private var jobFps : Job? = null
 
     private var state = State.None
         set(value) {
@@ -50,34 +64,22 @@ class RippleView : View {
                 State.Playing -> {
                     animations.values.forEach { it.end() }
                     animations.clear()
-                    jobAnimation = animation()
+                    post(runnableAnimation)
                 }
-                State.Stopped -> try {
-                    jobAnimation?.cancel()
-                    jobAnimation = null
-                } catch (e: UninitializedPropertyAccessException) {
-                    // cancel() was called before start()
-                }
+                State.Stopped -> removeCallbacks(runnableAnimation)
                 State.None -> Unit
             }
         }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        jobFps = GlobalScope.launch(Dispatchers.Main) {
-            while (isActive) {
-                awaitFrame()
-                invalidate()
-            }
-        }
+        post(runnableFps)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        jobFps?.cancel()
-        jobFps = null
-        jobAnimation?.cancel()
-        jobAnimation = null
+        removeCallbacks(runnableAnimation)
+        removeCallbacks(runnableFps)
     }
 
     private fun init(attrs: AttributeSet) {
@@ -91,16 +93,6 @@ class RippleView : View {
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }
         }.recycle()
-    }
-
-    /** This coroutine generates an animation at each [interval][circleCount]. */
-    private fun animation(): Job = GlobalScope.launch(Dispatchers.Main) {
-        var index = 0
-        while (isActive) {
-            animations[index] = circles[index].circleAnimation().also { it.start() }
-            index = if (index == circles.lastIndex) 0 else index + 1
-            delay(delay)
-        }
     }
 
     private fun DrawableSprite.circleAnimation(): AnimatorSet =

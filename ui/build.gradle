@@ -33,7 +33,6 @@ dependencies {
 
     implementation dependency_jvm.kotlin_stdlib
 
-    implementation dependency_android.coroutines
     implementation dependency_android.appcompat
     implementation dependency_android.constraint_layout
     implementation dependency_android.design
@@ -44,10 +43,4 @@ dependencies {
 
     testImplementation dependency_jvm.kotlin_test
     testImplementation dependency_jvm.kotlin_test_junit
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
