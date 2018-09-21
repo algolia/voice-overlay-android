@@ -3,12 +3,13 @@ package com.algolia.instantsearch.voice.ui
 import android.animation.AnimatorSet
 import android.content.Context
 import android.graphics.Canvas
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.android.awaitFrame
 
 /** A View displaying a ripple effect. */
 class RippleView : View {
@@ -39,7 +40,8 @@ class RippleView : View {
     private var radius: Float = 0f
     private var size: Int = 0
 
-    private lateinit var jobAnimation: Job
+    private var jobAnimation: Job? = null
+    private var jobFps : Job? = null
 
     private var state = State.None
         set(value) {
@@ -51,13 +53,32 @@ class RippleView : View {
                     jobAnimation = animation()
                 }
                 State.Stopped -> try {
-                    jobAnimation.cancel()
+                    jobAnimation?.cancel()
+                    jobAnimation = null
                 } catch (e: UninitializedPropertyAccessException) {
                     // cancel() was called before start()
                 }
                 State.None -> Unit
             }
         }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        jobFps = GlobalScope.launch(Dispatchers.Main) {
+            while (isActive) {
+                awaitFrame()
+                invalidate()
+            }
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        jobFps?.cancel()
+        jobFps = null
+        jobAnimation?.cancel()
+        jobAnimation = null
+    }
 
     private fun init(attrs: AttributeSet) {
         context.obtainStyledAttributes(attrs, R.styleable.RippleView, 0, 0).also {
@@ -70,18 +91,10 @@ class RippleView : View {
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }
         }.recycle()
-        launch(UI) {
-            // This coroutine refreshes the view at 60 fps
-            while (isActive) {
-                UI.awaitFrame()
-                invalidate()
-            }
-        }
     }
 
     /** This coroutine generates an animation at each [interval][circleCount]. */
-    private fun animation(): Job = launch(UI) {
-
+    private fun animation(): Job = GlobalScope.launch(Dispatchers.Main) {
         var index = 0
         while (isActive) {
             animations[index] = circles[index].circleAnimation().also { it.start() }
