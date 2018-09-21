@@ -84,36 +84,82 @@ _See [it implementated in the demo app](app/src/main/kotlin/com/algolia/instants
 
 This will display the permission rationale when the user doesn't allow it, and the manual instructions in case they denied it.
 
-## Customization TODO Update for android
-You can customize your voice overlay by modifying the `settings` property of the voiceOverlayController:
+## Customization
+You can customize your voice overlay in the following ways:
 
-```swift
-/// Specifies whether the overlay directly starts recording (true), 
-/// or if it requires the user to click the mic (false). Defaults to true.
-voiceOverlayController.settings.autoStart = true
+### Behavior
+Several options let you adapt the voice overlay\'s behavior to your needs.
 
-/// Specifies whether the overlay stops recording after the user stops talking for `autoStopTimeout`
-/// seconds (true), or if it requires the user to click the mic (false). Defaults to true.
-voiceOverlayController.settings.autoStop = true
-
-/// When autoStop is set to true, autoStopTimeout determines the amount of
-/// silence time of the user that causes the recording to stop. Defaults to 2.
-voiceOverlayController.settings.autoStopTimeout = 2
-
-/// The layout and style of all screens of the voice overlay.
-voiceOverlayController.settings.layout.<someScreen>.<someConstant>
-
-// Use XCode autocomplete to see all possible screens and constants that are customisable.
-// Examples:
-
-/// The voice suggestions that appear in bullet points
-voiceOverlayController.settings.layout.inputScreen.subtitleBulletList = ["Suggestion1", "Sug2"]
-/// Change the title of the input screen when the recording is ongoing.
-voiceOverlayController.settings.layout.inputScreen.titleListening = "my custom title"
-/// Change the background color of the permission screen.
-voiceOverlayController.settings.layout.permissionScreen.backgroundColor = UIColor.red
-/// And many more...
+#### Suggestions
+You can provide suggestions of what the user could say, to give them some examples. 
+```kotlin
+voiceInputDialogFragment.setSuggestions(
+    "64GB Smartphone",
+    "Red running shoes",
+    "Cheap TV screen"
+)
 ```
+
+#### AutoStart
+You can prevent the overlay from automatically listening to user input.
+```kotlin
+/// Requires the user to click the mic to start listening. 
+voiceInputDialogFragment.autoStart = false
+// [...]
+// you can also start listening programmatically with
+voiceInputDialogFragment.start()
+```
+
+
+### Copy text
+
+You can change any text displayed in the overlay by overriding its resource in your `strings.xml`:
+```xml
+<!-- VoiceInputDialogFragment -->
+<string name="input_title_listening">Listening…</string>
+<string name="input_subtitle_listening">Say something like:</string>
+<string name="input_title_error">Sorry, we didn\'t quite get that.</string>
+<string name="input_subtitle_error">Try repeating your request.</string>
+<string name="input_hint_error">Try again</string>
+
+<!-- VoicePermissionDialogFragment -->
+<string name="permission_title">You can use voice search to find products.</string>
+<string name="permission_subtitle">May we access your device’s microphone to enable voice search?</string>
+<string name="permission_button_allow">Allow microphone access</string>
+<string name="permission_button_reject">No</string>
+
+<!-- Rationale/Try Again -->
+<string name="permission_rationale">Voice search requires this permission.</string>
+<string name="permission_button_again">Request again?</string>
+
+<!-- Manual Instructions -->
+<string name="permission_enable_rationale">Permission denied, allow it to use voice search.</string>
+<string name="permission_button_enable">Allow recording</string>
+<string name="permission_enable_instructions">On the next screen, tap Permissions then Microphone.</string>
+```
+### Layouts
+
+You can replace the voice overlay's layouts by your own, as long as they respect the following structure:
+
+#### Permission
+
+Create a layout called `voice_input.xml` with
+- A `ViewGroup` container with id `@+id/voicePermission`
+- A `View` with id `@+id/close` for closing the overlay when clicked
+- A `TextView` with id `@+id/title`
+- A `TextView` with id `@+id/subtitle`
+
+#### Input
+
+Create a layout called `voice_permission.xml` with
+- A `ViewGroup` container with id `@+id/voiceInput`
+- A `VoiceMicrophone` with id `@+id/microphone` to handle the voice input
+- A `TextView` with id `@+id/suggestions` to display eventual suggestions
+- A `View` with id `@+id/close` for closing the overlay when clicked
+- A `TextView` with id `@+id/title`
+- A `TextView` with id `@+id/subtitle`
+- An eventual `TextView` with id `@+id/hint` to display a hint on error
+- An eventual `RippleView` with id `@+id/ripple` if you want to keep the animation
 
 ## Getting Help
 
