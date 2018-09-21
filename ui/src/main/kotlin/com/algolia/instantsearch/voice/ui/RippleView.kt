@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.animation.AnimatorSet
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.os.Build
@@ -85,9 +86,10 @@ class RippleView : View {
         removeCallbacks(runnableFps)
     }
 
+    @SuppressLint("Recycle")
     private fun init(attrs: AttributeSet) {
         context.obtainStyledAttributes(attrs, R.styleable.RippleView, 0, 0).also {
-            val drawable = it.getDrawable(R.styleable.RippleView_drawable)
+            val drawable = it.getDrawable(R.styleable.RippleView_drawable)!!
             delay = it.getInt(R.styleable.RippleView_delay, 500).toLong()
             duration = it.getInt(R.styleable.RippleView_duration, 500).toLong()
             size = it.getDimensionPixelSize(R.styleable.RippleView_size, 0)
