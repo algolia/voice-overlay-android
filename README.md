@@ -35,15 +35,15 @@ dependencies {
 ## Getting Help
 
 - **Need help**? Ask a question to the [Algolia Community](https://discourse.algolia.com/) or on [Stack Overflow](http://stackoverflow.com/questions/tagged/algolia).
-- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/instantsearch-android-voice/issues/new).
+- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/voice-overlay-android/issues/new).
 - **Questions about Algolia?** You can search our [FAQ in our website](https://www.algolia.com/doc/faq/).
 
 
 ## Getting involved
 
-* If you **want to contribute** please feel free to **[submit pull requests](https://github.com/algolia/instantsearch-android-voice/pull/new)**.
+* If you **want to contribute** please feel free to **[submit pull requests](https://github.com/algolia/voice-overlay-android/pull/new)**.
 * If you **have a feature request** please **[open an
-  issue](https://github.com/algolia/instantsearch-android-voice/issues/new]**.
+  issue](https://github.com/algolia/voice-overlay-android/issues/new]**.
 * If you use **InstantSearch** in your app, we would love to hear about it! Drop us a line on [discourse](https://discourse.algolia.com/new-topic?title=InstantSearch%20Mobile%20App:&category_id=10&body=I%27m%20using%20InstantSearch%20for...) or [twitter](https://twitter.com/algolia).
 
 # License

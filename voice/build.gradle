@@ -13,7 +13,7 @@ ext {
     DESC = "Easily add Voice search to your Android apps"
     LABELS = ["voice search", "voice input", "permissions", "voice UI"]
 
-    GITHUB = "algolia/instantsearch-android-voice"
+    GITHUB = "algolia/voice-overlay-android"
     WEBSITE = "https://github.com/$GITHUB"
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
