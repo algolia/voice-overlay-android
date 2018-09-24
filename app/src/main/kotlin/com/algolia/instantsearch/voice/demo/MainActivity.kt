@@ -57,10 +57,8 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
         getPermissionDialog()?.dismiss()
         (getVoiceDialog() ?: VoiceInputDialogFragment()).let {
             it.setSuggestions(
-                "Hey, I just met you",
-                "And this is crazy",
-                "But here's my number",
-                "So call me maybe"
+                "Phone case",
+                "Running shoes"
             )
             it.show(supportFragmentManager, Tag.Voice.name)
         }
