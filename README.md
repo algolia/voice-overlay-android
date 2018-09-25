@@ -7,7 +7,7 @@
 
 # Overview
 
-**Voice overlay** helps you turn your user's **voice** into **text**, providing a polished UX while handling the necessary permission for you.
+**Voice overlay** helps you turn your user's **voice** into **text**, providing a **polished UX** while handling for you the **necessary permission**.
 
 <p float="left">
   <img src="./docs/permission.jpg" width="200" />
