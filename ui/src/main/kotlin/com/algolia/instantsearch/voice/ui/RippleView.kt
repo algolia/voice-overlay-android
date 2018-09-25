@@ -1,17 +1,16 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.animation.AnimatorSet
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 
 /** A View displaying a ripple effect. */
 class RippleView : View {
+
     enum class State {
         None,
         Playing,
@@ -28,18 +27,39 @@ class RippleView : View {
         init(attrs)
     }
 
+    private val fps = 1000L / 60L
+
     /** All circles used in this RippleView, generated during [init]. */
     private var circles = listOf<DrawableSprite>()
     /** Current animations, filled when [State.Playing] triggers [animation] and emptied when [State.Stopped]. */
     private val animations = mutableMapOf<Int, AnimatorSet>()
+
+    /** This runnable invalidate the view at 60 fps. */
+    private val runnableFps = object : java.lang.Runnable {
+
+        override fun run() {
+            invalidate()
+            postRunnableFps(this, fps)
+        }
+    }
+
+    /** This runnable generates an animation at each [interval][circleCount]. */
+    private val runnableAnimation = object : Runnable {
+
+        private var index = 0
+
+        override fun run() {
+            animations[index] = circles[index].circleAnimation().also { it.start() }
+            index = if (index == circles.lastIndex) 0 else index + 1
+            postRunnableAnimation(this)
+        }
+    }
 
     private var delay: Long = 0L
     private var duration: Long = 0L
     private var circleCount: Long = 0L
     private var radius: Float = 0f
     private var size: Int = 0
-
-    private lateinit var jobAnimation: Job
 
     private var state = State.None
         set(value) {
@@ -48,20 +68,28 @@ class RippleView : View {
                 State.Playing -> {
                     animations.values.forEach { it.end() }
                     animations.clear()
-                    jobAnimation = animation()
+                    postRunnableAnimation(runnableAnimation)
                 }
-                State.Stopped -> try {
-                    jobAnimation.cancel()
-                } catch (e: UninitializedPropertyAccessException) {
-                    // cancel() was called before start()
-                }
+                State.Stopped -> removeCallbacks(runnableAnimation)
                 State.None -> Unit
             }
         }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        postRunnableFps(runnableFps, fps)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        removeCallbacks(runnableAnimation)
+        removeCallbacks(runnableFps)
+    }
+
+    @SuppressLint("Recycle")
     private fun init(attrs: AttributeSet) {
         context.obtainStyledAttributes(attrs, R.styleable.RippleView, 0, 0).also {
-            val drawable = it.getDrawable(R.styleable.RippleView_drawable)
+            val drawable = it.getDrawable(R.styleable.RippleView_drawable)!!
             delay = it.getInt(R.styleable.RippleView_delay, 500).toLong()
             duration = it.getInt(R.styleable.RippleView_duration, 500).toLong()
             size = it.getDimensionPixelSize(R.styleable.RippleView_size, 0)
@@ -70,23 +98,21 @@ class RippleView : View {
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }
         }.recycle()
-        launch(UI) {
-            // This coroutine refreshes the view at 60 fps
-            while (isActive) {
-                UI.awaitFrame()
-                invalidate()
-            }
+    }
+
+    private fun postRunnableAnimation(runnable: Runnable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            postOnAnimationDelayed(runnable, delay)
+        } else {
+            postDelayed(runnable, delay)
         }
     }
 
-    /** This coroutine generates an animation at each [interval][circleCount]. */
-    private fun animation(): Job = launch(UI) {
-
-        var index = 0
-        while (isActive) {
-            animations[index] = circles[index].circleAnimation().also { it.start() }
-            index = if (index == circles.lastIndex) 0 else index + 1
-            delay(delay)
+    private fun postRunnableFps(runnable: Runnable, fps: Long) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            postOnAnimation(runnable)
+        } else {
+            postDelayed(runnable, fps)
         }
     }
 
