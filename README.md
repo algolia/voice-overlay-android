@@ -73,8 +73,8 @@ override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out
     if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
         when {
             Voice.isPermissionGranted(grantResults) -> showVoiceDialog()
-            Voice.shouldExplainPermission(this) -> Voice.showPermissionRationale(permissionView, this)
-            else -> Voice.showPermissionManualInstructions(permissionView)
+                shouldExplainPermission() -> showPermissionRationale(getPermissionView())
+                else -> Voice.showPermissionManualInstructions(getPermissionView())
         }
     }
     // [...] eventual handling of other permissions requested by your app 
