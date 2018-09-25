@@ -5,24 +5,24 @@
 <a href="./LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
-# Overview TODO: Update gifs
+# Overview
 
 <p float="left">
-  <img src="./docs/permission.png" width="200" />
+  <img src="./docs/permission.jpg" width="200" />
   &nbsp;
-  <img src="./docs/listeninginitial.png" width="200" />
+  <img src="./docs/listen.gif" width="200" />
   &nbsp;
-  <img src="./docs/ripple.gif" width="200" />
+  <img src="./docs/speak.gif" width="200" />
   &nbsp;
-  <img src="./docs/nopermission.png" width="200" />
+  <img src="./docs/nopermission.jpg" width="200" />
   &nbsp;
 </p>
 
-# Demo TODO: Update gifs
+# Demo
 
 You can clone this repo, then run the Demo project by doing `./gradlew app:installDebug` and launching the application:
 
-<img src="./Resources/demo.gif" width="250">
+<img src="./docs/demo.gif" width="250">
 
 # Installation
 
