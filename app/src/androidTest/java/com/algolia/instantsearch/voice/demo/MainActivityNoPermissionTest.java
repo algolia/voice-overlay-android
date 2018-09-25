@@ -16,6 +16,12 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
+/**
+ * Tests the behavior of the application when no permission are set.
+ * <b>Make sure that no permissions have been granted on the test device!</b>
+ * If any, reset them with <code>adb shell pm reset-permissions com.algolia.instantsearch.voice.demo</code>
+ * before running these tests.
+ */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class MainActivityNoPermissionTest {
