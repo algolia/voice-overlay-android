@@ -7,6 +7,8 @@
 
 # Overview
 
+**Voice overlay** helps you turn your user's **voice** into **text**, providing a polished UX while handling the necessary permission for you.
+
 <p float="left">
   <img src="./docs/permission.jpg" width="200" />
   &nbsp;
@@ -49,7 +51,7 @@ if (!isRecordAudioPermissionGranted()) {
     VoiceInputDialogFragment().show(supportFragmentManager, "DIALOG_INPUT")
 }
 ```
-_See [it implementated in the demo app](app/src/main/kotlin/com/algolia/instantsearch/voice/demo/MainActivity.kt#L26-L30)._
+_See [it implemented in the demo app](app/src/main/kotlin/com/algolia/instantsearch/voice/demo/MainActivity.kt#L26-L30)._
 
 This will display the permission dialog if the `RECORD_AUDIO` permission was not yet granted, then the voice input dialog once the permission is granted.
 
@@ -60,6 +62,7 @@ override fun onResults(possibleTexts: Array<out String>) {
     resultView.text = possibleTexts.firstOrNull()?.capitalize()
 }
 ```
+_See [it implemented in the demo app](app/src/main/kotlin/com/algolia/instantsearch/voice/demo/MainActivity.kt#L41-L43)._
 
 ## When the permission is not granted
 
@@ -80,7 +83,7 @@ override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out
     // [...] eventual handling of other permissions requested by your app 
 }
 ```
-_See [it implementated in the demo app](app/src/main/kotlin/com/algolia/instantsearch/voice/demo/MainActivity.kt#L42-L51)._
+_See [it implemented in the demo app](app/src/main/kotlin/com/algolia/instantsearch/voice/demo/MainActivity.kt#L42-L51)._
 
 This will display the permission rationale when the user doesn't allow it, and the manual instructions in case they denied it.
 
