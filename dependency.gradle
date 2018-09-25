@@ -31,9 +31,9 @@ ext.with {
             appcompat          : "com.android.support:appcompat-v7:$appcompat",
             constraint_layout  : "com.android.support.constraint:constraint-layout:$constraintLayout",
             espresso           : "com.android.support.test.espresso:espresso-core:$espresso",
-            design             : "com.android.support:design:$design"
-            junit            : "junit:junit:$junit",
-            test_rules       : "com.android.support.test:rules:$test",
-            test_runner      : "com.android.support.test:runner:$test"
+            design             : "com.android.support:design:$design",
+            junit              : "junit:junit:$junit",
+            test_rules         : "com.android.support.test:rules:$test",
+            test_runner        : "com.android.support.test:runner:$test"
     ]
 }
