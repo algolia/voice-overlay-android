@@ -32,13 +32,13 @@
         android:elevation="4dp"
         android:scaleType="center"
         android:background="@drawable/microphone_background_ripple"
-        android:src="@drawable/ic_microphone"
+        app:srcCompat="@drawable/ic_microphone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/close"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,11 +47,13 @@
         app:layout_constraintVertical_bias="0"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginStart="12dp"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
         android:tint="@color/white"
         app:layout_constraintHorizontal_bias="1"
-        android:src="@drawable/ic_close"
+        app:srcCompat="@drawable/ic_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -67,6 +69,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -93,6 +97,7 @@
         android:layout_marginTop="8dp"
         android:lineSpacingMultiplier="1.5"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         app:layout_constraintBottom_toTopOf="@id/microphone"
         app:layout_constraintEnd_toEndOf="@id/title"

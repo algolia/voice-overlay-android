@@ -53,6 +53,10 @@ class VoiceSpeechRecognizer(
     }
 
     fun destroy() {
-        speechRecognizer.destroy()
+        try {
+            speechRecognizer.destroy()
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
     }
 }

@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/close"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,11 +17,14 @@
         app:layout_constraintVertical_bias="0"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
         android:tint="@color/white"
         app:layout_constraintHorizontal_bias="1"
-        android:src="@drawable/ic_close"
+        app:srcCompat="@drawable/ic_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -36,6 +39,8 @@
         android:maxLines="3"
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toTopOf="@id/subtitle"
         android:layout_width="0dp"
@@ -69,8 +74,10 @@
         android:text="@string/permission_button_allow"
         android:background="@drawable/button_positive_background_ripple"
         android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:textSize="16sp"
         android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:textAllCaps="false"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         app:layout_constraintTop_toBottomOf="@id/guideline"

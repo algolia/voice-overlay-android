@@ -39,7 +39,7 @@ class RippleView : View {
 
         override fun run() {
             invalidate()
-            postRunnableFps(this, fps)
+            postOnAnimation(this)
         }
     }
 
@@ -51,7 +51,7 @@ class RippleView : View {
         override fun run() {
             animations[index] = circles[index].circleAnimation().also { it.start() }
             index = if (index == circles.lastIndex) 0 else index + 1
-            postRunnableAnimation(this)
+            postOnAnimationDelayed(this, delay)
         }
     }
 
@@ -68,7 +68,7 @@ class RippleView : View {
                 State.Playing -> {
                     animations.values.forEach { it.end() }
                     animations.clear()
-                    postRunnableAnimation(runnableAnimation)
+                    postOnAnimationDelayed(runnableAnimation, delay)
                 }
                 State.Stopped -> removeCallbacks(runnableAnimation)
                 State.None -> Unit
@@ -77,7 +77,7 @@ class RippleView : View {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        postRunnableFps(runnableFps, fps)
+        postOnAnimation(runnableFps)
     }
 
     override fun onDetachedFromWindow() {
@@ -98,22 +98,6 @@ class RippleView : View {
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }
         }.recycle()
-    }
-
-    private fun postRunnableAnimation(runnable: Runnable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            postOnAnimationDelayed(runnable, delay)
-        } else {
-            postDelayed(runnable, delay)
-        }
-    }
-
-    private fun postRunnableFps(runnable: Runnable, fps: Long) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            postOnAnimation(runnable)
-        } else {
-            postDelayed(runnable, fps)
-        }
     }
 
     private fun DrawableSprite.circleAnimation(): AnimatorSet =
