@@ -32,4 +32,9 @@ dependencies {
     implementation dependency_android.appcompat
     implementation dependency_android.design
     implementation dependency_android.constraint_layout
+
+    androidTestImplementation dependency_android.junit
+    androidTestImplementation dependency_android.test_rules
+    androidTestImplementation dependency_android.test_runner
+    androidTestImplementation dependency_android.espresso
 }
