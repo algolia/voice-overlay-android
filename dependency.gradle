@@ -1,6 +1,6 @@
 ext.with {
     sdkCompile = 28
-    sdkMin = 14
+    sdkMin = 16
     sdkTarget = 28
 
     versioningName = '1.0'
