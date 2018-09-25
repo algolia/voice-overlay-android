@@ -23,6 +23,9 @@ ext.with {
     bintray = '1.8.4'
     maven = '2.1'
 
+    junit = '4.12'
+    test = '1.0.2'
+
     dependency_jvm = [
             kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
             kotlin_reflection: "org.jetbrains.kotlin:kotlin-reflect:$kotlins",
@@ -30,12 +33,15 @@ ext.with {
             kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlins"
     ]
     dependency_android = [
-            appcompat          : "com.android.support:appcompat-v7:$appcompat",
-            constraint_layout  : "com.android.support.constraint:constraint-layout:$constraintLayout",
-            arch_extensions    : "android.arch.lifecycle:extensions:$archRuntime",
-            arch_compiler      : "android.arch.lifecycle:common-java8:$archCompiler",
-            espresso           : "com.android.support.test.espresso:espresso-core:$espresso",
-            design             : "com.android.support:design:$design",
-            coroutines         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+            appcompat        : "com.android.support:appcompat-v7:$appcompat",
+            constraint_layout: "com.android.support.constraint:constraint-layout:$constraintLayout",
+            arch_extensions  : "android.arch.lifecycle:extensions:$archRuntime",
+            arch_compiler    : "android.arch.lifecycle:common-java8:$archCompiler",
+            espresso         : "com.android.support.test.espresso:espresso-core:$espresso",
+            design           : "com.android.support:design:$design",
+            coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+            junit            : "junit:junit:$junit",
+            test_rules       : "com.android.support.test:rules:$test",
+            test_runner      : "com.android.support.test:runner:$test"
     ]
 }
