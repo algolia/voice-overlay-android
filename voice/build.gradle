@@ -4,14 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jetbrains.dokka-android'
 
 ext {
-    GROUP = 'com.algolia.instantsearch-android'
+    GROUP = 'com.algolia.instantsearch'
     BASENAME = 'voice'
     CODENAME = "$GROUP:$BASENAME"
     NAME = 'InstantSearch Android Voice'
-    DESC = "Easily add Voice search to your Android apps"
-    LABELS = ["voice search", "voice input", "permissions", "voice UI"]
+    DESC = "A library that gets your user’s voice permission and input as text."
+    LABELS = ["voice search", "voice input", "permissions"]
 
     GITHUB = "algolia/voice-overlay-android"
     WEBSITE = "https://github.com/$GITHUB"
@@ -19,7 +20,7 @@ ext {
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
 
-    VERSION = '1.0.1'
+    VERSION = '1.0.0-beta01'
     VERSION_DESC = "$NAME - v$VERSION"
 }
 
@@ -49,12 +50,6 @@ android {
     }
 }
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
-
 dependencies {
     implementation dependency_jvm.kotlin_stdlib
 
@@ -66,9 +61,15 @@ dependencies {
     testImplementation dependency_jvm.kotlin_test_junit
 }
 
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.dcendents.android-maven'
+dokka {
+    reportUndocumented = false
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions.freeCompilerArgs += ['-module-name', GROUP + "." + BASENAME]
+}
 
 task sourcesJar(type: Jar) {
     dependsOn "assembleRelease"
@@ -76,24 +77,9 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
-    options.links("http://docs.oracle.com/javase/8/docs/api")
-    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
-    options.memberLevel = JavadocMemberLevel.PROTECTED
-}
-
-afterEvaluate {
-    // we need this as javadoc task's body is called before android.libraryVariants is filled. http://stackoverflow.com/a/34572606/3109189
-    javadoc.classpath += files(android.libraryVariants.collect { variant ->
-        variant.getJavaCompiler().classpath.files
-    })
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
+task javadocJar(type: Jar, dependsOn: dokka) {
     classifier "javadoc"
+    from "$buildDir/javadoc"
 }
 
 // add sources jar tasks as artifacts

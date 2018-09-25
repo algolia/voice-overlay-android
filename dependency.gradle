@@ -15,6 +15,7 @@ ext.with {
     espresso = '3.0.2'
 
     kotlins = '1.2.70'
+    dokka = '0.9.17'
 
     bintray = '1.8.4'
     maven = '2.1'
