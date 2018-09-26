@@ -2,12 +2,14 @@ package com.algolia.instantsearch.voice.demo;
 
 
 import android.Manifest;
-import android.support.test.espresso.EspressoException;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import junit.framework.AssertionFailedError;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +23,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.TestCase.fail;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -57,11 +58,22 @@ public class MainActivityWithPermissionTest {
     public void clickInput_thenCancel_displaysError() {
         when_clickButtonVoice();
 
-        // Then clicking on the mic button
-        onView(withId(R.id.microphone))
-                .perform(click());
+        try {
+            onView(withText(R.string.input_title_listening));
+            // We are listening.
+            // Then clicking on the mic button
+            onView(withId(R.id.microphone)).perform(click());
+            // Expect an error to be displayed
+            check_displaysError();
 
-        check_displaysError();
+        } catch (NoMatchingViewException e) {
+            // We already have an error (likely SpeechRecognizer not available on device)
+
+            // Then clicking on the mic button
+            onView(withId(R.id.microphone)).perform(click());
+            // Expect listening to be displayed
+            check_displaysListening();
+        }
     }
 
     //region Helpers
@@ -113,12 +125,10 @@ public class MainActivityWithPermissionTest {
     private void check_displaysListeningOrError() {
         try {
             check_displaysListening();
-        } catch (Exception e) {
-            if (e instanceof EspressoException) {
-                // Maybe we are on emulator -> no SpeechRecognizer?
-                // in this case, we should see error displayed
-                check_displaysError();
-            } else fail(e.getMessage());
+        } catch (AssertionFailedError e) {
+            // Maybe we are on emulator -> no SpeechRecognizer?
+            // in this case, we should see error displayed
+            check_displaysError();
         }
     }
     //endregion
