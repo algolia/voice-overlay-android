@@ -24,8 +24,7 @@ android {
 }
 
 dependencies {
-    implementation project(":voice")
-    implementation project(":ui")
+    implementation project(':voice-ui')
 
     implementation dependency_jvm.kotlin_stdlib
 
