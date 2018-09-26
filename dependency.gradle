@@ -9,8 +9,8 @@ ext.with {
     benManes = '0.20.0'
     jvm = '1.8'
 
-    appcompat = '28.0.0-rc02'
-    design = '28.0.0-rc02'
+    appcompat = '28.0.0'
+    design = '28.0.0'
     constraintLayout = '1.1.2'
     espresso = '3.0.2'
 
