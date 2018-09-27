@@ -11,6 +11,10 @@ android {
         versionCode versioningCode
         versionName versioningName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -20,6 +24,9 @@ android {
     }
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
+    }
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
     }
 }
 
@@ -36,4 +43,5 @@ dependencies {
     androidTestImplementation dependency_android.test_rules
     androidTestImplementation dependency_android.test_runner
     androidTestImplementation dependency_android.espresso
+    androidTestUtil dependency_android.orchestrator
 }

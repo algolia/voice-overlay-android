@@ -38,6 +38,7 @@ ext.with {
             junit            : "junit:junit:$junit",
             test_rules       : "com.android.support.test:rules:$test",
             test_runner      : "com.android.support.test:runner:$test",
+            orchestrator     : "com.android.support.test:orchestrator:$test",
             voice            : "com.algolia.instantsearch:voice:$voice"
     ]
 }
