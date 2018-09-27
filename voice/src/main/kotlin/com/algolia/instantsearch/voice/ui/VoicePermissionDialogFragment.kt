@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.algolia.instantsearch.voice.R
 import kotlinx.android.synthetic.main.voice_permission.*
 import kotlinx.android.synthetic.main.voice_permission.view.*
 

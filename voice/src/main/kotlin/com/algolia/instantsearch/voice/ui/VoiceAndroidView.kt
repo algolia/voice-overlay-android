@@ -4,6 +4,7 @@ import android.os.Build
 import android.support.constraint.ConstraintLayout
 import android.text.Html
 import android.view.View
+import com.algolia.instantsearch.voice.R
 import kotlinx.android.synthetic.main.voice_input.view.*
 
 

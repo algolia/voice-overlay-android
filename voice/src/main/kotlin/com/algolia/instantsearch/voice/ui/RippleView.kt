@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import com.algolia.instantsearch.voice.R
 
 /** A View displaying a ripple effect. */
 class RippleView : View {
@@ -26,8 +27,6 @@ class RippleView : View {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init(attrs)
     }
-
-    private val fps = 1000L / 60L
 
     /** All circles used in this RippleView, generated during [init]. */
     private var circles = listOf<DrawableSprite>()

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
+import com.algolia.instantsearch.voice.R
 
 /** Helper functions for voice permission handling. */
 object Voice {
