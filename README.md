@@ -34,7 +34,7 @@ it, add the following line to your app's `build.gradle`:
 ```groovy
 dependencies {
     // [...]
-    implementation 'com.algolia.instantsearch-android:voice:1.+'
+    implementation 'com.algolia.instantsearch:voice:1.0+'
     // [...]
 }
 ```
