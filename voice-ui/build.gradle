@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    api project(":voice")
+    api dependency_android.voice
 
     implementation dependency_jvm.kotlin_stdlib
 
