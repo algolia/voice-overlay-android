@@ -27,54 +27,54 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class MainActivityWithPermissionTest {
-
-    @Rule
-    public ActivityTestRule testRule = new ActivityTestRule<>(MainActivity.class);
-
-    @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
-
-    @Test
-    public void clickPermissionButton_displaysPermissionOverlay() {
-        when_clickButtonPermission();
-
-        // the permission overlay should display
-        onView(withId(R.id.voicePermission))
-                .check(matches(isDisplayed()));
-        // the input overlay should not
-        onView(withId(R.id.voiceInput))
-                .check(doesNotExist());
-    }
-
-    @Test
-    public void clickInputButton_displaysInputOverlay() {
-        when_clickButtonVoice();
-
-        check_displaysInputOverlay();
-        check_displaysListeningOrError();
-    }
-
-    @Test
-    public void clickInput_thenCancel_displaysError() {
-        when_clickButtonVoice();
-
-        try {
-            onView(withText(R.string.input_title_listening));
-            // We are listening.
-            // Then clicking on the mic button
-            onView(withId(R.id.microphone)).perform(click());
-            // Expect an error to be displayed
-            check_displaysError();
-
-        } catch (NoMatchingViewException e) {
-            // We already have an error (likely SpeechRecognizer not available on device)
-
-            // Then clicking on the mic button
-            onView(withId(R.id.microphone)).perform(click());
-            // Expect listening to be displayed
-            check_displaysListening();
-        }
-    }
+//
+//    @Rule
+//    public ActivityTestRule testRule = new ActivityTestRule<>(MainActivity.class);
+//
+//    @Rule
+//    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
+//
+//    @Test
+//    public void clickPermissionButton_displaysPermissionOverlay() {
+//        when_clickButtonPermission();
+//
+//        // the permission overlay should display
+//        onView(withId(R.id.voicePermission))
+//                .check(matches(isDisplayed()));
+//        // the input overlay should not
+//        onView(withId(R.id.voiceInput))
+//                .check(doesNotExist());
+//    }
+//
+//    @Test
+//    public void clickInputButton_displaysInputOverlay() {
+//        when_clickButtonVoice();
+//
+//        check_displaysInputOverlay();
+//        check_displaysListeningOrError();
+//    }
+//
+//    @Test
+//    public void clickInput_thenCancel_displaysError() {
+//        when_clickButtonVoice();
+//
+//        try {
+//            onView(withText(R.string.input_title_listening));
+//            // We are listening.
+//            // Then clicking on the mic button
+//            onView(withId(R.id.microphone)).perform(click());
+//            // Expect an error to be displayed
+//            check_displaysError();
+//
+//        } catch (NoMatchingViewException e) {
+//            // We already have an error (likely SpeechRecognizer not available on device)
+//
+//            // Then clicking on the mic button
+//            onView(withId(R.id.microphone)).perform(click());
+//            // Expect listening to be displayed
+//            check_displaysListening();
+//        }
+//    }
 
     //region Helpers
     private void when_clickButtonPermission() {
