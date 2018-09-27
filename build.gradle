@@ -20,9 +20,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url 'https://dl.bintray.com/algolia/maven'
-        }
     }
     buildscript {
         apply plugin: 'com.github.ben-manes.versions'
