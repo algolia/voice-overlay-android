@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.view.View
+import com.algolia.instantsearch.voice.R
 
 
 interface VoiceUI {
