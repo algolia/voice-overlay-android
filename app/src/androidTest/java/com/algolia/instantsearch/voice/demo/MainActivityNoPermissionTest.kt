@@ -18,7 +18,7 @@ import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
-import junit.framework.Assert.fail
+import org.junit.Assert.fail
 
 /**
  * Tests the behavior of the application when no permission are set.
@@ -31,22 +31,26 @@ import junit.framework.Assert.fail
 class MainActivityNoPermissionTest {
 
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     var mActivityRule = ActivityTestRule(MainActivity::class.java)
-    //
-    //    @Test
-    //    public void clickPermissionButton_displaysPermissionOverlay() {
-    //        // When clicking on the buttonPermission
-    //        onView(withId(R.id.buttonPermission))
-    //                .perform(click());
-    //
-    //        // the permission overlay should display
-    //        onView(withId(R.id.voicePermission))
-    //                .check(matches(isDisplayed()));
-    //        // the input overlay should not
-    //        onView(withId(R.id.voiceInput))
-    //                .check(doesNotExist());
-    //    }
+
+    @Test
+    fun clickPermissionButton_displaysPermissionOverlay() {
+        // When clicking on the buttonPermission
+        onView(withId(R.id.buttonPermission))
+            .perform(click())
+
+        // the permission overlay should display
+        onView(withId(R.id.voicePermission))
+            .check(matches(isDisplayed()))
+        // the input overlay should not
+        onView(withId(R.id.voiceInput))
+            .check(doesNotExist())
+    }
+
+    /* Disabled until Virtual Device Testing stops granting permissions before testing,
+    see https://discuss.bitrise.io/t/why-does-virtual-device-testing-always-grant-permissions-before-testing/6341
 
     @Test
     fun clickInputButton_displaysPermissionOverlay() {
@@ -65,4 +69,5 @@ class MainActivityNoPermissionTest {
         onView(withId(R.id.voiceInput))
             .check(doesNotExist())
     }
+    */
 }
