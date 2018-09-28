@@ -2,7 +2,6 @@ package com.algolia.instantsearch.voice;
 
 import android.content.Context;
 import android.content.Intent;
-import android.speech.SpeechRecognizer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +21,9 @@ public class VoiceSpeechRecognizerTest {
     @Mock
     private Context mockContext;
     @Mock
-    private SpeechRecognizer mockSpeechRecognizer;
+    private SpeechRecognition mockSpeechRecognition;
     @Mock
-    private VoiceSpeechRecognizer.StateListener mockStateListener;
+    private SpeechRecognition.StateListener mockStateListener;
 
     private VoiceSpeechRecognizer vsr;
 
@@ -32,9 +31,9 @@ public class VoiceSpeechRecognizerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-//        when(vsr.getSpeechRecognizer(mockContext)).thenReturn(mockSpeechRecognizer);
+//        when(vsr.getSpeechRecognizer(mockContext)).thenReturn(mockSpeechRecognition);
         //FIXME: How can I inject a mock SpeechRecognizer when it comes from static method?
-        vsr = new VoiceSpeechRecognizer(mockContext);
+//        vsr = new VoiceSpeechRecognizer(mockContext, mockSpeechRecognition);
     }
 
     @Test
@@ -44,14 +43,29 @@ public class VoiceSpeechRecognizerTest {
 
     @Test
     public void newInstance_hasSpeechRecognizer() {
-        assertNotNull(mockSpeechRecognizer);
+        assertNotNull(mockSpeechRecognition);
     }
 
     @Test
     public void start_sendsIntentToSpeechRecognizer() {
         vsr.setStateListener(mockStateListener);
         vsr.start();
-        verify(mockSpeechRecognizer).startListening(any(Intent.class));
+        verify(mockSpeechRecognition).startListening(any(Intent.class));
+        verify(mockStateListener).isListening(true);
+    }
+
+    @Test
+    public void start_withLanguage_sendsIntentWithLanguageExtra() {
+        // given a VSR with a language set
+
+        // when starting the recognition
+
+//        vsr = VoiceSpeechRecognizer();
+        vsr.setStateListener(mockStateListener);
+        vsr.start();
+
+        // expect the recognizer to receive a intent with EXTRA_AAA
+        verify(mockSpeechRecognition).startListening(any(Intent.class));
         verify(mockStateListener).isListening(true);
     }
 }

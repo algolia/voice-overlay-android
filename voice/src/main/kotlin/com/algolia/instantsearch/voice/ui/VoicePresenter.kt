@@ -2,7 +2,7 @@ package com.algolia.instantsearch.voice.ui
 
 import android.os.Bundle
 import android.speech.RecognitionListener
-import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
+import com.algolia.instantsearch.voice.SpeechRecognition
 import com.algolia.instantsearch.voice.resultsRecognition
 
 
@@ -10,7 +10,7 @@ class VoicePresenter(
     private val ui: VoiceUI,
     private val onResults: (results: ArrayList<String>) -> Unit
 ) : RecognitionListener,
-    VoiceSpeechRecognizer.StateListener {
+    SpeechRecognition.StateListener {
 
     override fun onResults(results: Bundle) {
         onResults(results.resultsRecognition)

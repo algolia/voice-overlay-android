@@ -3,7 +3,7 @@ package com.algolia.instantsearch.voice.demo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
+import com.algolia.instantsearch.voice.SpeechRecognition
 import com.algolia.instantsearch.voice.ui.Voice
 import com.algolia.instantsearch.voice.ui.Voice.isRecordAudioPermissionGranted
 import com.algolia.instantsearch.voice.ui.Voice.shouldExplainPermission
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.main.*
 import kotlinx.android.synthetic.main.main.view.*
 
 
-class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener {
+class MainActivity : AppCompatActivity(), SpeechRecognition.ResultsListener {
 
     private enum class Tag {
         Permission,

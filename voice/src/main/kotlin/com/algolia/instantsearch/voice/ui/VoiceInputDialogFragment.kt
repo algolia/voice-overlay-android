@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.algolia.instantsearch.voice.R
+import com.algolia.instantsearch.voice.SpeechRecognition
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 import kotlinx.android.synthetic.main.voice_input.*
 
@@ -62,7 +63,7 @@ class VoiceInputDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val androidView = VoiceAndroidView(voiceInput)
         val presenter = VoicePresenter(androidView) { result ->
-            (activity as? VoiceSpeechRecognizer.ResultsListener)?.onResults(result.toTypedArray())
+            (activity as? SpeechRecognition.ResultsListener)?.onResults(result.toTypedArray())
             dismiss()
         }
 
@@ -77,7 +78,7 @@ class VoiceInputDialogFragment : DialogFragment() {
             androidView.setSuggestions(it)
             androidView.setSubtitle(resources.getString(R.string.input_subtitle_listening))
         }
-        speechRecognizer.setRecognitionListener(presenter)
+        speechRecognizer.speechRecognition.setRecognitionListener(presenter)
         speechRecognizer.stateListener = presenter
     }
 
