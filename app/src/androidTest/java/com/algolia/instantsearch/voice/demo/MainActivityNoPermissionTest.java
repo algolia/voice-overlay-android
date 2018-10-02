@@ -42,7 +42,8 @@ public class MainActivityNoPermissionTest {
         onView(withId(R.id.voiceInput))
                 .check(doesNotExist());
     }
-
+/* Disabled until Virtual Device Testing stops granting permissions before testing,
+    see https://discuss.bitrise.io/t/why-does-virtual-device-testing-always-grant-permissions-before-testing/6341
     @Test
     public void clickInputButton_displaysPermissionOverlay() {
         // When clicking on the buttonVoice
@@ -55,5 +56,5 @@ public class MainActivityNoPermissionTest {
         // the input overlay should not
         onView(withId(R.id.voiceInput))
                 .check(doesNotExist());
-    }
+    }*/
 }
