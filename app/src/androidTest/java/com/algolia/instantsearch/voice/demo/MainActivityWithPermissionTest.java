@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.voice.demo;
 
-
 import android.Manifest;
-import android.support.test.espresso.EspressoException;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import junit.framework.AssertionFailedError;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +21,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.TestCase.fail;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -113,12 +112,10 @@ public class MainActivityWithPermissionTest {
     private void check_displaysListeningOrError() {
         try {
             check_displaysListening();
-        } catch (Exception e) {
-            if (e instanceof EspressoException) {
-                // Maybe we are on emulator -> no SpeechRecognizer?
-                // in this case, we should see error displayed
-                check_displaysError();
-            } else fail(e.getMessage());
+        } catch (AssertionFailedError e) {
+            // Maybe we are on emulator -> no SpeechRecognizer?
+            // in this case, we should see error displayed
+            check_displaysError();
         }
     }
     //endregion
