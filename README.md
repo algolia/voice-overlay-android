@@ -3,6 +3,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/platform-Android-blue.svg?style=flat" alt="Platform Android" />
 <a href="./LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
+<img src="https://img.shields.io/badge/Android%20Arsenal-Voice%20Overlay-green.svg?style=flat" alt="Android Arsenal" />
 </p>
 
 # Overview
