@@ -48,6 +48,10 @@ android {
         test.java.srcDirs += "src/test/kotlin"
         androidTest.java.srcDirs += "src/androidTest/kotlin"
     }
+
+    lintOptions {
+        abortOnError true
+    }
 }
 
 dependencies {
