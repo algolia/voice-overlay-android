@@ -20,7 +20,7 @@ ext {
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
 
-    VERSION = '1.0.0-beta02'
+    VERSION = '1.0.0'
     VERSION_DESC = "$NAME - v$VERSION"
 }
 
