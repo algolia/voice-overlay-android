@@ -1,7 +1,7 @@
 ext.with {
-    sdkCompile = 28
+    sdkCompile = 30
     sdkMin = 16
-    sdkTarget = 28
+    sdkTarget = 30
 
     versioningName = '1.0'
     versioningCode = 1
@@ -14,7 +14,7 @@ ext.with {
     constraintLayout = '1.1.2'
     espresso = '3.0.2'
 
-    kotlins = '1.3.71'
+    kotlins = '1.4.31'
     dokka = '0.9.17'
 
     bintray = '1.8.4'
@@ -24,6 +24,8 @@ ext.with {
     test = '1.0.2'
 
     voice = '1.+'
+
+    leakcanary = '2.6'
 
     dependency_jvm = [
             kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
@@ -38,6 +40,7 @@ ext.with {
             junit            : "junit:junit:$junit",
             test_rules       : "com.android.support.test:rules:$test",
             test_runner      : "com.android.support.test:runner:$test",
-            voice            : "com.algolia.instantsearch:voice:$voice"
+            voice            : "com.algolia.instantsearch:voice:$voice",
+            leakcanary       : "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     ]
 }

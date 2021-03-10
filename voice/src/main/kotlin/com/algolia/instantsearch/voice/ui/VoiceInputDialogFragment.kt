@@ -1,14 +1,13 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.algolia.instantsearch.voice.R
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
-import kotlinx.android.synthetic.main.voice_input.*
-
 
 class VoiceInputDialogFragment : DialogFragment() {
 
@@ -55,11 +54,16 @@ class VoiceInputDialogFragment : DialogFragment() {
         suggestions = arguments?.getStringArray(Field.Suggestions.name)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.voice_input, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val voiceInput = view.findViewById<ConstraintLayout>(R.id.voiceInput)
         val androidView = VoiceAndroidView(voiceInput)
         val presenter = VoicePresenter(androidView) { result ->
             (activity as? VoiceSpeechRecognizer.ResultsListener)?.onResults(result.toTypedArray())
