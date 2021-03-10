@@ -64,7 +64,7 @@ object Voice {
             .setData(Uri.fromParts("package", packageName, null)))
     }
 
-    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
+    /** Displays the rationale behind requesting the recording permission via a Snackbar.
      * @param anchor the view on which the SnackBar will be anchored.
      * @param whyAllow a description of why the permission should be granted.
      * @param buttonAllow a call to action for granting the permission.
