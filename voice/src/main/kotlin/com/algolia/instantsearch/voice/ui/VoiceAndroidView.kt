@@ -15,13 +15,13 @@ class VoiceAndroidView(
     private val context = view.context
     private val voiceInput: ConstraintLayout get() = view.findViewById(R.id.voiceInput)
     private val suggestionsView: TextView? get() = view.findViewById(R.id.voiceInput)
-    private val ConstraintLayout.close: ImageView get() = findViewById(R.id.close)
-    private val ConstraintLayout.microphone: VoiceMicrophone get() = findViewById(R.id.microphone)
-    private val ConstraintLayout.title: TextView get() = findViewById(R.id.microphone)
-    private val ConstraintLayout.subtitle: TextView get() = findViewById(R.id.subtitle)
-    private val ConstraintLayout.suggestions: TextView? get() = findViewById(R.id.suggestions)
-    private val ConstraintLayout.hint: TextView get() = findViewById(R.id.hint)
-    private val ConstraintLayout.ripple: RippleView get() = findViewById(R.id.ripple)
+    private val View.close: ImageView get() = findViewById(R.id.close)
+    private val View.microphone: VoiceMicrophone get() = findViewById(R.id.microphone)
+    private val View.title: TextView get() = findViewById(R.id.microphone)
+    private val View.subtitle: TextView get() = findViewById(R.id.subtitle)
+    private val View.suggestions: TextView? get() = findViewById(R.id.suggestions)
+    private val View.hint: TextView get() = findViewById(R.id.hint)
+    private val View.ripple: RippleView get() = findViewById(R.id.ripple)
 
     override val formatterSuggestion = { suggestion: String ->
         context.getString(
