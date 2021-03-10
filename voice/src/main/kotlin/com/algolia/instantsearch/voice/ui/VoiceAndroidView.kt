@@ -1,8 +1,7 @@
 package com.algolia.instantsearch.voice.ui
 
-import android.os.Build
 import android.support.constraint.ConstraintLayout
-import android.text.Html
+import android.support.v4.text.HtmlCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,11 +40,7 @@ class VoiceAndroidView(
     override fun setSuggestions(suggestions: Array<out String>) {
         suggestionsView?.let {
             val formattedSuggestions = suggestions.joinToString("") { formatterSuggestion(it) }
-            val html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(formattedSuggestions, Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                Html.fromHtml(formattedSuggestions)
-            }
+            val html = HtmlCompat.fromHtml(formattedSuggestions, HtmlCompat.FROM_HTML_MODE_LEGACY)
             it.text = html
         }
     }
