@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.voice.ui
 
-import android.support.constraint.ConstraintLayout
-import android.support.v4.text.HtmlCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.text.HtmlCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

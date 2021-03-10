@@ -3,8 +3,8 @@ package com.algolia.instantsearch.voice.ui
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.AppCompatImageView
 import android.util.AttributeSet
 import com.algolia.instantsearch.voice.R
 

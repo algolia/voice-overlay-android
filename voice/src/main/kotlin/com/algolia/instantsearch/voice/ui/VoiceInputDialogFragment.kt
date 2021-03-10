@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.voice.ui
 
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.DialogFragment
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

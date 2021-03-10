@@ -8,10 +8,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.support.design.widget.BaseTransientBottomBar
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.TextView
 import com.algolia.instantsearch.voice.R
@@ -106,7 +106,7 @@ object Voice {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = context.openAppSettings()
                 }).show()
         }
-        (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
+        snackbar.view.findViewById<TextView>(R.id.snackbar_text).maxLines = 2
         snackbar.show()
     }
 }
