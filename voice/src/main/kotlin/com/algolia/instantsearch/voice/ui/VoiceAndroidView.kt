@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.voice.ui
 
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.text.HtmlCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.text.HtmlCompat
 import com.algolia.instantsearch.voice.R
 
 class VoiceAndroidView(
@@ -13,20 +13,16 @@ class VoiceAndroidView(
 
     private val context = view.context
     private val voiceInput: ConstraintLayout get() = view.findViewById(R.id.voiceInput)
-    private val suggestionsView: TextView? get() = view.findViewById(R.id.voiceInput)
     private val View.close: ImageView get() = findViewById(R.id.close)
     private val View.microphone: VoiceMicrophone get() = findViewById(R.id.microphone)
-    private val View.title: TextView get() = findViewById(R.id.microphone)
+    private val View.title: TextView get() = findViewById(R.id.title)
     private val View.subtitle: TextView get() = findViewById(R.id.subtitle)
     private val View.suggestions: TextView? get() = findViewById(R.id.suggestions)
     private val View.hint: TextView get() = findViewById(R.id.hint)
     private val View.ripple: RippleView get() = findViewById(R.id.ripple)
 
     override val formatterSuggestion = { suggestion: String ->
-        context.getString(
-            R.string.format_voice_suggestion_html,
-            suggestion
-        )
+        context.getString(R.string.format_voice_suggestion_html, suggestion)
     }
 
     override fun setOnClickListenerClose(onClickListener: View.OnClickListener) {
@@ -38,10 +34,10 @@ class VoiceAndroidView(
     }
 
     override fun setSuggestions(suggestions: Array<out String>) {
-        suggestionsView?.let {
+        voiceInput.suggestions?.let { textView ->
             val formattedSuggestions = suggestions.joinToString("") { formatterSuggestion(it) }
             val html = HtmlCompat.fromHtml(formattedSuggestions, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            it.text = html
+            textView.text = html
         }
     }
 
