@@ -37,6 +37,7 @@ dependencies {
     androidTestImplementation dependency_android.junit
     androidTestImplementation dependency_android.test_rules
     androidTestImplementation dependency_android.test_runner
+    androidTestImplementation dependency_android.test_ext_junit
     androidTestImplementation dependency_android.espresso
 
     debugImplementation dependency_android.leakcanary

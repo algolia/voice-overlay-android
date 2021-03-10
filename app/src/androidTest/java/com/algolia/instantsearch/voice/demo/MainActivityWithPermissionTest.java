@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.voice.demo;
 
 import android.Manifest;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -57,8 +58,9 @@ public class MainActivityWithPermissionTest {
         when_clickButtonVoice();
 
         // Then clicking on the mic button
-        onView(withId(R.id.microphone))
-                .perform(click());
+        ViewInteraction viewInteraction = onView(withId(R.id.microphone));
+        viewInteraction.perform(click());
+        viewInteraction.perform(click());
 
         check_displaysError();
     }
