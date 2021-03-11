@@ -4,7 +4,6 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.algolia.instantsearch.voice.R
@@ -24,17 +23,22 @@ class RippleView : View {
         init(attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init(attrs)
     }
 
     /** All circles used in this RippleView, generated during [init]. */
     private var circles = listOf<DrawableSprite>()
-    /** Current animations, filled when [State.Playing] triggers [animation] and emptied when [State.Stopped]. */
+
+    /** Current animations, filled when [State.Playing] triggers animation and emptied when [State.Stopped]. */
     private val animations = mutableMapOf<Int, AnimatorSet>()
 
     /** This runnable invalidate the view at 60 fps. */
-    private val runnableFps = object : java.lang.Runnable {
+    private val runnableFps = object : Runnable {
 
         override fun run() {
             invalidate()
@@ -118,8 +122,8 @@ class RippleView : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        circles.forEach {
-            it.position.let {
+        circles.forEach { drawableSprite ->
+            drawableSprite.position.let {
                 it.x = w / 2
                 it.y = h / 2
             }

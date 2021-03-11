@@ -49,7 +49,7 @@ class VoiceInputDialogFragment : DialogFragment() {
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.VoiceDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.VoiceDialogTheme)
         speechRecognizer = VoiceSpeechRecognizer(requireContext())
         suggestions = arguments?.getStringArray(Field.Suggestions.name)
     }
@@ -70,13 +70,13 @@ class VoiceInputDialogFragment : DialogFragment() {
             dismiss()
         }
 
-        androidView.setOnClickListenerClose(View.OnClickListener { dismiss() })
-        androidView.setOnClickMicrophoneListener(View.OnClickListener {
+        androidView.setOnClickListenerClose { dismiss() }
+        androidView.setOnClickMicrophoneListener {
             when (androidView.getMicrophoneState()) {
                 VoiceMicrophone.State.Activated -> speechRecognizer.stop()
                 VoiceMicrophone.State.Deactivated -> speechRecognizer.start()
             }
-        })
+        }
         suggestions?.let {
             androidView.setSuggestions(it)
             androidView.setSubtitle(resources.getString(R.string.input_subtitle_listening))

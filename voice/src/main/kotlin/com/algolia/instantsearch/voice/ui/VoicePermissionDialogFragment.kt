@@ -16,7 +16,7 @@ class VoicePermissionDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.VoiceDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.VoiceDialogTheme)
     }
 
     override fun onCreateView(
