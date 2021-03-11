@@ -1,11 +1,12 @@
 package com.algolia.instantsearch.voice.ui
 
+import android.os.Build
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import com.algolia.instantsearch.voice.R
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 
@@ -73,7 +74,12 @@ class VoiceInputDialogFragment : DialogFragment() {
         androidView.setOnClickListenerClose { dismiss() }
         androidView.setOnClickMicrophoneListener {
             when (androidView.getMicrophoneState()) {
-                VoiceMicrophone.State.Activated -> speechRecognizer.stop()
+                VoiceMicrophone.State.Activated -> {
+                    // Disabling stop listening button for Android > 8.
+                    // `SpeechRecognizer.stopListening()` is not behaving as expected.
+                    // @see: https://issuetracker.google.com/issues/158198432
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) speechRecognizer.stop()
+                }
                 VoiceMicrophone.State.Deactivated -> speechRecognizer.start()
             }
         }
