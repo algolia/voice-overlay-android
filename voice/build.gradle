@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'com.vanniktech.maven.publish'
 
 ext {
     GROUP = 'com.algolia.instantsearch'
@@ -19,7 +16,7 @@ ext {
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
 
-    VERSION = '1.0.0'
+    VERSION = '1.1.0'
     VERSION_DESC = "$NAME - v$VERSION"
 }
 
@@ -68,34 +65,11 @@ dependencies {
     testImplementation dependency_jvm.kotlin_test_junit
 }
 
-dokka {
-    reportUndocumented = false
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-}
+//tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+//    kotlinOptions.freeCompilerArgs += ['-module-name', GROUP + "." + BASENAME]
+//}
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions.freeCompilerArgs += ['-module-name', GROUP + "." + BASENAME]
-}
-
-task sourcesJar(type: Jar) {
-    dependsOn "assembleRelease"
-    classifier "sources"
-    from android.sourceSets.main.java.srcDirs
-}
-
-task javadocJar(type: Jar, dependsOn: dokka) {
-    classifier "javadoc"
-    from "$buildDir/javadoc"
-}
-
-// add sources jar tasks as artifacts
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-    archives file: new File("${project.buildDir}/outputs/aar/${project.name}-release.aar"),
-            name: "${project.name}-release.aar",
-            type: "aar"
-}
-
-apply from: "https://raw.githubusercontent.com/algolia/instantsearch-mobile-tools/7b9e6e1cc28f12497b88b6868ab99d5884f7c86b/gradle/bintrayv.gradle"
+//task javadocJar(type: Jar, dependsOn: dokka) {
+//    classifier "javadoc"
+//    from "$buildDir/javadoc"
+//}

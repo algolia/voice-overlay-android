@@ -14,24 +14,21 @@ ext.with {
     constraintLayout = '2.0.4'
     espresso = '3.3.0'
 
-    kotlins = '1.4.31'
-    dokka = '0.9.17'
+    kotlin = '1.4.31'
+    dokka = '1.4.20'
 
-    bintray = '1.8.4'
-    maven = '2.1'
+    mavenpublish = '0.14.2'
 
     junit = '4.12'
     test = '1.3.0'
     testExt = '1.1.2'
 
-    voice = '1.+'
-
     leakcanary = '2.6'
 
     dependency_jvm = [
-            kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
-            kotlin_test      : "org.jetbrains.kotlin:kotlin-test:$kotlins",
-            kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlins"
+            kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin",
+            kotlin_test      : "org.jetbrains.kotlin:kotlin-test:$kotlin",
+            kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlin"
     ]
     dependency_android = [
             appcompat        : "androidx.appcompat:appcompat:$appcompat",
@@ -42,7 +39,6 @@ ext.with {
             test_rules       : "androidx.test:rules:$test",
             test_runner      : "androidx.test:runner:$test",
             test_ext_junit   : "androidx.test.ext:junit:$testExt",
-            voice            : "com.algolia.instantsearch:voice:$voice",
             leakcanary       : "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     ]
 }
