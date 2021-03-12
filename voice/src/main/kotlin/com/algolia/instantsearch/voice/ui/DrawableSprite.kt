@@ -4,7 +4,7 @@ import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Point
 import android.graphics.drawable.Drawable
-import android.support.v4.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
 /** A [Sprite] implemented as a Drawable. */
 class DrawableSprite(

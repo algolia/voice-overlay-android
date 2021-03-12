@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.voice.ui
 
-import android.Manifest
 import android.Manifest.permission.RECORD_AUDIO
 import android.app.Activity
 import android.content.Context
@@ -8,13 +7,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.support.design.widget.BaseTransientBottomBar
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.voice.R
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 /** Helper functions for voice permission handling. */
 object Voice {
@@ -48,7 +47,7 @@ object Voice {
      */
     @JvmStatic
     fun Activity.shouldExplainPermission() =
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)
+        ActivityCompat.shouldShowRequestPermissionRationale(this, RECORD_AUDIO)
 
     /**
      * Requests the [recording permission][RECORD_AUDIO] from your activity.*/
@@ -60,11 +59,13 @@ object Voice {
     /** Opens the application's settings from a given context, so the user can enable the recording permission.*/
     @JvmStatic
     fun Context.openAppSettings() {
-        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            .setData(Uri.fromParts("package", packageName, null)))
+        startActivity(
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                .setData(Uri.fromParts("package", packageName, null))
+        )
     }
 
-    /** Displays the rationale behind requesting the recording permission via a [Snackbar].
+    /** Displays the rationale behind requesting the recording permission via a Snackbar.
      * @param anchor the view on which the SnackBar will be anchored.
      * @param whyAllow a description of why the permission should be granted.
      * @param buttonAllow a call to action for granting the permission.
@@ -78,7 +79,8 @@ object Voice {
     ) {
         val whyText = whyAllow ?: getString(R.string.permission_rationale)
         val buttonText = (buttonAllow ?: getString(R.string.permission_button_again))
-        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) { requestRecordingPermission() }.show()
+        Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG)
+            .setAction(buttonText) { requestRecordingPermission() }.show()
     }
 
     /** Guides the user to manually enable recording permission in the app's settings.
@@ -103,10 +105,11 @@ object Voice {
         val snackbar = Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) {
             Snackbar.make(anchor, howText, Snackbar.LENGTH_SHORT)
                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) = context.openAppSettings()
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) =
+                        context.openAppSettings()
                 }).show()
         }
-        (snackbar.view.findViewById(android.support.design.R.id.snackbar_text) as TextView).maxLines = 2
+        snackbar.view.findViewById<TextView>(R.id.snackbar_text).maxLines = 2
         snackbar.show()
     }
 }

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion sdkCompile
@@ -10,7 +9,7 @@ android {
         targetSdkVersion sdkTarget
         versionCode versioningCode
         versionName versioningName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -21,6 +20,9 @@ android {
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -30,10 +32,13 @@ dependencies {
     implementation dependency_android.design
     implementation dependency_android.constraint_layout
 
-    implementation dependency_android.voice
+    implementation project(":voice")
 
     androidTestImplementation dependency_android.junit
     androidTestImplementation dependency_android.test_rules
     androidTestImplementation dependency_android.test_runner
+    androidTestImplementation dependency_android.test_ext_junit
     androidTestImplementation dependency_android.espresso
+
+    debugImplementation dependency_android.leakcanary
 }

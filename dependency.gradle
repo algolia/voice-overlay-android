@@ -1,7 +1,7 @@
 ext.with {
-    sdkCompile = 28
+    sdkCompile = 30
     sdkMin = 16
-    sdkTarget = 28
+    sdkTarget = 30
 
     versioningName = '1.0'
     versioningCode = 1
@@ -9,35 +9,36 @@ ext.with {
     benManes = '0.20.0'
     jvm = '1.8'
 
-    appcompat = '28.0.0'
-    design = '28.0.0'
-    constraintLayout = '1.1.2'
-    espresso = '3.0.2'
+    appcompat = '1.2.0'
+    design = '1.3.0'
+    constraintLayout = '2.0.4'
+    espresso = '3.3.0'
 
-    kotlins = '1.3.11'
-    dokka = '0.9.17'
+    kotlin = '1.4.31'
+    dokka = '1.4.20'
 
-    bintray = '1.8.4'
-    maven = '2.1'
+    mavenpublish = '0.14.2'
 
     junit = '4.12'
-    test = '1.0.2'
+    test = '1.3.0'
+    testExt = '1.1.2'
 
-    voice = '1.+'
+    leakcanary = '2.6'
 
     dependency_jvm = [
-            kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlins",
-            kotlin_test      : "org.jetbrains.kotlin:kotlin-test:$kotlins",
-            kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlins"
+            kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin",
+            kotlin_test      : "org.jetbrains.kotlin:kotlin-test:$kotlin",
+            kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlin"
     ]
     dependency_android = [
-            appcompat        : "com.android.support:appcompat-v7:$appcompat",
-            constraint_layout: "com.android.support.constraint:constraint-layout:$constraintLayout",
-            espresso         : "com.android.support.test.espresso:espresso-core:$espresso",
-            design           : "com.android.support:design:$design",
+            appcompat        : "androidx.appcompat:appcompat:$appcompat",
+            constraint_layout: "androidx.constraintlayout:constraintlayout:$constraintLayout",
+            espresso         : "androidx.test.espresso:espresso-core:$espresso",
+            design           : "com.google.android.material:material:$design",
             junit            : "junit:junit:$junit",
-            test_rules       : "com.android.support.test:rules:$test",
-            test_runner      : "com.android.support.test:runner:$test",
-            voice            : "com.algolia.instantsearch:voice:$voice"
+            test_rules       : "androidx.test:rules:$test",
+            test_runner      : "androidx.test:runner:$test",
+            test_ext_junit   : "androidx.test.ext:junit:$testExt",
+            leakcanary       : "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     ]
 }

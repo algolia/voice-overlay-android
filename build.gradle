@@ -3,22 +3,22 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "com.github.ben-manes:gradle-versions-plugin:$benManes"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlins"
-        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:$mavenpublish"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka"
     }
 }
 
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
     buildscript {
