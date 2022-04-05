@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_light">#01adff</color>
-    <color name="blue_dark">#3369e6</color>
-    <color name="blue_cyan">#1cc7d0</color>
-    <color name="white">#ffffff</color>
-    <color name="white_a26">#42ffffff</color>
-    <color name="black_a85">#D9000000</color>
+    <color name="alg_blue_light">#01adff</color>
+    <color name="alg_blue_dark">#3369e6</color>
+    <color name="alg_blue_cyan">#1cc7d0</color>
+    <color name="alg_white">#ffffff</color>
+    <color name="alg_white_a26">#42ffffff</color>
+    <color name="alg_black_a85">#D9000000</color>
 </resources>

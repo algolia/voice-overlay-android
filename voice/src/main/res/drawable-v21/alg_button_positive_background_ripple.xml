@@ -3,5 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?attr/colorControlHighlight">
 
-    <item android:drawable="@drawable/button_positive_background"/>
+    <item android:drawable="@drawable/alg_button_positive_background"/>
 </ripple>

@@ -5,8 +5,8 @@
 
     <gradient
         android:angle="180"
-        android:endColor="@color/blue_light"
-        android:startColor="@color/blue_dark"
+        android:endColor="@color/alg_blue_light"
+        android:startColor="@color/alg_blue_dark"
         android:type="linear"/>
 
     <corners android:radius="6dp"/>

@@ -16,8 +16,8 @@ public class VoiceMicrophone(context: Context, attrs: AttributeSet) : AppCompatI
         Deactivated
     }
 
-    private val white = ContextCompat.getColor(context, R.color.white)
-    private val blue = ContextCompat.getColor(context, R.color.blue_dark)
+    private val white = ContextCompat.getColor(context, R.color.alg_white)
+    private val blue = ContextCompat.getColor(context, R.color.alg_blue_dark)
 
     public var state: State = State.Deactivated
         set(value) {

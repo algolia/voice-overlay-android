@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="RippleView">
-        <attr name="duration" format="integer" />
-        <attr name="delay" format="integer" />
-        <attr name="drawable" format="reference" />
-        <attr name="size" format="dimension" />
-        <attr name="radius_value" format="float" />
+    <declare-styleable name="AlgRippleView">
+        <attr name="alg_duration" format="integer" />
+        <attr name="alg_delay" format="integer" />
+        <attr name="alg_drawable" format="reference" />
+        <attr name="alg_size" format="dimension" />
+        <attr name="alg_radius" format="float" />
     </declare-styleable>
 </resources>

@@ -51,7 +51,7 @@ public class VoiceInputDialogFragment : DialogFragment() {
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.VoiceDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.AlgVoiceDialogTheme)
         speechRecognizer = VoiceSpeechRecognizer(requireContext())
         suggestions = arguments?.getStringArray(Field.Suggestions.name)
     }
@@ -61,7 +61,7 @@ public class VoiceInputDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.voice_input, container, false)
+        inflater.inflate(R.layout.alg_voice_input, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,7 +86,7 @@ public class VoiceInputDialogFragment : DialogFragment() {
         }
         suggestions?.let {
             androidView.setSuggestions(it)
-            androidView.setSubtitle(resources.getString(R.string.input_subtitle_listening))
+            androidView.setSubtitle(resources.getString(R.string.alg_input_subtitle_listening))
         }
         speechRecognizer.setRecognitionListener(presenter)
         speechRecognizer.stateListener = presenter

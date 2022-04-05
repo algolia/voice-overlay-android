@@ -77,8 +77,8 @@ public object Voice {
         whyAllow: CharSequence? = null,
         buttonAllow: CharSequence? = null
     ) {
-        val whyText = whyAllow ?: getString(R.string.permission_rationale)
-        val buttonText = (buttonAllow ?: getString(R.string.permission_button_again))
+        val whyText = whyAllow ?: getString(R.string.alg_permission_rationale)
+        val buttonText = (buttonAllow ?: getString(R.string.alg_permission_button_again))
         Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG)
             .setAction(buttonText) { requestRecordingPermission() }.show()
     }
@@ -98,9 +98,9 @@ public object Voice {
         howEnable: CharSequence? = null
     ) {
         val context = anchor.context
-        val whyText = (whyEnable ?: context.getText(R.string.permission_enable_rationale))
-        val buttonText = (buttonEnable ?: context.getText(R.string.permission_button_enable))
-        val howText = (howEnable ?: context.getText(R.string.permission_enable_instructions))
+        val whyText = (whyEnable ?: context.getText(R.string.alg_permission_enable_rationale))
+        val buttonText = (buttonEnable ?: context.getText(R.string.alg_permission_button_enable))
+        val howText = (howEnable ?: context.getText(R.string.alg_permission_enable_instructions))
 
         val snackbar = Snackbar.make(anchor, whyText, Snackbar.LENGTH_LONG).setAction(buttonText) {
             Snackbar.make(anchor, howText, Snackbar.LENGTH_SHORT)

@@ -19,10 +19,10 @@ public class VoiceAndroidView(
     private val View.subtitle: TextView get() = findViewById(R.id.subtitle)
     private val View.suggestions: TextView? get() = findViewById(R.id.suggestions)
     private val View.hint: TextView get() = findViewById(R.id.hint)
-    private val View.ripple: RippleView get() = findViewById(R.id.ripple)
+    private val View.ripple: AlgRippleView get() = findViewById(R.id.ripple)
 
     override val formatterSuggestion: (String) -> String = { suggestion: String ->
-        context.getString(R.string.format_voice_suggestion_html, suggestion)
+        context.getString(R.string.alg_format_voice_suggestion_html, suggestion)
     }
 
     override fun setOnClickListenerClose(onClickListener: View.OnClickListener) {
