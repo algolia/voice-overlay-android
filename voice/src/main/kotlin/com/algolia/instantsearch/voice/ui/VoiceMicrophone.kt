@@ -9,9 +9,9 @@ import android.util.AttributeSet
 import com.algolia.instantsearch.voice.R
 
 
-class VoiceMicrophone(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs) {
+public class VoiceMicrophone(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs) {
 
-    enum class State {
+    public enum class State {
         Activated,
         Deactivated
     }
@@ -19,7 +19,7 @@ class VoiceMicrophone(context: Context, attrs: AttributeSet) : AppCompatImageVie
     private val white = ContextCompat.getColor(context, R.color.white)
     private val blue = ContextCompat.getColor(context, R.color.blue_dark)
 
-    var state = State.Deactivated
+    public var state: State = State.Deactivated
         set(value) {
             field = value
             drawable.colorFilter = PorterDuffColorFilter(when (value) {

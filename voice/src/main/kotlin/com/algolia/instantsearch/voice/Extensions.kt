@@ -2,6 +2,7 @@ package com.algolia.instantsearch.voice
 
 import android.os.Bundle
 import android.speech.SpeechRecognizer
+import java.util.ArrayList
 
 
-inline val Bundle.resultsRecognition get() = getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)!!
+public inline val Bundle.resultsRecognition: ArrayList<String> get() = getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)!!

@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
 import com.algolia.instantsearch.voice.R
 
-class VoiceAndroidView(
+public class VoiceAndroidView(
     private val view: ConstraintLayout
 ) : VoiceUI {
 
@@ -21,7 +21,7 @@ class VoiceAndroidView(
     private val View.hint: TextView get() = findViewById(R.id.hint)
     private val View.ripple: RippleView get() = findViewById(R.id.ripple)
 
-    override val formatterSuggestion = { suggestion: String ->
+    override val formatterSuggestion: (String) -> String = { suggestion: String ->
         context.getString(R.string.format_voice_suggestion_html, suggestion)
     }
 
@@ -61,7 +61,7 @@ class VoiceAndroidView(
         voiceInput.hint.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun setRippleActivity(isActive: Boolean) =
+    override fun setRippleActivity(isActive: Boolean): Unit =
         if (isActive) voiceInput.ripple.start() else voiceInput.ripple.cancel()
 
     override fun setMicrophoneState(state: VoiceMicrophone.State) {
