@@ -96,7 +96,7 @@ public class RippleView : View {
             delay = it.getInt(R.styleable.RippleView_delay, 500).toLong()
             duration = it.getInt(R.styleable.RippleView_duration, 500).toLong()
             size = it.getDimensionPixelSize(R.styleable.RippleView_size, 0)
-            radius = it.getFloat(R.styleable.RippleView_radius, 1f)
+            radius = it.getFloat(R.styleable.RippleView_radius_value, 1f)
             circleCount = duration / delay
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }

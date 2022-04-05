@@ -5,6 +5,6 @@
         <attr name="delay" format="integer" />
         <attr name="drawable" format="reference" />
         <attr name="size" format="dimension" />
-        <attr name="radius" format="float" />
+        <attr name="radius_value" format="float" />
     </declare-styleable>
 </resources>
