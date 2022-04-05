@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion sdkCompile
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.algolia.instantsearch.voice.demo"
-        minSdkVersion sdkMin
-        targetSdkVersion sdkTarget
-        versionCode versioningCode
-        versionName versioningName
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
@@ -17,28 +17,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-    }
     buildFeatures {
         viewBinding true
     }
 }
 
 dependencies {
-    implementation dependency_jvm.kotlin_stdlib
-
-    implementation dependency_android.appcompat
-    implementation dependency_android.design
-    implementation dependency_android.constraint_layout
-
     implementation project(":voice")
 
-    androidTestImplementation dependency_android.junit
-    androidTestImplementation dependency_android.test_rules
-    androidTestImplementation dependency_android.test_runner
-    androidTestImplementation dependency_android.test_ext_junit
-    androidTestImplementation dependency_android.espresso
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.google.material
 
-    debugImplementation dependency_android.leakcanary
+    androidTestImplementation libs.junit
+    androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.androidx.test.espresso
+
+    debugImplementation libs.leakcanary
 }
