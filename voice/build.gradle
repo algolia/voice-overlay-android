@@ -21,6 +21,10 @@ android {
     lintOptions {
         abortOnError true
     }
+
+    kotlinOptions {
+        freeCompilerArgs += '-Xexplicit-api=strict'
+    }
 }
 
 dependencies {

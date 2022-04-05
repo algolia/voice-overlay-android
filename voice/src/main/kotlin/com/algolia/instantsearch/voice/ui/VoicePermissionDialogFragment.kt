@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import com.algolia.instantsearch.voice.R
 
-class VoicePermissionDialogFragment : DialogFragment() {
+public class VoicePermissionDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

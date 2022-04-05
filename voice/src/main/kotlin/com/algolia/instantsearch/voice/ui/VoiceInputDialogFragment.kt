@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.algolia.instantsearch.voice.R
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 
-class VoiceInputDialogFragment : DialogFragment() {
+public class VoiceInputDialogFragment : DialogFragment() {
 
     private enum class Field {
         Suggestions,
@@ -20,7 +20,7 @@ class VoiceInputDialogFragment : DialogFragment() {
     private lateinit var speechRecognizer: VoiceSpeechRecognizer
 
     /** suggestions to display to the user before they speak. */
-    var suggestions: Array<out String>? = null
+    public var suggestions: Array<out String>? = null
         @JvmName("setSuggestionsArray")
         set(value) {
             if (arguments == null) {
@@ -31,7 +31,7 @@ class VoiceInputDialogFragment : DialogFragment() {
         }
 
     /** set to `false` if you want to manually [start] the voice recognition. */
-    var autoStart: Boolean = true
+    public var autoStart: Boolean = true
         set(value) {
             if (arguments == null) arguments = Bundle()
             arguments?.putBoolean(Field.AutoStart.name, value)
@@ -39,13 +39,14 @@ class VoiceInputDialogFragment : DialogFragment() {
         }
 
     /** Sets [suggestions] to display to the user before they speak. */
-    @Suppress("unused") // Java DX: Expose vararg setter
-    fun setSuggestions(vararg suggestions: String) {
+    @Suppress("unused")
+    // Java DX: Expose vararg setter
+    public fun setSuggestions(vararg suggestions: String) {
         this.suggestions = suggestions
     }
 
     /** Starts listening to user input, in case you disabled [autoStart]. */
-    fun start() = speechRecognizer.start()
+    public fun start(): Unit = speechRecognizer.start()
 
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,21 +9,21 @@ import android.view.View
 import com.algolia.instantsearch.voice.R
 
 /** A View displaying a ripple effect. */
-class RippleView : View {
+public class RippleView : View {
 
-    enum class State {
+    public enum class State {
         None,
         Playing,
         Stopped
     }
 
-    constructor(context: Context) : super(context)
+    public constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    public constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+    public constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
@@ -112,11 +112,11 @@ class RippleView : View {
             )
         }
 
-    fun start() {
+    public fun start() {
         state = State.Playing
     }
 
-    fun cancel() {
+    public fun cancel() {
         state = State.Stopped
     }
 
@@ -139,28 +139,28 @@ class RippleView : View {
      * Opacity values from 0% to 100%, extracted from [Recommune/sugar][https://github.com/Recommune/sugar]
      * until we use enough to justify adding it as a dependency.
      */
-    object Opacity {
+    public object Opacity {
 
-        const val p100 = 0xFF
-        const val p95 = 0xF2
-        const val p90 = 0xE6
-        const val p85 = 0xD9
-        const val p80 = 0xCC
-        const val p75 = 0xBF
-        const val p70 = 0xB3
-        const val p65 = 0xA6
-        const val p60 = 0x99
-        const val p55 = 0x8C
-        const val p50 = 0x80
-        const val p45 = 0x73
-        const val p40 = 0x66
-        const val p35 = 0x59
-        const val p30 = 0x4D
-        const val p25 = 0x40
-        const val p20 = 0x33
-        const val p15 = 0x26
-        const val p10 = 0x1A
-        const val p5 = 0x0D
-        const val p0 = 0x00
+        public const val p100: Int = 0xFF
+        public const val p95: Int = 0xF2
+        public const val p90: Int = 0xE6
+        public const val p85: Int = 0xD9
+        public const val p80: Int = 0xCC
+        public const val p75: Int = 0xBF
+        public const val p70: Int = 0xB3
+        public const val p65: Int = 0xA6
+        public const val p60: Int = 0x99
+        public const val p55: Int = 0x8C
+        public const val p50: Int = 0x80
+        public const val p45: Int = 0x73
+        public const val p40: Int = 0x66
+        public const val p35: Int = 0x59
+        public const val p30: Int = 0x4D
+        public const val p25: Int = 0x40
+        public const val p20: Int = 0x33
+        public const val p15: Int = 0x26
+        public const val p10: Int = 0x1A
+        public const val p5: Int = 0x0D
+        public const val p0: Int = 0x00
     }
 }

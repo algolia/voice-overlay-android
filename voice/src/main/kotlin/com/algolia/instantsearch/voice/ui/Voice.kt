@@ -16,15 +16,15 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
 /** Helper functions for voice permission handling. */
-object Voice {
+public object Voice {
 
-    const val PermissionRequestRecordAudio = 1
+    public const val PermissionRequestRecordAudio: Int = 1
 
     /**
      * Gets whether the [permission results][grantResult] confirm it has been [granted][PackageManager.PERMISSION_GRANTED].
      */
     @JvmStatic
-    fun isPermissionGranted(grantResult: IntArray) =
+    public fun isPermissionGranted(grantResult: IntArray): Boolean =
         grantResult[0] == PackageManager.PERMISSION_GRANTED
 
     /** Gets whether the [request's code][requestCode] and [results][grantResults] are valid, by respectively checking
@@ -32,33 +32,33 @@ object Voice {
      *
      */
     @JvmStatic
-    fun isRecordPermissionWithResults(requestCode: Int, grantResults: IntArray) =
+    public fun isRecordPermissionWithResults(requestCode: Int, grantResults: IntArray): Boolean =
         requestCode == PermissionRequestRecordAudio && grantResults.isNotEmpty()
 
     /**
      * Gets whether your application was granted the [recording permission][RECORD_AUDIO].
      */
     @JvmStatic
-    fun Context.isRecordAudioPermissionGranted() =
+    public fun Context.isRecordAudioPermissionGranted(): Boolean =
         ContextCompat.checkSelfPermission(this, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
     /**
      * Gets whether your activity should show UI with rationale for requesting the [recording permission][RECORD_AUDIO].
      */
     @JvmStatic
-    fun Activity.shouldExplainPermission() =
+    public fun Activity.shouldExplainPermission(): Boolean =
         ActivityCompat.shouldShowRequestPermissionRationale(this, RECORD_AUDIO)
 
     /**
      * Requests the [recording permission][RECORD_AUDIO] from your activity.*/
     @JvmStatic
-    fun Activity.requestRecordingPermission() {
+    public fun Activity.requestRecordingPermission() {
         ActivityCompat.requestPermissions(this, arrayOf(RECORD_AUDIO), PermissionRequestRecordAudio)
     }
 
     /** Opens the application's settings from a given context, so the user can enable the recording permission.*/
     @JvmStatic
-    fun Context.openAppSettings() {
+    public fun Context.openAppSettings() {
         startActivity(
             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 .setData(Uri.fromParts("package", packageName, null))
@@ -72,7 +72,7 @@ object Voice {
      * */
     @JvmStatic
     @JvmOverloads
-    fun Activity.showPermissionRationale(
+    public fun Activity.showPermissionRationale(
         anchor: View,
         whyAllow: CharSequence? = null,
         buttonAllow: CharSequence? = null
@@ -91,7 +91,7 @@ object Voice {
      * */
     @JvmStatic
     @JvmOverloads
-    fun showPermissionManualInstructions(
+    public fun showPermissionManualInstructions(
         anchor: View,
         whyEnable: CharSequence? = null,
         buttonEnable: CharSequence? = null,

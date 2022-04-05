@@ -7,14 +7,14 @@ import android.graphics.drawable.Drawable
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
 /** A [Sprite] implemented as a Drawable. */
-class DrawableSprite(
+public class DrawableSprite(
     private val drawable: Drawable,
     private val size: Int,
-    var alpha : Int
+    public var alpha : Int
 ) : Sprite {
 
-    val position: Point = Point(0, 0)
-    var sizeRatio = 1f
+    public val position: Point = Point(0, 0)
+    public var sizeRatio: Float = 1f
 
     override fun draw(canvas: Canvas) {
         val offset = (size * sizeRatio / 2).toInt()
@@ -31,7 +31,7 @@ class DrawableSprite(
         }
     }
 
-    fun explodeAlpha(vararg controls: Int): ValueAnimator =
+    public fun explodeAlpha(vararg controls: Int): ValueAnimator =
         ValueAnimator.ofInt(*controls).apply {
             interpolator = FastOutSlowInInterpolator()
             addUpdateListener { valueAnimator ->
@@ -39,7 +39,7 @@ class DrawableSprite(
             }
         }
 
-    fun explodeSize(vararg controls: Float): ValueAnimator =
+    public fun explodeSize(vararg controls: Float): ValueAnimator =
         ValueAnimator.ofFloat(*controls).apply {
             interpolator = FastOutSlowInInterpolator()
             addUpdateListener { valueAnimator ->

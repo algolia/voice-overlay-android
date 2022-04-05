@@ -6,7 +6,7 @@ import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 import com.algolia.instantsearch.voice.resultsRecognition
 import java.util.Locale
 
-class VoicePresenter(
+public class VoicePresenter(
     private val ui: VoiceUI,
     private val onResults: (results: ArrayList<String>) -> Unit
 ) : RecognitionListener,
@@ -54,15 +54,15 @@ class VoicePresenter(
         hasPartialResults = false
     }
 
-    override fun onReadyForSpeech(params: Bundle) = Unit
+    override fun onReadyForSpeech(params: Bundle): Unit = Unit
 
-    override fun onRmsChanged(rmsdB: Float) = Unit
+    override fun onRmsChanged(rmsdB: Float): Unit = Unit
 
-    override fun onBufferReceived(buffer: ByteArray) = Unit
+    override fun onBufferReceived(buffer: ByteArray): Unit = Unit
 
-    override fun onEvent(eventType: Int, params: Bundle) = Unit
+    override fun onEvent(eventType: Int, params: Bundle): Unit = Unit
 
-    override fun onBeginningOfSpeech() = Unit
+    override fun onBeginningOfSpeech(): Unit = Unit
 
-    override fun onEndOfSpeech() = Unit
+    override fun onEndOfSpeech(): Unit = Unit
 }

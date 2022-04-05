@@ -7,22 +7,22 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 
 
-class VoiceSpeechRecognizer(
+public class VoiceSpeechRecognizer(
     context: Context,
     private val maxResults: Int = 1,
     private val language: String? = null
 ) {
 
-    interface StateListener {
+    public interface StateListener {
 
-        fun isListening(isListening: Boolean)
+        public fun isListening(isListening: Boolean)
     }
 
-    interface ResultsListener {
+    public interface ResultsListener {
 
         //TODO: Document
         //TODO: Also see if can be vararg
-        fun onResults(possibleTexts: Array<out String>)
+        public fun onResults(possibleTexts: Array<out String>)
     }
 
     private val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
@@ -36,23 +36,23 @@ class VoiceSpeechRecognizer(
         }
     }
 
-    var stateListener: StateListener? = null
+    public var stateListener: StateListener? = null
 
-    fun setRecognitionListener(recognitionListener: RecognitionListener) {
+    public fun setRecognitionListener(recognitionListener: RecognitionListener) {
         speechRecognizer.setRecognitionListener(recognitionListener)
     }
 
-    fun start() {
+    public fun start() {
         stateListener?.isListening(true)
         speechRecognizer.startListening(intent)
     }
 
-    fun stop() {
+    public fun stop() {
         stateListener?.isListening(false)
         speechRecognizer.stopListening()
     }
 
-    fun destroy() {
+    public fun destroy() {
         try {
             speechRecognizer.destroy()
         } catch (exception: Exception) {
