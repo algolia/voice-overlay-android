@@ -2,47 +2,20 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.vanniktech.maven.publish'
 
-ext {
-    GROUP = 'com.algolia.instantsearch'
-    BASENAME = 'voice'
-    CODENAME = "$GROUP:$BASENAME"
-    NAME = 'InstantSearch Android Voice'
-    DESC = "An overlay that gets your user’s voice permission and input as text."
-    LABELS = ["voice search", "voice input", "permissions", "voice UI"]
-
-    GITHUB = "algolia/voice-overlay-android"
-    WEBSITE = "https://github.com/$GITHUB"
-    REPO = WEBSITE + ".git"
-    LICENSE = 'MIT'
-    LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-
-    VERSION = '1.1.0'
-    VERSION_DESC = "$NAME - v$VERSION"
-}
-
 android {
-    compileSdkVersion sdkCompile
+    compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion sdkMin
-        targetSdkVersion sdkTarget
-        versionCode versioningCode
-        versionName versioningName
+        minSdk 21
+        targetSdk 31
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            matchingFallbacks = ['debug', 'qa', 'release']
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-        test.java.srcDirs += "src/test/kotlin"
-        androidTest.java.srcDirs += "src/androidTest/kotlin"
     }
 
     lintOptions {
@@ -51,25 +24,7 @@ android {
 }
 
 dependencies {
-    implementation dependency_jvm.kotlin_stdlib
-
-    implementation dependency_android.appcompat
-    implementation dependency_android.constraint_layout
-    implementation dependency_android.design
-
-    androidTestImplementation dependency_android.espresso
-    androidTestImplementation dependency_jvm.kotlin_test
-    androidTestImplementation dependency_jvm.kotlin_test_junit
-
-    testImplementation dependency_jvm.kotlin_test
-    testImplementation dependency_jvm.kotlin_test_junit
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.google.material
 }
-
-//tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-//    kotlinOptions.freeCompilerArgs += ['-module-name', GROUP + "." + BASENAME]
-//}
-
-//task javadocJar(type: Jar, dependsOn: dokka) {
-//    classifier "javadoc"
-//    from "$buildDir/javadoc"
-//}
