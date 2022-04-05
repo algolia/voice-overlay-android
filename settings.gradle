@@ -1,1 +1,3 @@
 include ':app', ':voice'
+
+enableFeaturePreview("VERSION_CATALOGS")

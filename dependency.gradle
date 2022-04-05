@@ -14,7 +14,7 @@ ext.with {
     constraintLayout = '2.0.4'
     espresso = '3.3.0'
 
-    kotlin = '1.4.31'
+    kotlin = '1.5.31'
     dokka = '1.4.20'
 
     mavenpublish = '0.14.2'
