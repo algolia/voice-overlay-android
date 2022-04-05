@@ -25,6 +25,8 @@ android {
     kotlinOptions {
         freeCompilerArgs += '-Xexplicit-api=strict'
     }
+
+    resourcePrefix = "alg_"
 }
 
 dependencies {

@@ -16,7 +16,7 @@ public class VoicePermissionDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.VoiceDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.AlgVoiceDialogTheme)
     }
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ public class VoicePermissionDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.voice_permission, container, false)
+        return inflater.inflate(R.layout.alg_voice_permission, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

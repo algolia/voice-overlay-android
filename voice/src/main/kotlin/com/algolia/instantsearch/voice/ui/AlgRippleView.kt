@@ -9,7 +9,7 @@ import android.view.View
 import com.algolia.instantsearch.voice.R
 
 /** A View displaying a ripple effect. */
-public class RippleView : View {
+public class AlgRippleView : View {
 
     public enum class State {
         None,
@@ -91,12 +91,12 @@ public class RippleView : View {
 
     @SuppressLint("Recycle")
     private fun init(attrs: AttributeSet) {
-        context.obtainStyledAttributes(attrs, R.styleable.RippleView, 0, 0).also {
-            val drawable = it.getDrawable(R.styleable.RippleView_drawable)!!
-            delay = it.getInt(R.styleable.RippleView_delay, 500).toLong()
-            duration = it.getInt(R.styleable.RippleView_duration, 500).toLong()
-            size = it.getDimensionPixelSize(R.styleable.RippleView_size, 0)
-            radius = it.getFloat(R.styleable.RippleView_radius_value, 1f)
+        context.obtainStyledAttributes(attrs, R.styleable.AlgRippleView, 0, 0).also {
+            val drawable = it.getDrawable(R.styleable.AlgRippleView_alg_drawable)!!
+            delay = it.getInt(R.styleable.AlgRippleView_alg_delay, 500).toLong()
+            duration = it.getInt(R.styleable.AlgRippleView_alg_duration, 500).toLong()
+            size = it.getDimensionPixelSize(R.styleable.AlgRippleView_alg_size, 0)
+            radius = it.getFloat(R.styleable.AlgRippleView_alg_radius, 1f)
             circleCount = duration / delay
 
             circles = (0 until circleCount).map { DrawableSprite(drawable, size, Opacity.p0) }

@@ -1,124 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/voiceInput"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
 
-    <com.algolia.instantsearch.voice.ui.RippleView
+    <com.algolia.instantsearch.voice.ui.AlgRippleView
         android:id="@+id/ripple"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:delay="250"
-        app:drawable="@drawable/ripple"
+        app:alg_delay="250"
+        app:alg_drawable="@drawable/alg_ripple"
+        app:alg_radius="10"
+        app:alg_size="80dp"
         app:duration="4000"
+        app:layout_constraintBottom_toBottomOf="@+id/microphone"
         app:layout_constraintEnd_toEndOf="@+id/microphone"
         app:layout_constraintStart_toStartOf="@+id/microphone"
-        app:layout_constraintBottom_toBottomOf="@+id/microphone"
-        app:layout_constraintTop_toTopOf="@+id/microphone"
-        app:radius="10"
-        app:size="80dp"/>
+        app:layout_constraintTop_toTopOf="@+id/microphone" />
 
     <com.algolia.instantsearch.voice.ui.VoiceMicrophone
         android:id="@+id/microphone"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintVertical_bias="0.55"
+        android:background="@drawable/alg_microphone_background_ripple"
         android:elevation="4dp"
         android:scaleType="center"
-        android:background="@drawable/microphone_background_ripple"
-        app:srcCompat="@drawable/ic_microphone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintVertical_bias="0.55"
+        app:srcCompat="@drawable/alg_ic_microphone" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/close"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginStart="12dp"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
-        android:tint="@color/white"
+        android:tint="@color/alg_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
-        app:srcCompat="@drawable/ic_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:srcCompat="@drawable/alg_ic_close" />
 
     <TextView
         android:id="@+id/title"
-        android:textSize="24sp"
-        app:layout_constraintVertical_bias="0.4"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@id/subtitle"
         android:layout_height="wrap_content"
-        android:text="@string/input_title_listening"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:text="@string/alg_input_title_listening"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="0dp"
-        android:textAppearance="?attr/textAppearanceBody1"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/input_subtitle_listening"
+        android:text="@string/alg_input_subtitle_listening"
+        android:textAppearance="?attr/textAppearanceBody1"
         app:layout_constraintBottom_toTopOf="@id/microphone"
         app:layout_constraintEnd_toEndOf="@id/title"
         app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/suggestions"
         android:layout_width="0dp"
-        android:textSize="16sp"
         android:layout_height="0dp"
-        android:ellipsize="end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="8dp"
-        android:lineSpacingMultiplier="1.5"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.5"
         android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/microphone"
         app:layout_constraintEnd_toEndOf="@id/title"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/subtitle"
-        tools:text="•\tiPhone Case \n•\tRunning shoes"/>
+        tools:text="•\tiPhone Case \n•\tRunning shoes" />
 
     <TextView
         android:id="@+id/hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/alg_input_hint_error"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         android:textSize="16sp"
         android:visibility="invisible"
-        android:text="@string/input_hint_error"
-        app:layout_constraintTop_toBottomOf="@id/microphone"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/microphone"
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

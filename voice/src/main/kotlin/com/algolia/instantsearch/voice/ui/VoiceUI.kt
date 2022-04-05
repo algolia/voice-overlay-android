@@ -9,13 +9,13 @@ public interface VoiceUI {
     public val formatterSuggestion: (String) -> String
 
     public enum class Title(public val resource: Int) {
-        Listen(R.string.input_title_listening),
-        Error(R.string.input_title_error)
+        Listen(R.string.alg_input_title_listening),
+        Error(R.string.alg_input_title_error)
     }
 
     public enum class Subtitle(public val resource: Int) {
-        Error(R.string.input_subtitle_error),
-        Listen(R.string.input_subtitle_listening)
+        Error(R.string.alg_input_subtitle_error),
+        Listen(R.string.alg_input_subtitle_listening)
     }
 
     public fun setOnClickListenerClose(onClickListener: View.OnClickListener)
