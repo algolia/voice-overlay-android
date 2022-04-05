@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import com.algolia.instantsearch.voice.VoiceSpeechRecognizer
 import com.algolia.instantsearch.voice.resultsRecognition
-import java.util.Locale
+import java.util.*
 
 public class VoicePresenter(
     private val ui: VoiceUI,
@@ -23,7 +23,9 @@ public class VoicePresenter(
 
         ui.setSuggestionVisibility(false)
         ui.setTitle(VoiceUI.Title.Listen)
-        matches.firstOrNull()?.capitalize(Locale.ROOT)?.let(ui::setSubtitle)
+        matches.firstOrNull()
+            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+            ?.let(ui::setSubtitle)
         hasPartialResults = true
     }
 
